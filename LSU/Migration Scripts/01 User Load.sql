@@ -1,5 +1,5 @@
 
-USE edcdatadev;
+USE EDCUAT;
 
 --====================================================================
 --	INSERTING DATA TO THE LOAD TABLE FROM THE VIEW - User
@@ -7,12 +7,12 @@ USE edcdatadev;
 --DROP TABLE IF EXISTS [dbo].[User_LOAD];
 --GO
 SELECT *
-INTO [edcdatadev].dbo.User_LOAD
+INTO [EDCUAT].dbo.User_LOAD
 FROM [edcdatadev].[dbo].[01_EDA_User] C
 
 
 /******* Check Load table *********/
-SELECT * FROM [edcdatadev].dbo.User_LOAD
+SELECT * FROM [EDCUAT].dbo.User_LOAD
 
 --====================================================================
 --INSERTING DATA USING DBAMP - User
@@ -24,9 +24,17 @@ ALTER TABLE User_LOAD
 ALTER COLUMN ID NVARCHAR(18)
 
 
-EXEC SF_TableLoader 'Insert:BULKAPI2','EDCDATADEV','User_LOAD'
+EXEC SF_TableLoader 'Insert:BULKAPI','EDCUAT','User_LOAD_2'
 
-SELECT * FROM User_LOAD_Result where Error <> 'Operation Successful.'
+SELECT * 
+--INTO User_LOAD_2
+FROM User_LOAD_2_Result where Error <> 'Operation Successful.'
+
+UPDATE User_LOAD_2
+SET country = 'United States'
+
+UPDATE User_LOAD_2
+SET state = 'Louisiana'
 
 select DISTINCT  Error from User_LOAD_Result
 
@@ -46,16 +54,29 @@ EXECUTE	SF_TableLoader
 ,		@table_server	=	@_table_server
 ,		@table_name		=	'User_DELETE'
 
+SELECT * FROM USER_DELETE_RESULT WHERE Error <> 'Operation Successful.'
+
 --====================================================================
 --POPULATING LOOOKUP TABLES- User
 --====================================================================
 
--- Contact Lookup
+-- User Lookup
 DROP TABLE IF EXISTS [dbo].[User_Lookup];
 GO
+INSERT INTO [EDCUAT].[dbo].[User_Lookup]
 SELECT
  ID
 ,EDAUSERID__c AS Legacy_ID__c
-INTO [edcdatadev].[dbo].[User_Lookup]
-FROM User_LOAD_Result
+FROM User_LOAD_2_Result
 WHERE Error = 'Operation Successful.'
+
+--====================================================================
+--UPDATE DATA - User
+--====================================================================
+SELECT B.ID,A.EDAUSERID__c,A.EDACREATEDDATE__c
+into User_Update
+FROM User_LOAD A
+INNER JOIN User_LOAD_Result B
+ON A.Username = b.Username
+
+EXEC SF_TableLoader 'Update:BULKAPI','EDCUAT','User_Update'

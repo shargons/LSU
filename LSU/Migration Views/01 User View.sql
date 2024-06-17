@@ -38,7 +38,7 @@ SELECT
 		,firstname
 		,forecastenabled
 		,A.id									as EDAUSERID__c
-		,isactive
+		,0 as isactive
 		,languagelocalekey
 		,lastname
 		,localesidkey
@@ -56,8 +56,8 @@ SELECT
 		,suffix
 		,timezonesidkey
 		,title
-		,username
+		,REPLACE(username,'eda','edc')+'.uat' as username
 		--,userroleid
 FROM [edaprod].[dbo].[User] A
-LEFT JOIN [edcdatadev].dbo.Profile	P
-ON P.Name = 'System Administrator'
+LEFT JOIN [edcuat].dbo.Profile	P
+ON P.Name = 'Standard User'
