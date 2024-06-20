@@ -10,7 +10,7 @@ USE edcdatadev;
 --GO
 SELECT *
 INTO [edcdatadev].dbo.IndividualApplication_LOAD
-FROM [edcdatadev].[dbo].[15_EDA_Application] C
+FROM [edcdatadev].[dbo].[14_EDA_Application] C
 ORDER BY ContactId
 
 SELECT * FROM IndividualApplication_LOAD
@@ -35,7 +35,7 @@ ORDER BY ContactId
 select DISTINCT  Error from IndividualApplication_LOAD_Result
 
 --====================================================================
---ERROR RESOLUTION - Case
+--ERROR RESOLUTION - IndividualApplication
 --====================================================================
 /******* DBAmp Delete Script *********/
 DROP TABLE IndividualApplication_DELETE
@@ -51,7 +51,7 @@ EXECUTE	SF_TableLoader
 ,		@table_name		=	'IndividualApplication_DELETE'
 
 --====================================================================
---POPULATING LOOOKUP TABLES- Case
+--POPULATING LOOOKUP TABLES- IndividualApplication
 --====================================================================
 
 -- Contact Lookup
@@ -61,7 +61,7 @@ EXECUTE	SF_TableLoader
 SELECT
  ID
 ,legacy_ID__c
---INTO [edcdatadev].[dbo].[IndividualApplication_Lookup]
+INTO [edcdatadev].[dbo].[IndividualApplication_Lookup]
 FROM IndividualApplication_LOAD_Result
 WHERE Error = 'Operation Successful.'
 
@@ -70,4 +70,49 @@ WHERE Error = 'Operation Successful.'
 -- UPDATE LOOKUPS 
 --====================================================================
 
--- Opportunity Lookup
+-- Application Lookup
+
+
+SELECT A.ID,C.ID AS application_id__c
+into Opportunity_Application_Lookup
+FROM [edcdatadev].[dbo].[Opportunity_Lookup] A
+LEFT JOIN
+[edcdatadev].[dbo].[13_EDA_Opportunity] B
+ON A.Legacy_ID__c = B.Legacy_ID__c
+LEFT JOIN 
+[edcdatadev].[dbo].[IndividualApplication_Lookup] C
+ON B.Source_application_id__c = C.Legacy_Id__c
+WHERE B.Source_application_id__c IS NOT NULL
+
+EXEC SF_TableLoader 'Update:BULKAPI','EDCDATADEV','Opportunity_Application_Lookup'
+
+
+-- Contact Lookups
+SELECT A.ID,B.Source_Contact__c,C.ID AS Contact__c,C.AccountId,C.ID AS SubmittedByContactId
+INTO IndividualApplication_Update
+FROM [edcdatadev].[dbo].[IndividualApplication_Lookup] A
+LEFT JOIN
+[edcdatadev].[dbo].[14_EDA_Application] B
+ON A.legacy_ID__c = B.legacy_ID__c
+LEFT JOIN
+[edcdatadev].[dbo].[Contact] C
+ON B.Source_Contact__c = C.legacy_ID__c
+
+
+EXEC SF_TableLoader 'Update:BULKAPI','EDCDATADEV','IndividualApplication_Update'
+
+
+-- Case Program Lookup
+
+SELECT IL.ID,CL.ID AS ApplicationCaseId
+INTO IndividualApplication_Case_Update
+FROM [dbo].[14_EDA_Application] A
+LEFT JOIN [edaprod].[dbo].[Interaction__c] I
+ON I.LSU_Application_ID__c = A.Legacy_Id__c
+LEFT JOIN [edcdatadev].[dbo].[IndividualApplication_Lookup] IL
+ON A.Legacy_Id__c = IL.legacy_ID__c
+LEFT JOIN Case_Lookup CL
+ON CL.legacy_ID__c = 'I-'+I.Id
+where I.LSU_Application_ID__c is not null
+
+EXEC SF_TableLoader 'Update:BULKAPI','EDCDATADEV','IndividualApplication_Case_Update'

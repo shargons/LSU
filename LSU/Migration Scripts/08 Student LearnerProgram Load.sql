@@ -98,13 +98,18 @@ EXECUTE	SF_TableLoader
 DROP TABLE [dbo].[LearnerProgram_Lookup];
 GO
 
-INSERT INTO [edcuat].[dbo].[LearnerProgram_Lookup]
+INSERT INTO [edcdatadev].[dbo].[LearnerProgram_Lookup]
 SELECT
- ID
-,Source_contact__c
-,LSU_Affiliation__c
---INTO [edcuat].[dbo].[LearnerProgram_Lookup]
-FROM LearnerProgram_LOAD_2_Result
+ A.ID
+,A.Source_contact__c
+,A.LSU_Affiliation__c
+,B.Legacy_ID__c
+--INTO [edcdatadev].[dbo].[LearnerProgram_Lookup]
+FROM LearnerProgram_LOAD_2_Result A
+INNER JOIN
+[dbo].[08_EDA_Student] B
+ON A.Source_contact__c = B.Source_contact__c
+AND A.LSU_Affiliation__c = B.LSU_Affiliation__c
 WHERE Error = 'Operation Successful.'
 
 SELECT * FROM 

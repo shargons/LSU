@@ -46,6 +46,7 @@ SELECT
 	,hours__c
 	,instdate__c
 	,internl__c
+	,ID			AS Legacy_ID__c
 	,lsua_degree_code__c
 	,lsua_grad_degree__c
 	,lsua_grad_status__c

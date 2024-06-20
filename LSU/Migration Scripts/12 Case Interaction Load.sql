@@ -25,12 +25,13 @@ ALTER COLUMN ID NVARCHAR(18)
 
 SELECT * FROM Case_Interaction_LOAD
 
-EXEC SF_TableLoader 'Insert:BULKAPI','EDCDATADEV','Case_Interaction_LOAD'
+EXEC SF_TableLoader 'Insert:BULKAPI','EDCDATADEV','Case_Interaction_LOAD_12'
 
 SELECT * 
---INTO Case_LOAD_2
-FROM Case_Interaction_LOAD_Result where Error <> 'Operation Successful.'
-ORDER BY ContactId
+--INTO Case_Interaction_LOAD_12
+FROM Case_Interaction_LOAD_12_Result where Error <> 'Operation Successful.'
+AND Error NOT LIKE '%DUPLICATE%'
+ORDER BY AccountId,ContactId
 
 select DISTINCT  Error from Case_Interaction_LOAD_Result
 
@@ -57,12 +58,23 @@ EXECUTE	SF_TableLoader
 -- Contact Lookup
 --DROP TABLE IF EXISTS [dbo].[Case_Lookup];
 --GO
+
+ALTER TABLE [edcdatadev].[dbo].[Case_Lookup]
+ALTER COLUMN Legacy_ID__c NVARCHAR(25)
+
 INSERT INTO [edcdatadev].[dbo].[Case_Lookup]
 SELECT
  ID
 ,legacy_ID__c
-FROM Case_Interaction_LOAD_Result
+FROM Case_Interaction_LOAD_12_Result
 WHERE Error = 'Operation Successful.'
 
+select count(B.Legacy_ID__c)
+from [edcdatadev].[dbo].[Case_Lookup] A
+LEFT JOIN
+[edcdatadev].[dbo].[12_EDA_Interactions] B
+ON A.legacy_ID__c = B.legacy_ID__c
+where A.legacy_ID__c like '%I-%'
+AND A.ID IS NOT NULL
 
 

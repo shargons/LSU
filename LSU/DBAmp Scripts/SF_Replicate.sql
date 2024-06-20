@@ -17,3 +17,5 @@ EXEC SF_Replicate 'EDAPROD','required_document__c','pkchunk,batchsize(50000)'
 
 
 EXEC SF_Replicate 'EDCDATADEV','Account','pkchunk,batchsize(50000)'
+
+EXEC SF_Replicate 'EDCDATADEV','User','pkchunk,batchsize(50000)'

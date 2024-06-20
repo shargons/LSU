@@ -9,7 +9,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 
-CREATE OR ALTER VIEW [dbo].[15_EDA_Application] AS
+CREATE OR ALTER VIEW [dbo].[14_EDA_Application] AS
 
 SELECT DISTINCT
 	NULL											AS ID
@@ -45,6 +45,7 @@ SELECT DISTINCT
 	,college_scholastic_suspension_reason__c
 	,Contact__c										AS Source_Contact__c
 	,C.Id											AS ContactId
+	,C.Id											AS SubmittedByContactId
 	,C.AccountId									AS AccountId
 	,common_app_id__c
 	,complete_college_transcript_flag__c
@@ -90,6 +91,7 @@ SELECT DISTINCT
 	,overall_term_total_gpa__c
 	,overall_term_total_quality_points__c
 	,Opportunity__c									AS Source_Opportunity__c
+	,O.ID											AS Opportunity__c
 	,partnership_code__c
 	,permanent_resident__c
 	,person_slate_id__c
@@ -116,3 +118,6 @@ FROM [edaprod].[dbo].[Application__c] A
 LEFT JOIN
 [edcdatadev].[dbo].[Contact] C
 ON A.Contact__c = C.Legacy_Id__c
+LEFT JOIN
+[edcdatadev].[dbo].[Opportunity_Lookup] O
+ON A.Opportunity__c = O.Legacy_Id__c

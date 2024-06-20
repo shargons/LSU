@@ -35,4 +35,8 @@ LEFT JOIN [edcdatadev].[dbo].[Contact] C
 ON I.contact__c = C.Legacy_ID__c
 LEFT JOIN [edcdatadev].[dbo].[Recordtype] R2
 ON R2.DeveloperName = 'RFI'
+--LEFT JOIN [edcdatadev].[dbo].[User_Lookup] cr
+--ON A.CreatedById = cr.Legacy_ID__c
+--LEFT JOIN [edcdatadev].[dbo].[User_Lookup] O
+--ON A.OwnerId = O.Legacy_ID__c
 
