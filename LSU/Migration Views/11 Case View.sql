@@ -33,7 +33,9 @@ SELECT
 	,A.status
 	,A.student_type__c
 	,A.student_type__c+'-'+A.area_of_interest__c AS Subject
-	,R2.Id						AS RecordtypeId
+	,CASE WHEN CO.Campus_Formula__c = 'LSU Online' THEN R2.Id
+		  ELSE R3.Id
+	 END						AS RecordTypeId
 FROM [edaprod].[dbo].[Case]	A
 --LEFT JOIN [edcdatadev].[dbo].[User_Lookup] cr
 --ON A.CreatedById = cr.Legacy_ID__c
@@ -42,7 +44,11 @@ FROM [edaprod].[dbo].[Case]	A
 LEFT JOIN [edcdatadev].[dbo].[Contact] C
 ON A.contactid = C.Legacy_ID__c
 LEFT JOIN [edcdatadev].[dbo].[Recordtype] R2
-ON R2.DeveloperName = 'RFI'
+ON R2.DeveloperName = 'RFI_OE'
+LEFT JOIN [edcdatadev].[dbo].[Recordtype] R3
+ON R3.DeveloperName = 'RFI_CE'
+LEFT JOIN [edaprod].[dbo].[Contact] CO
+ON CO.Id = A.ContactId
 
 
 

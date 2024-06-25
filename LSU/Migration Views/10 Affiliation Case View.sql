@@ -49,7 +49,7 @@ SELECT
 	,continuing_student_entry_date__c
 	--,CR.ID AS createdbyid
 	,A.createddate
-	,cumulative_gpa__c
+	,A.cumulative_gpa__c
 	,current_term_enrollments__c
 	,current_term_registered_hours__c
 	,deferred__c
@@ -98,7 +98,7 @@ SELECT
 	,lastenrolledterm__c						AS last_enrolled_term__c
 	,A.lead_applicant_pipeline_status__c			AS online_lead_applicant_pipeline_status__c
 	,lsu_id__c
-	,lsu_lead_source__c
+	,A.lsu_lead_source__c
 	,lsua_college_attend__c
 	,lsua_degree_code__c
 	,lsua_grad_degree__c
@@ -117,8 +117,8 @@ SELECT
 	,A.name										as Description
 	,not_interested__c
 	,opportunity_rollup__c
-	,original_created_date__c
-	,owner_signature__c
+	,A.original_created_date__c
+	,A.owner_signature__c
 	--,O.ID AS ownerid
 	,p_o_created__c
 	,paidforcurrentterm__c						AS paid_for_current_term__c
@@ -148,7 +148,8 @@ SELECT
 	,radius_application__c
 	,recordtypeid							AS Source_recordtypeid
 	,CASE WHEN R_EDA.DeveloperName = 'Retention_Team' THEN R1.Id
-		  ELSE R2.Id
+		  WHEN CO.Campus_Formula__c = 'LSU Online' THEN R2.Id
+		  ELSE R3.Id
 	 END									AS RecordTypeId
 	,registered_for_current_term__c
 	,registered_for_up_coming_term__c
@@ -157,12 +158,12 @@ SELECT
 	,resigned_terms__c
 	,scheduled_for_up_coming_term__c
 	,slate_application_status__c		  
-	,source__c
+	,A.source__c
 	,special_designator__c					AS lsus_special_designator__c
 	,stop_out_entry_date__c
 	,student_admitted_date__c
 	,student_file_created_date__c
-	,student_id__c
+	,A.student_id__c
 	,student_status__c
 	,term_1_2_entry_date__c
 	,term_admitted__c
@@ -190,9 +191,13 @@ LEFT JOIN [edcdatadev].[dbo].[Contact] C2
 ON A.contact_retention__c = C2.Legacy_ID__c
 LEFT JOIN [edaprod].[dbo].[Recordtype] R_EDA
 ON A.RecordTypeId = R_EDA.Id
+LEFT JOIN [edaprod].[dbo].[Contact] CO
+ON CO.Id = A.hed__Contact__c
 LEFT JOIN [edcdatadev].[dbo].[Recordtype] R1
 ON R1.DeveloperName = 'Academic'
 LEFT JOIN [edcdatadev].[dbo].[Recordtype] R2
-ON R2.DeveloperName = 'RFI'
+ON R2.DeveloperName = 'RFI_OE'
+LEFT JOIN [edcdatadev].[dbo].[Recordtype] R3
+ON R3.DeveloperName = 'RFI_CE'
 LEFT JOIN [edcdatadev].[dbo].[LearningProgramPlan_Lookup] L
 ON L.Legacy_ID__c = A.Academic_Program__c
