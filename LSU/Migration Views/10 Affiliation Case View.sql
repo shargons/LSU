@@ -1,4 +1,4 @@
-USE [edcdatadev];
+USE [edcuat];
 GO
 
 /****** Object:  View [dbo].[02_EDA_OrgAccount]    Script Date: 5/8/2024 2:20:57 PM ******/
@@ -185,19 +185,19 @@ FROM [edaprod].[dbo].[hed__Affiliation__c]	A
 --ON A.CreatedById = cr.Legacy_ID__c
 --LEFT JOIN [edcdatadev].[dbo].[User_Lookup] O
 --ON A.OwnerId = O.Legacy_ID__c
-LEFT JOIN [edcdatadev].[dbo].[Contact] C
+LEFT JOIN [edcuat].[dbo].[Contact] C
 ON A.hed__Contact__c = C.Legacy_ID__c
-LEFT JOIN [edcdatadev].[dbo].[Contact] C2
+LEFT JOIN [edcuat].[dbo].[Contact] C2
 ON A.contact_retention__c = C2.Legacy_ID__c
 LEFT JOIN [edaprod].[dbo].[Recordtype] R_EDA
 ON A.RecordTypeId = R_EDA.Id
 LEFT JOIN [edaprod].[dbo].[Contact] CO
 ON CO.Id = A.hed__Contact__c
-LEFT JOIN [edcdatadev].[dbo].[Recordtype] R1
+LEFT JOIN [edcuat].[dbo].[Recordtype] R1
 ON R1.DeveloperName = 'Academic'
-LEFT JOIN [edcdatadev].[dbo].[Recordtype] R2
+LEFT JOIN [edcuat].[dbo].[Recordtype] R2
 ON R2.DeveloperName = 'RFI_OE'
-LEFT JOIN [edcdatadev].[dbo].[Recordtype] R3
+LEFT JOIN [edcuat].[dbo].[Recordtype] R3
 ON R3.DeveloperName = 'RFI_CE'
-LEFT JOIN [edcdatadev].[dbo].[LearningProgramPlan_Lookup] L
+LEFT JOIN [edcuat].[dbo].[LearningProgramPlan_Lookup] L
 ON L.Legacy_ID__c = A.Academic_Program__c

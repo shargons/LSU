@@ -1,4 +1,4 @@
-USE [edcdatadev];
+USE [edcuat];
 GO
 
 /****** Object:  View [dbo].[13_EDA_ReqDocuments]    Script Date: 5/8/2024 2:20:57 PM ******/
@@ -44,9 +44,9 @@ SELECT
 	,review_status_code__c
 	,review_status_desc__c
 FROM [edaprod].[dbo].[required_document__c] R
---LEFT JOIN [edcdatadev].[dbo].[User_Lookup] cr
+--LEFT JOIN [edcuat].[dbo].[User_Lookup] cr
 --ON A.CreatedById = cr.Legacy_ID__c
---LEFT JOIN [edcdatadev].[dbo].[User_Lookup] O
+--LEFT JOIN [edcuat].[dbo].[User_Lookup] O
 --ON A.OwnerId = O.Legacy_ID__c
-LEFT JOIN [edcdatadev].[dbo].[Contact] C
+LEFT JOIN [edcuat].[dbo].[Contact] C
 ON R.contact__c = C.Legacy_ID__c

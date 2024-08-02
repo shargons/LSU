@@ -9,8 +9,8 @@ USE edcdatadev;
 --DROP TABLE IF EXISTS [dbo].[Case_LOAD];
 --GO
 SELECT *
-INTO [edcdatadev].dbo.Case_LOAD
-FROM [edcdatadev].[dbo].[11_EDA_Cases] C
+INTO [edcuat].dbo.Case_LOAD
+FROM [edcuat].[dbo].[11_EDA_Cases] C
 ORDER BY ContactId
 
 SELECT * FROM Case_LOAD
@@ -25,7 +25,7 @@ ALTER COLUMN ID NVARCHAR(18)
 
 SELECT * FROM Case_LOAD
 
-EXEC SF_TableLoader 'Insert:BULKAPI','EDCDATADEV','Case_LOAD'
+EXEC SF_TableLoader 'Insert:BULKAPI','EDCUAT','Case_LOAD'
 
 SELECT * 
 --INTO Case_LOAD_2
@@ -57,7 +57,7 @@ EXECUTE	SF_TableLoader
 -- Contact Lookup
 --DROP TABLE IF EXISTS [dbo].[Case_Lookup];
 --GO
-INSERT INTO [edcdatadev].[dbo].[Case_Lookup]
+INSERT INTO [edcuat].[dbo].[Case_Lookup]
 SELECT
  ID
 ,EDACASEID__c AS legacy_ID__c
@@ -72,13 +72,13 @@ WHERE Error = 'Operation Successful.'
 --DROP TABLE Case_AcadInterest_Update
 SELECT C.ID,LP.ID AS academic_interest__c
 INTO Case_AcadInterest_Update
-FROM [edcdatadev].[dbo].[Case_Lookup] C
-INNER JOIN [edcdatadev].[dbo].[11_EDA_Cases] E
+FROM [edcuat].[dbo].[Case_Lookup] C
+INNER JOIN [edcuat].[dbo].[11_EDA_Cases] E
 ON C.legacy_ID__c = E.EDACASEID__c
 LEFT JOIN [edaprod].dbo.hed__Affiliation__c A
 ON E.Source_academic_interest__c = A.hed__Account__c
 AND A.hed__Contact__c = E.Source_contactid
-LEFT JOIN [edcdatadev].[dbo].LearnerProgram_Lookup LP
+LEFT JOIN [edcuat].[dbo].LearnerProgram_Lookup LP
 ON LP.LSU_Affiliation__c = A.Id 
 WHERE LP.ID IS NOT NULL
 

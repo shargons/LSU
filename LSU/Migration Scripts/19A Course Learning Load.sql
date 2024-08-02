@@ -4,18 +4,15 @@ USE edcuat;
 --====================================================================
 --	INSERTING DATA TO THE LOAD TABLE FROM THE VIEW - Account
 --====================================================================
---DROP TABLE IF EXISTS [dbo].[LearningProgram_LOAD];
+--DROP TABLE IF EXISTS [dbo].[Learning_Course_LOAD];
 --GO
-SELECT C.*,L.ID AS LearningId
-INTO [edcuat].dbo.LearningProgram_LOAD
-FROM [edcdatadev].[dbo].[04_EDA_AccountProgram] C
-LEFT JOIN [edcuat].[dbo].[Learning_Lookup] L
-ON C.EDAACCOUNTID__c = L.Legacy_ID__c
+SELECT *
+INTO [edcuat].dbo.Learning_Course_LOAD
+FROM [edcuat].[dbo].[19A_EDA_Course_Learning] C
 
 
 /******* Check Load table *********/
-SELECT * FROM [edcuat].dbo.LearningProgram_LOAD
-
+SELECT * FROM [edcuat].dbo.Learning_Course_LOAD
 
 --====================================================================
 --INSERTING DATA USING DBAMP - Account
@@ -23,46 +20,43 @@ SELECT * FROM [edcuat].dbo.LearningProgram_LOAD
 
 
 /******* Change ID Column to nvarchar(18) *********/
-ALTER TABLE LearningProgram_LOAD
+ALTER TABLE Learning_Course_LOAD
 ALTER COLUMN ID NVARCHAR(18)
 
 
-EXEC SF_TableLoader 'Insert:BULKAPI','EDCUAT','LearningProgram_LOAD_2'
+EXEC SF_TableLoader 'Insert:BULKAPI','edcuat','Learning_Course_LOAD'
 
-SELECT * 
-INTO LearningProgram_LOAD_2
-FROM LearningProgram_LOAD_Result where Error <> 'Operation Successful.'
+SELECT * FROM Learning_Course_LOAD_Result where Error <> 'Operation Successful.'
 
-select DISTINCT  Error from LearningProgram_LOAD_Result
+select DISTINCT  Error from Learning_LOAD_Result
 
 --====================================================================
 --ERROR RESOLUTION - Account
 --====================================================================
 /******* DBAmp Delete Script *********/
-DROP TABLE LearningProgram_DELETE
+DROP TABLE Learning_DELETE
 DECLARE @_table_server	nvarchar(255)	=	DB_NAME()
-EXECUTE sf_generate 'Delete',@_table_server, 'LearningProgram_DELETE'
+EXECUTE sf_generate 'Delete',@_table_server, 'Learning_DELETE'
 
-INSERT INTO LearningProgram_DELETE(Id) SELECT Id FROM LearningProgram WHERE Error = 'Operation Successful.'
+INSERT INTO Learning_DELETE(Id) SELECT Id FROM Learning_LOAD_Result WHERE Error = 'Operation Successful.'
 
 DECLARE @_table_server	nvarchar(255) = DB_NAME()
 EXECUTE	SF_TableLoader
 		@operation		=	'Delete'
 ,		@table_server	=	@_table_server
-,		@table_name		=	'LearningProgram_DELETE'
+,		@table_name		=	'Learning_DELETE'
 
 --====================================================================
 --POPULATING LOOOKUP TABLES- Account
 --====================================================================
 
--- Contact Lookup
-DROP TABLE IF EXISTS [dbo].[Account_Program_Lookup];
+-- Learning Lookup
+DROP TABLE IF EXISTS [dbo].[Learning_Lookup];
 GO
-INSERT INTO [edcuat].[dbo].[Account_Program_Lookup]
+
+INSERT INTO [edcuat].[dbo].[Learning_Lookup]
 SELECT
  ID
 ,EDAACCOUNTID__c as Legacy_ID__c
-FROM LearningProgram_LOAD_2_Result
+FROM Learning_Course_LOAD_Result
 WHERE Error = 'Operation Successful.'
-
-

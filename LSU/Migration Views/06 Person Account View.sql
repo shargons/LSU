@@ -78,7 +78,7 @@ SELECT  NULL AS ID
 		,funding_source_other__c as funding_source_other__pc
 		,gender__c  as gender__pc
 		,graduated__c as graduated__pc
-		,A.ID AS graduation_term__pc 
+		,graduation_term__c AS Source_graduation_term__pc
 		,grouppayor__c as grouppayor__pc
 		,guild_student__c as guild_student__pc
 		,guildcleanup__c as guildcleanup__pc
@@ -169,7 +169,7 @@ SELECT  NULL AS ID
 		,stoppardotautocomms__c as stoppardotautocomms__pc
 		,studentssn__c as studentssn__pc
 		,suffix
-		,B.ID AS term_of_interest__pc
+		,Term_of_Interest__c AS Source_term_of_interest__pc
 		,title
 		,total_no_of_affiliations__c as total_no_of_affiliations__pc
 		,total_open_opportunities__c as total_open_opportunities__pc
@@ -190,9 +190,9 @@ ON R.DeveloperName = 'PersonAccount'
 --ON C.CreatedById = CR.Legacy_ID__c
 --LEFT JOIN [edcuat].[dbo].[User_Lookup] O
 --ON C.OwnerId = O.Legacy_ID__c
-LEFT JOIN [edcuat].[dbo].[AcademicTerm_Lookup] A
-ON A.Name = C.graduation_term__c
-LEFT JOIN [edcuat].[dbo].[AcademicTerm_Lookup] B
-ON B.Name = C.Term_of_Interest__c
+--LEFT JOIN [edcuat].[dbo].[AcademicTerm_Lookup] A
+--ON A.Name = C.graduation_term__c
+--LEFT JOIN [edcuat].[dbo].[AcademicTerm_Lookup] B
+--ON B.Name = C.Term_of_Interest__c
 LEFT JOIN [edcuat].[dbo].Account_Program_Lookup P
 ON C.Primary_Academic_Program__c = P.Legacy_ID__c

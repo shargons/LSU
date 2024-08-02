@@ -1,4 +1,4 @@
-USE [edcdatadev];
+USE [edcuat];
 GO
 
 /****** Object:  View [dbo].[02_EDA_OrgAccount]    Script Date: 5/8/2024 2:20:57 PM ******/
@@ -116,8 +116,8 @@ SELECT DISTINCT
 	,'Education'									AS Category
 FROM [edaprod].[dbo].[Application__c] A
 LEFT JOIN
-[edcdatadev].[dbo].[Contact] C
+[edcuat].[dbo].[Contact] C
 ON A.Contact__c = C.Legacy_Id__c
 LEFT JOIN
-[edcdatadev].[dbo].[Opportunity_Lookup] O
+[edcuat].[dbo].[Opportunity_Lookup] O
 ON A.Opportunity__c = O.Legacy_Id__c

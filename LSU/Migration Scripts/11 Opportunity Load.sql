@@ -10,10 +10,11 @@ USE edcdatadev;
 --GO
 SELECT *
 INTO [edcdatadev].[dbo].[Opportunity_LOAD]
-FROM [edcdatadev].[dbo].[13_EDA_Opportunity] C
+FROM [edcdatadev].[dbo].[11_EDA_Opportunity] C
 ORDER BY AccountId
 
-SELECT * FROM [edcdatadev].[dbo].[Opportunity_LOAD]
+SELECT count(*),RecordtypeId FROM [edcdatadev].[dbo].[Opportunity_LOAD]
+GROUP BY RecordtypeId
 
 /******* Change ID Column to nvarchar(18) *********/
 ALTER TABLE [edcdatadev].[dbo].[Opportunity_LOAD]
@@ -25,15 +26,17 @@ ALTER COLUMN ID NVARCHAR(18)
 
 SELECT * FROM [edcdatadev].[dbo].[Opportunity_LOAD]
 
-EXEC SF_TableLoader 'Insert:BULKAPI','EDCDATADEV','Opportunity_LOAD_6'
+EXEC SF_TableLoader 'Insert:BULKAPI','edcdatadev','Opportunity_LOAD'
 
-SELECT * 
---INTO Opportunity_LOAD_6
-FROM Opportunity_LOAD_6_Result where Error <> 'Operation Successful.'
-AND Error NOT LIKE '%DUPLICATE_VALUE%'
+SELECT * [dbo].[16_EDA_Financial_Aid_Record]
+--INTO Opportunity_LOAD_4
+FROM Opportunity_LOAD_Result where Error <> 'Operation Successful.'
+AND Error LIKE '%DUPLICATE_VALUE%'
 ORDER BY AccountId
 
 select DISTINCT  Error from Opportunity_LOAD_Result
+
+
 
 --====================================================================
 --ERROR RESOLUTION - Case
@@ -63,7 +66,9 @@ INSERT INTO [edcdatadev].[dbo].[Opportunity_Lookup]
 SELECT
  ID
 ,Legacy_ID__c
-FROM Opportunity_LOAD_6_Result
+--INTO [edcdatadev].[dbo].[Opportunity_Lookup]
+FROM Opportunity_LOAD_4_Result
 WHERE Error = 'Operation Successful.'
+
 
 

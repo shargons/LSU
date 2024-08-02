@@ -1,4 +1,4 @@
-USE [edcdatadev];
+USE [edcuat];
 GO
 
 /****** Object:  View [dbo].[02_EDA_OrgAccount]    Script Date: 5/8/2024 2:20:57 PM ******/
@@ -41,11 +41,11 @@ FROM [edaprod].[dbo].[Case]	A
 --ON A.CreatedById = cr.Legacy_ID__c
 --LEFT JOIN [edcdatadev].[dbo].[User_Lookup] O
 --ON A.OwnerId = O.Legacy_ID__c
-LEFT JOIN [edcdatadev].[dbo].[Contact] C
+LEFT JOIN [edcuat].[dbo].[Contact] C
 ON A.contactid = C.Legacy_ID__c
-LEFT JOIN [edcdatadev].[dbo].[Recordtype] R2
+LEFT JOIN [edcuat].[dbo].[Recordtype] R2
 ON R2.DeveloperName = 'RFI_OE'
-LEFT JOIN [edcdatadev].[dbo].[Recordtype] R3
+LEFT JOIN [edcuat].[dbo].[Recordtype] R3
 ON R3.DeveloperName = 'RFI_CE'
 LEFT JOIN [edaprod].[dbo].[Contact] CO
 ON CO.Id = A.ContactId

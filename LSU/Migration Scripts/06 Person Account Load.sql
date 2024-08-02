@@ -184,6 +184,26 @@ WHERE UL.ID IS NOT NULL
 
 EXEC SF_TableLoader 'Update:BULKAPI','EDCUAT','Account_learncoach_Update'
 
+-- graduation_term__pc (Academic Term Lookup)
 
+SELECT P.ID,A.ID AS graduation_term__pc
+INTO Account_gradterm_Update
+FROM [edcdatadev].[dbo].[06_EDA_PersonAccount] C
+LEFT JOIN [edcuat].[dbo].[AcademicTerm_Lookup] A
+ON A.Name = C.Source_graduation_term__pc
+LEFT JOIN
+[Account_Person_Lookup] P
+ON C.Legacy_Id__pc = P.Legacy_Id__pc
+
+-- term_of_interest__pc (Academic Term Lookup)
+
+SELECT P.ID,A.ID AS graduation_term__pc
+INTO Account_TOI_Update
+FROM [edcdatadev].[dbo].[06_EDA_PersonAccount] C
+LEFT JOIN [edcuat].[dbo].[AcademicTerm_Lookup] A
+ON A.Name = C.Source_term_of_interest__pc
+LEFT JOIN
+[Account_Person_Lookup] P
+ON C.Legacy_Id__pc = P.Legacy_Id__pc
 
 -- lsu_campaign_id__pc Lookup(Campaign)

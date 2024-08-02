@@ -4,8 +4,9 @@
     "\\LSU",
     "\\LSU\\DBAmp Scripts",
     "\\LSU\\Migration Scripts",
-    "\\LSU\\Migration Views"
+    "\\LSU\\Migration Views",
+    "\\LSU\\Other Scripts"
   ],
-  "SelectedNode": "\\LSU\\Migration Views\\03 Account Program View.sql",
+  "SelectedNode": "\\LSU\\Migration Scripts\\10 Case Interaction Load.sql",
   "PreviewInSolutionExplorer": false
 }
