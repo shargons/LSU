@@ -1,4 +1,4 @@
-USE [edcdatadev];
+USE [edcuat];
 GO
 
 /****** Object:  View [dbo].[02_EDA_OrgAccount]    Script Date: 5/8/2024 2:20:57 PM ******/
@@ -20,7 +20,7 @@ SELECT  NULL AS ID
 		,auto_dailer_call_count__c as auto_dailer_call_count__pc
 		,bad_email__c as bad_email__pc
 		,bad_phone__c as bad_phone__pc
-		,birthdate 
+		,birthdate    as PersonBirthdate
 		,call_activity_count__c as call_activity_count__pc
 		,call_count__c as call_count__pc
 		,campus__c as campus__pc
@@ -43,7 +43,7 @@ SELECT  NULL AS ID
 		,celsuid__c as celsuid__pc
 		,celsuidchanged__c as celsuidchanged__pc
 		,classic_created_date__c as classic_created_date__pc
-		,classic_last_activity_date__c as classic_last_activity_date__pc
+		--,classic_last_activity_date__c as classic_last_activity_date__pc  -- changed as per lcec-525
 		,comments__c as comments__pc
 		,company__c as company__pc
 		,convertedleadid__c as convertedleadid__pc
@@ -131,7 +131,7 @@ SELECT  NULL AS ID
 		,one_student_x_number__c as one_student_x_number__pc
 		,one_version__c as one_version__pc
 		,original_created_date__c as original_created_date__pc
-		,original_last_activity_date__c as original_last_activity_date__pc
+		,original_last_activity_date__c as classic_last_activity_date__pc
 		,other_email_address__c as other_email_address__pc
 		,othercity
 		,othercountry
