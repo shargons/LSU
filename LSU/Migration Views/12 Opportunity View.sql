@@ -10,7 +10,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 
-CREATE OR ALTER VIEW [dbo].[10_EDA_Opportunity] AS
+CREATE OR ALTER VIEW [dbo].[12_EDA_Opportunity] AS
 
 SELECT 
 	 NULL						AS ID
@@ -44,4 +44,5 @@ LEFT JOIN [edcdatadev].[dbo].[Recordtype] R2
 ON R2.DeveloperName = 'OE'
 LEFT JOIN [edcdatadev].[dbo].[Recordtype] R3
 ON R3.DeveloperName = 'CE'
+WHERE O.StageName NOT IN ('New','Attempting','Qualified','Nurture','Disqualified','Duplicate')
 

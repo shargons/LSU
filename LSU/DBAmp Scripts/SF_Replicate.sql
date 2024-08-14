@@ -54,3 +54,5 @@ EXEC SF_Replicate 'EDCDATADEV','Learning','pkchunk,batchsize(50000)'
 EXEC SF_Replicate 'EDCDATADEV','LearningCourse','pkchunk,batchsize(50000)'
 
 EXEC SF_Replicate 'EDCDATADEV','IndividualApplication','pkchunk,batchsize(50000)'
+
+EXEC SF_Replicate 'EDCDATADEV','AcademicTerm','pkchunk,batchsize(50000)'

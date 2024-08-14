@@ -10,7 +10,7 @@ USE edcdatadev;
 --GO
 SELECT *
 INTO [edcdatadev].[dbo].[Opportunity_LOAD]
-FROM [edcdatadev].[dbo].[11_EDA_Opportunity] C
+FROM [edcdatadev].[dbo].[12_EDA_Opportunity] C
 ORDER BY AccountId
 
 SELECT count(*),RecordtypeId FROM [edcdatadev].[dbo].[Opportunity_LOAD]
@@ -26,12 +26,11 @@ ALTER COLUMN ID NVARCHAR(18)
 
 SELECT * FROM [edcdatadev].[dbo].[Opportunity_LOAD]
 
-EXEC SF_TableLoader 'Insert:BULKAPI','edcdatadev','Opportunity_LOAD'
+EXEC SF_TableLoader 'Upsert:BULKAPI','edcdatadev','Opportunity_LOAD','Legacy_ID__c'
 
-SELECT * [dbo].[16_EDA_Financial_Aid_Record]
+SELECT * 
 --INTO Opportunity_LOAD_4
 FROM Opportunity_LOAD_Result where Error <> 'Operation Successful.'
-AND Error LIKE '%DUPLICATE_VALUE%'
 ORDER BY AccountId
 
 select DISTINCT  Error from Opportunity_LOAD_Result
@@ -62,13 +61,38 @@ EXECUTE	SF_TableLoader
 --DROP TABLE IF EXISTS [dbo].[Opportunity_Lookup];
 --GO
 
-INSERT INTO [edcdatadev].[dbo].[Opportunity_Lookup]
+
 SELECT
  ID
 ,Legacy_ID__c
---INTO [edcdatadev].[dbo].[Opportunity_Lookup]
-FROM Opportunity_LOAD_4_Result
+INTO [edcdatadev].[dbo].[Opportunity_Lookup]
+FROM Opportunity_LOAD_Result
 WHERE Error = 'Operation Successful.'
+
+
+--====================================================================
+-- UPDATE Related Opportunity Lookup - Case
+--====================================================================
+-- Case Related Opportunity Update
+SELECT C.ID,A.ID AS Related_Opportunity__c 
+INTO Case_Opportunity_Lookup_Update
+FROM Case_Opp_Recruitment_LOAD_Result C
+LEFT JOIN
+Opportunity_LOAD_Result A
+ON C.Legacy_ID__c = A.Legacy_ID__c
+
+EXEC SF_TableLoader 'Update:BULKAPI','edcdatadev','Case_Opportunity_Lookup_Update'
+
+-- Opportunity Related Recruitment_Case__c Update
+SELECT A.ID,C.ID AS Recruitment_Case__c 
+INTO Opportunity_RecruitmentCase_Lookup_Update
+FROM Opportunity_LOAD_Result A
+LEFT JOIN
+Case_Opp_Recruitment_LOAD_Result C
+ON C.Legacy_ID__c = A.Legacy_ID__c
+WHERE C.ID IS NOT NULL
+
+EXEC SF_TableLoader 'Update:BULKAPI','edcdatadev','Opportunity_RecruitmentCase_Lookup_Update'
 
 
 
