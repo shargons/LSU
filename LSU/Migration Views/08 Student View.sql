@@ -1,4 +1,4 @@
-USE [edcdatadev];
+USE [edcuat];
 GO
 
 /****** Object:  View [dbo].[02_EDA_OrgAccount]    Script Date: 5/8/2024 2:20:57 PM ******/
@@ -105,6 +105,12 @@ SELECT
 	,null as LearningProgramPlanId
 	,null as LearnerContactId
 	,curricds__c as Name
+	,RACE__c
+	,RACEDESC__c
+	,ETHNIC__c
+	,ETHNDESC__c
+	,BIRTHDTE__c
+	,GENDER__c
 	--,CR.ID AS createdbyid
 	--,O.ID AS ownerid
 FROM [edaprod].[dbo].[student__c]

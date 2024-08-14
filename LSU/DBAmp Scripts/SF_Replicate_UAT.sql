@@ -24,4 +24,6 @@ EXEC SF_Replicate 'EDCUAT','LearningCourse','pkchunk,batchsize(50000)'
 
 EXEC SF_Replicate 'EDCUAT','LearningProgramPlan','pkchunk,batchsize(50000)'
 
+EXEC SF_Replicate 'EDCUAT','LearnerProgram','pkchunk,batchsize(50000)'
+
 EXEC SF_Replicate 'EDCUAT','IndividualApplication','pkchunk,batchsize(50000)'
