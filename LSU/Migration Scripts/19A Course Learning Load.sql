@@ -60,3 +60,19 @@ SELECT
 ,EDAACCOUNTID__c as Legacy_ID__c
 FROM Learning_Course_LOAD_Result
 WHERE Error = 'Operation Successful.'
+
+
+
+-- ProviderId Lookup
+--DROP TABLE Learning_Provider_Update
+SELECT A.ID,B.ProviderId
+INTO [edcuat].[dbo].Learning_Provider_Update
+FROM  [edcuat].[dbo].[Learning] A
+INNER JOIN [edcuat].[dbo].[19A_EDA_Course_Learning] B
+ON A.EDAACCOUNTID__c = B.EDAACCOUNTID__c
+WHERE A.ProviderId IS NULL
+
+EXEC SF_TableLoader 'Update:BULKAPI','edcuat','Learning_Provider_Update'
+
+select * from Learning_Provider_Update_result
+

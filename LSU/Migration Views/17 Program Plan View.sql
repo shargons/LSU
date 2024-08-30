@@ -25,10 +25,11 @@ SELECT
 	--,O.ID												AS ownerid
 	,programlength__c									AS program_length__c
 	,totalnoofcourses__c								AS total_no_of_courses__c
+	,IsActive
 FROM [edaprod].[dbo].[hed__program_plan__c] R
---LEFT JOIN [edcuat].[dbo].[User_Lookup] cr
+--LEFT JOIN [edcdatadev].[dbo].[User_Lookup] cr
 --ON R.CreatedById = cr.Legacy_ID__c
---LEFT JOIN [edcuat].[dbo].[User_Lookup] O
+--LEFT JOIN [edcdatadev].[dbo].[User_Lookup] O
 --ON R.OwnerId = O.Legacy_ID__c
 LEFT JOIN [edcuat].[dbo].[LearningProgram] A
 ON R.hed__account__c = A.EDAACCOUNTID__c

@@ -9,7 +9,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 
-CREATE OR ALTER VIEW [dbo].[19_EDA_Enrollments] AS
+CREATE OR ALTER VIEW [dbo].[21_EDA_Enrollments] AS
 
 SELECT 
 	 NULL												AS ID
@@ -51,8 +51,8 @@ SELECT
 	,R.lsu_affiliation__c								AS Source_Affiliation
 	,CL.ID											AS Case__c
 	,lsua_enrollment_status_date__c
-	,R.lsuam_current_term__c
-	,R.lsuam_upcoming_term__c
+	,CL.lsuam_current_term__c
+	,CL.lsuam_upcoming_term__c
 	,R.lsuamstudentprogramcode__c						AS lsuam_student_program_code__c
 	,lsus_enrollment_term__c
 	,mainframe_dataload_id__c
@@ -62,7 +62,7 @@ SELECT
 	--,O.ID											AS ownerid
 	,paymentstautus__c								AS payment_status__c
 	,program__c
-	,role__c
+	,R.role__c
 	,sectionid__c
 	,start_date__c
 	,status_code__c
@@ -87,5 +87,5 @@ LEFT JOIN [edcdatadev].[dbo].[LearnerProgram] LP
 ON R.ce_source_certificate_enrollment__c = LP.EDACERTENROLLID__c
 LEFT JOIN [edcdatadev].[dbo].[Case] CL
 ON R.lsu_affiliation__c = CL.Legacy_ID__c
-LEFT JOIN [edcdatadev].[dbo].Opportunity_Lookup OL
+LEFT JOIN [edcdatadev].[dbo].[Opportunity] OL
 ON R.opportunity__c = OL.Legacy_ID__c

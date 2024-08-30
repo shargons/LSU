@@ -9,7 +9,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 
-CREATE OR ALTER VIEW [dbo].[14_EDA_Application] AS
+CREATE OR ALTER VIEW [dbo].[13A_EDA_Application] AS
 
 SELECT DISTINCT
 	NULL											AS ID
@@ -30,9 +30,10 @@ SELECT DISTINCT
 	,all_transcripts_received__c
 	,application_fee_paid_date__c
 	,application_fee_status__c
-	,application_fee_waiver_type__c
+	,A.application_fee_waiver_type__c
 	,application_holds__c
-	,application_slate_id__c
+	,A.application_slate_id__c
+	,application_state_code__c						AS application_state_code__c
 	,application_status_description__c
 	,application_student_type__c
 	,applied_date__c								AS AppliedDate
@@ -43,7 +44,7 @@ SELECT DISTINCT
 	,college_disciplinary_supsension__c
 	,college_scholastic_suspension_flag__c
 	,college_scholastic_suspension_reason__c
-	,Contact__c										AS Source_Contact__c
+	,A.Contact__c										AS Source_Contact__c
 	,C.Id											AS ContactId
 	,C.Id											AS SubmittedByContactId
 	,C.AccountId									AS AccountId
@@ -53,6 +54,7 @@ SELECT DISTINCT
 	,complete_final_high_school_transcript_fl__c
 	,country_code__c
 	,A.createddate									AS EDACREATEDDATE__c
+	,decision_released_date__c						AS Decision_Release_Date__c
 	,dropped_from_application_file__c
 	,education_specialization__c
 	,enrolled_flag__c
@@ -63,10 +65,10 @@ SELECT DISTINCT
 	,fafsa_received_flag__c
 	,felony_flag__c
 	,file_complete_date__c
-	,first_enrollment_date__c
-	,gs_application_type__c
+	,A.first_enrollment_date__c
+	,A.gs_application_type__c
 	,A.id												AS Legacy_Id__c
-	,inactive__c
+	,A.inactive__c
 	,inactive_date_time__c
 	,inactive_reason__c
 	,incomplete_flag__c
@@ -78,7 +80,7 @@ SELECT DISTINCT
 	,international_flag__c
 	,international_status__c
 	,A.lsua_application_id__c
-	,lsua_degree_code__c
+	,A.lsua_degree_code__c
 	,lsua_enrollment_status_date__c
 	,lsua_matriculation_year__c
 	,lsua_total_earned_credits__c
@@ -98,6 +100,7 @@ SELECT DISTINCT
 	,program_admitted_date__c
 	,program_enrollment_status_code__c
 	,program_enrollment_status_description__c
+	,A.program_code__c								AS Source_ProgramTermApplnTimeline
 	,questionnaire_richtext__c						AS questionnaire__c
 	,questionnairetitle__c							AS questionnairetitle__c
 	,readmit_term__c
@@ -105,19 +108,30 @@ SELECT DISTINCT
 	,selective_service_excused_reason__c
 	,selective_service_response__c
 	,slate_reader_bin__c
-	,special_designator__c
+	,A.special_designator__c
 	,srr_term_flag__c
 	,A.ssnonfile__c									AS ssn_on_file__c
 	,status_reason_code__c
 	,status_reason_description__c
-	,term_admitted__c
-	,term_enrolled__c
+	,A.term_admitted__c
+	,A.term_enrolled__c
 	,visa_type__c
 	,'Education'									AS Category
+	,CASE WHEN Pipeline_Sub_Status__c = 'Awaiting on Department' THEN 'Processing'
+		  WHEN Pipeline_Sub_Status__c = 'Applied' THEN 'Processing'
+		  WHEN Pipeline_Sub_Status__c = 'Missing Documents' THEN 'Missing Documents'
+		  WHEN Pipeline_Sub_Status__c = 'Awaiting Payment' THEN 'Processing'
+		  WHEN Pipeline_Sub_Status__c = 'Denied' THEN 'Application Decision'
+		  WHEN Pipeline_Sub_Status__c = 'Admitted' THEN 'Application Decision'
+		  WHEN Pipeline_Sub_Status__c = 'Awaiting Submission' THEN 'Processing'
+		  WHEN Pipeline_Sub_Status__c = 'Withdrawn' THEN 'Cancelled'
+	END AS [Status]
 FROM [edaprod].[dbo].[Application__c] A
 LEFT JOIN
 [edcuat].[dbo].[Contact] C
 ON A.Contact__c = C.Legacy_Id__c
 LEFT JOIN
-[edcuat].[dbo].[Opportunity_Lookup] O
-ON A.Opportunity__c = O.Legacy_Id__c
+[edaprod].[dbo].[Opportunity] O
+ON A.Opportunity__c = O.Id
+
+

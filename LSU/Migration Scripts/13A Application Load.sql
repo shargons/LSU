@@ -10,7 +10,8 @@ USE edcuat;
 --GO
 SELECT *
 INTO [edcuat].dbo.IndividualApplication_LOAD
-FROM [edcuat].[dbo].[14_EDA_Application] C
+FROM [edcuat].[dbo].[13A_EDA_Application] C
+where ContactId is not null
 ORDER BY ContactId
 
 
@@ -24,7 +25,9 @@ ALTER COLUMN ID NVARCHAR(18)
 
 SELECT * FROM IndividualApplication_LOAD
 
-EXEC SF_TableLoader 'Insert:BULKAPI','edcuat','IndividualApplication_LOAD'
+EXEC SF_TableLoader 'Upsert:BULKAPI','edcuat','IndividualApplication_LOAD','EXT_Key__c'
+
+
 
 SELECT * 
 --INTO IndividualApplication_LOAD_2
@@ -53,7 +56,7 @@ EXECUTE	SF_TableLoader
 --POPULATING LOOOKUP TABLES- IndividualApplication
 --====================================================================
 
--- Contact Lookup
+
 --DROP TABLE IF EXISTS [dbo].[IndividualApplication_Lookup];
 --GO
 
@@ -71,12 +74,12 @@ WHERE Error = 'Operation Successful.'
 
 -- Application Lookup
 
-
+--DROP TABLE Opportunity_Application_Lookup
 SELECT A.ID,C.ID AS application_id__c
 into Opportunity_Application_Lookup
 FROM [edcuat].[dbo].[Opportunity_Lookup] A
 LEFT JOIN
-[edcuat].[dbo].[13_EDA_Opportunity] B
+[edcuat].[dbo].[12_EDA_Opportunity] B
 ON A.Legacy_ID__c = B.Legacy_ID__c
 LEFT JOIN 
 [edcuat].[dbo].[IndividualApplication_Lookup] C
@@ -87,11 +90,12 @@ EXEC SF_TableLoader 'Update:BULKAPI','edcuat','Opportunity_Application_Lookup'
 
 
 -- Contact Lookups
+DROP TABLE IndividualApplication_Update
 SELECT A.ID,B.Source_Contact__c,C.ID AS Contact__c,C.AccountId,C.ID AS SubmittedByContactId
 INTO IndividualApplication_Update
 FROM [edcuat].[dbo].[IndividualApplication_Lookup] A
 LEFT JOIN
-[edcuat].[dbo].[14_EDA_Application] B
+[edcuat].[dbo].[13a_EDA_Application] B
 ON A.legacy_ID__c = B.legacy_ID__c
 LEFT JOIN
 [edcuat].[dbo].[Contact] C
@@ -102,10 +106,10 @@ EXEC SF_TableLoader 'Update:BULKAPI','edcuat','IndividualApplication_Update'
 
 
 -- Case Program Lookup
-
+DROP TABLE IndividualApplication_Case_Update
 SELECT IL.ID,CL.ID AS ApplicationCaseId
 INTO IndividualApplication_Case_Update
-FROM [dbo].[14_EDA_Application] A
+FROM [dbo].[13A_EDA_Application] A
 LEFT JOIN [edaprod].[dbo].[Interaction__c] I
 ON I.LSU_Application_ID__c = A.Legacy_Id__c
 LEFT JOIN [edcuat].[dbo].[IndividualApplication_Lookup] IL
@@ -115,3 +119,14 @@ ON CL.legacy_ID__c = 'I-'+I.Id
 where I.LSU_Application_ID__c is not null
 
 EXEC SF_TableLoader 'Update:BULKAPI','edcuat','IndividualApplication_Case_Update'
+
+
+select * from IndividualApplication_Case_Update_Result
+where Error <> 'Operation Successful.'
+
+
+
+
+
+
+

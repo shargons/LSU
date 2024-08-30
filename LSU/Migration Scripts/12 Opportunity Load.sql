@@ -1,5 +1,5 @@
 
-USE edcdatadev;
+USE edcuat;
 
 --====================================================================
 --	INSERTING DATA TO THE LOAD TABLE FROM THE VIEW - Case
@@ -9,27 +9,36 @@ USE edcdatadev;
 --DROP TABLE IF EXISTS [dbo].[Opportunity_LOAD];
 --GO
 SELECT *
-INTO [edcdatadev].[dbo].[Opportunity_LOAD]
-FROM [edcdatadev].[dbo].[12_EDA_Opportunity] C
+INTO edcuat.[dbo].[Opportunity_LOAD]
+FROM edcuat.[dbo].[12_EDA_Opportunity] C
 ORDER BY AccountId
 
-SELECT count(*),RecordtypeId FROM [edcdatadev].[dbo].[Opportunity_LOAD]
+
+SELECT count(*),RecordtypeId FROM edcuat.[dbo].[Opportunity_LOAD]
 GROUP BY RecordtypeId
 
+SELECT *
+from Recordtype
+where SobjectType = 'Opportunity'
+
+--012D10000003kP9IAI - CE
+--012D10000003kPAIAY - OE
+
 /******* Change ID Column to nvarchar(18) *********/
-ALTER TABLE [edcdatadev].[dbo].[Opportunity_LOAD]
+ALTER TABLE edcuat.[dbo].[Opportunity_LOAD]
 ALTER COLUMN ID NVARCHAR(18)
 
 --====================================================================
 --INSERTING DATA USING DBAMP - Case
 --====================================================================
 
-SELECT * FROM [edcdatadev].[dbo].[Opportunity_LOAD]
+SELECT * FROM edcuat.[dbo].[Opportunity_LOAD]
 
-EXEC SF_TableLoader 'Upsert:BULKAPI','edcdatadev','Opportunity_LOAD','Legacy_ID__c'
+EXEC SF_TableLoader 'Upsert:BULKAPI','edcuat','Opportunity_LOAD_2','Legacy_ID__c'
 
+--DROP TABLE Opportunity_LOAD_2
 SELECT * 
---INTO Opportunity_LOAD_4
+INTO Opportunity_LOAD_2
 FROM Opportunity_LOAD_Result where Error <> 'Operation Successful.'
 ORDER BY AccountId
 
@@ -61,12 +70,12 @@ EXECUTE	SF_TableLoader
 --DROP TABLE IF EXISTS [dbo].[Opportunity_Lookup];
 --GO
 
-
+INSERT INTO edcuat.[dbo].[Opportunity_Lookup]
 SELECT
  ID
 ,Legacy_ID__c
-INTO [edcdatadev].[dbo].[Opportunity_Lookup]
-FROM Opportunity_LOAD_Result
+--INTO edcuat.[dbo].[Opportunity_Lookup]
+FROM Opportunity_LOAD_2_Result
 WHERE Error = 'Operation Successful.'
 
 
@@ -76,23 +85,23 @@ WHERE Error = 'Operation Successful.'
 -- Case Related Opportunity Update
 SELECT C.ID,A.ID AS Related_Opportunity__c 
 INTO Case_Opportunity_Lookup_Update
-FROM Case_Opp_Recruitment_LOAD_Result C
+FROM Case_Lookup C
 LEFT JOIN
-Opportunity_LOAD_Result A
+[Opportunity_Lookup] A
 ON C.Legacy_ID__c = A.Legacy_ID__c
 
-EXEC SF_TableLoader 'Update:BULKAPI','edcdatadev','Case_Opportunity_Lookup_Update'
+EXEC SF_TableLoader 'Update:BULKAPI','edcuat','Case_Opportunity_Lookup_Update'
 
 -- Opportunity Related Recruitment_Case__c Update
 SELECT A.ID,C.ID AS Recruitment_Case__c 
 INTO Opportunity_RecruitmentCase_Lookup_Update
-FROM Opportunity_LOAD_Result A
+FROM [Opportunity_Lookup] A
 LEFT JOIN
-Case_Opp_Recruitment_LOAD_Result C
+Case_Lookup C
 ON C.Legacy_ID__c = A.Legacy_ID__c
 WHERE C.ID IS NOT NULL
 
-EXEC SF_TableLoader 'Update:BULKAPI','edcdatadev','Opportunity_RecruitmentCase_Lookup_Update'
+EXEC SF_TableLoader 'Update:BULKAPI','edcuat','Opportunity_RecruitmentCase_Lookup_Update'
 
 
 

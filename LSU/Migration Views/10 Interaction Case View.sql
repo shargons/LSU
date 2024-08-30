@@ -14,7 +14,7 @@ CREATE OR ALTER VIEW [dbo].[10_EDA_Interactions] AS
 SELECT 
 	NULL						AS ID
 	,I.academic_interest__c		AS Source_Program_of_Interest__c   -- Lookup(Plan)
-	--,LPP.Id						AS Program_of_Interest__c
+	--,LP.Id						AS Program_of_Interest__c
 	,I.affiliated_account__c	AS Source_Learning_Program_of_Interest__c   --- Lookup(Account)
 	,LP.Id						AS Learning_Program_of_Interest__c
 	,I.contact__c				AS Source_Contact
@@ -49,7 +49,7 @@ SELECT
 	,I.Partner_Last_Updated_Date_Time__c
 	,I.Partner_LSU_Program_ID__c
 	,I.Partner_LSU_Program_Name__c
-	,I.Partner_Name__c
+	,IIF(I.Partner_Name__c IS NOT NULL,I.Partner_Name__c,I.PartnershipName__c) AS Partner_Name__c
 	,I.Partner_Record_Created_Date_Time__c
 	,I.Partner_Status__c
 	,I.Partnership_FERPA__c

@@ -1,4 +1,4 @@
-USE [edcdatadev];
+USE [edcuat];
 GO
 
 /****** Object:  View [dbo].[02_EDA_OrgAccount]    Script Date: 5/8/2024 2:20:57 PM ******/
@@ -32,6 +32,14 @@ SELECT
 	,status__c
 	,termid__c as Term_Id__c
 	,termno__c as Term_No__c
+	,hed__start_date__c as startdate
+	,hed__end_date__c as EndDate
+	,applicationdeadline__c
+	,Current_Term__c
+	,upcoming_term__c
+	,priorterm__c 
+	,cohortno__c
+	,census_date__c
 	--,CR.ID AS createdbyid
 	--,O.ID AS ownerid
 FROM [edaprod].[dbo].[hed__term__c]	A

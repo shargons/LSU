@@ -1,5 +1,5 @@
 
-USE edcdatadev;
+USE edcuat;
 
 --====================================================================
 --	INSERTING DATA TO THE LOAD TABLE FROM THE VIEW - Case
@@ -9,8 +9,8 @@ USE edcdatadev;
 --DROP TABLE IF EXISTS [dbo].[Case_Opp_Recruitment_LOAD];
 --GO
 SELECT *
-INTO [edcdatadev].dbo.Case_Opp_Recruitment_LOAD
-FROM [edcdatadev].[dbo].[11_Case_Opp_Recruitment] C
+INTO [edcuat].dbo.Case_Opp_Recruitment_LOAD
+FROM [edcuat].[dbo].[11_Case_Opp_Recruitment] C
 ORDER BY AccountId
 
 
@@ -22,15 +22,18 @@ ALTER COLUMN ID NVARCHAR(18)
 --INSERTING DATA USING DBAMP - Case
 --====================================================================
 
-SELECT * FROM Case_Opp_Recruitment_LOAD
+SELECT * FROM Case_Opp_Recruitment_LOAD_3
 
-EXEC SF_TableLoader 'Upsert:BULKAPI','edcdatadev','Case_Opp_Recruitment_LOAD','Legacy_ID__c'
+EXEC SF_TableLoader 'Upsert:BULKAPI','edcuat','Case_Opp_Recruitment_LOAD_3','Legacy_ID__c'
 
 --DROP TABLE Case_Opp_Recruitment_LOAD_2
-SELECT comments__c 
-----INTO Case_Opp_Recruitment_LOAD_2
-FROM Case_Opp_Recruitment_LOAD_Result where Error <> 'Operation Successful.'
+SELECT *
+INTO Case_Opp_Recruitment_LOAD_3
+FROM Case_Opp_Recruitment_LOAD_2_Result where Error <> 'Operation Successful.'
 ORDER BY AccountId
+
+UPDATE Case_Opp_Recruitment_LOAD_3
+SET Last_Name__c = null
 
 
 select DISTINCT  Error from Case_Opp_Recruitment_LOAD_Result
@@ -62,14 +65,14 @@ EXECUTE	SF_TableLoader
 DROP TABLE IF EXISTS [dbo].[Case_Lookup];
 GO
 
-ALTER TABLE [edcdatadev].[dbo].[Case_Lookup]
+ALTER TABLE [edcuat].[dbo].[Case_Lookup]
 ALTER COLUMN Legacy_ID__c NVARCHAR(25)
 
-INSERT INTO [edcdatadev].[dbo].[Case_Lookup]
+INSERT INTO [edcuat].[dbo].[Case_Lookup]
 SELECT
  ID
 ,legacy_ID__c
-FROM Case_Opp_Recruitment_LOAD_Result
+FROM Case_Opp_Recruitment_LOAD_3_Result
 WHERE Error = 'Operation Successful.'
 
 
@@ -83,22 +86,26 @@ INTO Case_Recruitment_Lookup_Update
 FROM [Case] A
 LEFT JOIN [edaprod].[dbo].Interaction__c I
 ON 'I-'+I.Id = A.Legacy_ID__c
-LEFT JOIN Case_Opp_Recruitment_LOAD_Result C
+LEFT JOIN [Case_Lookup] C
 ON I.Opportunity__c = C.Legacy_ID__c
 WHERE C.ID IS NOT NULL
 
 
-EXEC SF_TableLoader 'Update:BULKAPI','edcdatadev','Case_Recruitment_Lookup_Update'
+EXEC SF_TableLoader 'Update:BULKAPI','edcuat','Case_Recruitment_Lookup_Update'
+
+SELECT *
+FROM Case_Contact_Info_Update_Result
+WHERE Error <> 'Operation Successful.'
 
 
 SELECT C.ID,A.First_Name__c,A.Last_Name__c,A.ContactEmail,A.Email__c,A.ContactPhone
 INTO Case_Contact_Info_Update
-FROM Case_Opp_Recruitment_LOAD_Result C
+FROM [Case_Lookup] C
 LEFT JOIN
-[edcdatadev].[dbo].[11_Case_Opp_Recruitment] A
+[edcuat].[dbo].[11_Case_Opp_Recruitment] A
 ON C.Legacy_ID__c = A.Legacy_ID__c
 
 
-EXEC SF_TableLoader 'Update:BULKAPI','edcdatadev','Case_Contact_Info_Update'
+EXEC SF_TableLoader 'Update:BULKAPI','edcuat','Case_Contact_Info_Update'
 
 

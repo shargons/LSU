@@ -9,7 +9,7 @@ USE edcdatadev;
 --GO
 SELECT *
 INTO [edcdatadev].dbo.CourseOfferingParticipant_Enr_LOAD
-FROM [edcdatadev].[dbo].[19_EDA_Enrollments] C
+FROM [edcdatadev].[dbo].[21_EDA_Enrollments] C
 WHERE ParticipantContactId IS NOT NULL
 ORDER BY Opportunity,ParticipantContactId
 
@@ -32,7 +32,7 @@ EXEC SF_TableLoader 'Insert:BULKAPI','edcdatadev','CourseOfferingParticipant_Enr
 
 SELECT *
 --INTO CourseOfferingParticipant_Enr_LOAD_2
-FROM CourseOfferingParticipant_Enr_LOAD_Result where Error = 'Operation Successful.'
+FROM CourseOfferingParticipant_Enr_LOAD_Result where Error <> 'Operation Successful.'
 
 ORDER BY Opportunity,ParticipantContactId
 

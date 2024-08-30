@@ -39,20 +39,25 @@ SELECT
 	,one_student_id__c									AS Source_one_Student_Id
 	,C.Id												AS one_Student_Id__c
 	,C.Id												AS LearnerContactId
+	,C.AccountId										AS LearnerAccountId
 	--,O.ID												AS ownerid
 	,programplan__c										AS Source_learning_program_plan
 	,LP.Id												AS Learning_Program_Plan__c
 	,LP.Id												AS LearningProgramPlanId
 	,totalcreditsenrolled__c							AS total_credits_enrolled__c
 	,CoursesFailed__c									AS Courses_Failed__c
+	,CL.Learning_Program_of_Interest__c					AS ParentLearnerProgramId
+	,CL.Related_Opportunity__c							AS OpportunityId
 FROM [edaprod].[dbo].[one_certificate_enrollment__c] R
 --LEFT JOIN [edcuat].[dbo].[User_Lookup] cr
 --ON R.CreatedById = cr.Legacy_ID__c
 --LEFT JOIN [edcuat].[dbo].[User_Lookup] O
 --ON R.OwnerId = O.Legacy_ID__c
-LEFT JOIN [edcuat].[dbo].[Contact] C
+INNER JOIN [edcuat].[dbo].[Contact] C
 ON R.one_student_id__c = C.Legacy_ID__c
-LEFT JOIN [edcuat].[dbo].LearningProgramPlan_ProgPlan_Lookup LP
+INNER JOIN [edcuat].[dbo].LearningProgramPlan_ProgPlan_Lookup LP
 ON R.programplan__c = LP.Legacy_ID__c
-LEFT JOIN [edcuat].[dbo].[Case] CL
+INNER JOIN [edcuat].[dbo].[Case] CL
 ON R.affiliation__c = CL.Legacy_ID__c
+
+

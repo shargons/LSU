@@ -1,4 +1,4 @@
-USE [edcuat];
+USE [edcdatadev];
 GO
 
 /****** Object:  View [dbo].[02_EDA_OrgAccount]    Script Date: 5/8/2024 2:20:57 PM ******/
@@ -46,7 +46,7 @@ SELECT
 	,hours__c
 	,instdate__c
 	,internl__c
-	,ID			AS Legacy_ID__c
+	,ID			AS UpsertKey__c
 	,lsua_degree_code__c
 	,lsua_grad_degree__c
 	,lsua_grad_status__c

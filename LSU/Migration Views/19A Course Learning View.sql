@@ -20,4 +20,8 @@ SELECT
 		,1									AS IsActive
 		,A.name
 		--,'Course' as Type
+		,A.hed__Account__c					AS Source_ProviderID
+		,B.ID								AS ProviderId
 FROM  [EDAPROD].[dbo].[hed__course__c] A
+LEFT JOIN [edcuat].dbo.Account B
+ON A.hed__Account__c = B.Legacy_Id__c
