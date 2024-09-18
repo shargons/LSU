@@ -91,6 +91,28 @@ SELECT
 			WHEN Op.Sub_Stage__c = 'Declined'								THEN 'Declined'
 			WHEN Op.Sub_Stage__c = 'Withdrawn'								THEN 'Withdrawn'			
 			END							AS Sub_Status__c
+	,CASE  
+			WHEN Op.Sub_Stage__c = 'Not Interested'  THEN 'Not Interested'
+			WHEN Op.Sub_Stage__c = 'Not Scheduled'   THEN 'Not Scheduled'
+			WHEN Op.Sub_Stage__c = 'Recruitment A'   THEN 'Recruitment A'
+			WHEN Op.Sub_Stage__c = 'Recruitment B'   THEN 'Recruitment B'
+			WHEN Op.Sub_Stage__c = 'Future Interest' THEN 'Future Interest'
+			WHEN Op.Sub_Stage__c = 'Consulting'		 THEN 'Consulting'
+			WHEN Op.Sub_Stage__c = 'Scheduled'		 THEN 'Scheduled'
+			WHEN Op.Sub_Stage__c = 'No Show'		 THEN 'No Show'
+			WHEN Op.Sub_Stage__c = 'Complete'		 THEN 'Complete'
+			WHEN Op.Sub_Stage__c = 'Awaiting Application - Submission'		THEN 'Awaiting Application - Submission'
+			WHEN Op.Sub_Stage__c = 'Awaiting Application - Payment'		    THEN 'Awaiting Application - Payment'
+			WHEN Op.Sub_Stage__c = 'Awaiting Registration'					THEN 'Awaiting Registration'
+			WHEN Op.Sub_Stage__c = 'Enrolled'								THEN 'Enrolled'
+			WHEN Op.Sub_Stage__c = 'Fallout MIA'							THEN 'Fallout MIA'
+			WHEN Op.Sub_Stage__c = 'Fallout'								THEN 'Fallout'
+			WHEN Op.Sub_Stage__c = 'Missing Documents'						THEN 'Missing Documents'
+			WHEN Op.Sub_Stage__c = 'Awaiting Department'					THEN 'Awaiting Department'
+			WHEN Op.Sub_Stage__c = 'Accepted'								THEN 'Accepted'
+			WHEN Op.Sub_Stage__c = 'Declined'								THEN 'Declined'
+			WHEN Op.Sub_Stage__c = 'Withdrawn'								THEN 'Withdrawn'			
+			END							AS Sub_Stage__c
 	,CASE 
 			WHEN Op.Sub_Stage__c = 'Moved to LSU Online'  THEN 'Moved to LSU Online'
 			WHEN Op.Sub_Stage__c = 'Student Deceased'   THEN 'Student Deceased'

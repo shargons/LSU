@@ -33,3 +33,5 @@ EXEC SF_Replicate 'EDCUAT','IndividualApplication','pkchunk,batchsize(50000)'
 EXEC SF_Replicate 'EDCUAT','AcademicTerm','pkchunk,batchsize(50000)'
 
 EXEC SF_Replicate 'EDCUAT','Opportunity','pkchunk,batchsize(50000)'
+
+EXEC SF_Replicate 'EDCUAT','CourseOffering','pkchunk,batchsize(50000)'

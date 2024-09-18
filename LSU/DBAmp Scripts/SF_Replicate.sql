@@ -25,9 +25,21 @@ EXEC SF_Replicate 'EDAPROD','hed__Program_Plan__c','pkchunk,batchsize(50000)'
 
 EXEC SF_Replicate 'EDAPROD','hed__plan_requirement__c','pkchunk,batchsize(50000)'
 
+EXEC SF_Replicate 'EDAPROD','hed__course_offering__c','pkchunk,batchsize(50000)'
+
+EXEC SF_Replicate 'EDAPROD','EmailMessage','pkchunk,batchsize(50000)'
+
 SELECT * 
-INTO edaprod.dbo.hed__Course__c    --- SF_REPLICATE doesnt work with hed__course__c
+--INTO edaprod.dbo.hed__Course__c    --- SF_REPLICATE doesnt work with hed__course__c
 FROM EDAPROD.CData.Salesforce.hed__Course__c
+
+SELECT * 
+INTO edaprod.dbo.hed__course_offering__c    --- SF_REPLICATE doesnt work with hed__course_offering__c
+FROM EDAPROD.CData.Salesforce.hed__course_offering__c
+
+SELECT * 
+INTO edaprod.dbo.hed__course_enrollment__c    --- SF_REPLICATE doesnt work with hed__course_offering__c
+FROM EDAPROD.CData.Salesforce.hed__course_enrollment__c
 
 /********************** EDCDATADEV ***************************/
 
@@ -58,3 +70,5 @@ EXEC SF_Replicate 'EDCDATADEV','IndividualApplication','pkchunk,batchsize(50000)
 EXEC SF_Replicate 'EDCDATADEV','AcademicTerm','pkchunk,batchsize(50000)'
 
 EXEC SF_Replicate 'EDCDATADEV','ProgramTermApplnTimeline','pkchunk,batchsize(50000)'
+
+EXEC SF_Replicate 'EDCDATADEV','CourseOffering','pkchunk,batchsize(50000)'

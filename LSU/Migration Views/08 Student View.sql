@@ -16,10 +16,24 @@ SELECT
 	,acadacd__c
 	,acadacds__c
 	,actlstrt__c
+	,addr1__c
+	,addr2__c
+	,addr3__c
 	,admterm__c
+	,aggregate_match_id_1__c
+	,aggregate_match_id_2__c
+	,applid__c
+	,birthdte__c
+	,campus__c
+	,city__c
+	,classic_created_date__c
 	,college_attend__c
+	,collegeacademicaction__c					AS college_academic_action__c
+	,collegeacademicactiondescription__c		AS college_academic_action_description__c
 	,concentration__c
 	,contact__c as Source_contact__c
+	,country__c
+	,cphone__c
 	,curriccd__c
 	,curricds__c
 	,drop_balance_due__c
@@ -27,9 +41,18 @@ SELECT
 	,drop_indicator__c
 	,drop_start_date__c
 	,drop_term_code__c
+	,dropped_from_student_file__c
 	,emplcode__c
 	,employer__c
 	,enrolled_hours__c
+ext_classic_id__c
+ext_key__c
+finaidaccept1__c
+finaidaccept2__c
+finaidaccept3__c
+finaidaccept4__c
+frstname__c
+gender__c
 	,financial_aid_indicator__c
 	,graddate__c
 	,holddate1__c
@@ -58,24 +81,34 @@ SELECT
 	,lsua_term_3_financial_aid_status_codes__c
 	,lsua_term_4_financial_aid_status_codes__c
 	,lsua_total_earned_credits__c
+	,lsuemail__c
 	,lsufice__c
 	,lsuhourscarried__c
+	,middname__c
 	,lsuid__c
 	,minor_1__c
 	,minor_2__c
 	,minor_3__c
 	,minor_4__c
+missingdocs1__c
+missingdocs2__c
+missingdocs3__c
+missingdocs4__c
 	,moddegcd__c
 	,moddegds__c
 	,nextterm__c
+	,noteligibletoreturn__c					AS not_eligible_to_return__c
+	,online_term__c
 	,origterm__c
 	,othrname__c
 	,ovrlgpa__c
 	,ovrlhrsca__c
 	,ovrlhrsen__c
+	,paymentdate__c
 	,paystatus__c
 	,pgmadmdt__c
 	,pgmcode__c  AS Source_pgmcode__c
+	,phone__c
 	,previous_term_academic_action__c
 	,previous_term_academic_action_desc__c
 	,program_enrollment_status_code__c
@@ -85,13 +118,15 @@ SELECT
 	,sponsor1__c
 	,sponsor2__c
 	,sponsor3__c
-	--,status_code__c
+	,state__c
+status_code__c 
 	,status_date__c
 	,status_description__c
 	,stopreason1__c
 	,stopreason2__c
 	,studentcurrentgpa__c
 	,studenttotalcredits__c
+	,suffix__c
 	,termpay1__c
 	,termpay2__c
 	,termpay3__c
@@ -109,10 +144,9 @@ SELECT
 	,RACEDESC__c
 	,ETHNIC__c
 	,ETHNDESC__c
-	,BIRTHDTE__c
-	,GENDER__c
 	--,CR.ID AS createdbyid
 	--,O.ID AS ownerid
+	,EMAIL1__c+'.invalid'			AS EMAIL1__c
 FROM [edaprod].[dbo].[student__c]
 --LEFT JOIN [edcdatadev].[dbo].[User_Lookup] cr
 --ON A.CreatedById = cr.Legacy_ID__c

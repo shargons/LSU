@@ -9,7 +9,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 
-CREATE OR ALTER VIEW [dbo].[14_EDA_Affiliations] AS
+--CREATE OR ALTER VIEW [dbo].[14_EDA_Affiliations] AS
 
 SELECT DISTINCT
 	NULL						AS ID
@@ -224,9 +224,9 @@ ON R2.DeveloperName = 'Retention_OE'
 LEFT JOIN [edcuat].[dbo].[Recordtype] R3
 ON R3.DeveloperName = 'Retention_CE'
 LEFT JOIN [edcuat].[dbo].[LearningProgramPlan] L
-ON L.Legacy_ID__c = A.Academic_Program__c
+ON L.Name = A.Academic_Program__c
 LEFT JOIN [edcuat].[dbo].[LearningProgram] L2
-ON L2.EDAACCOUNTID__c = A.Academic_Program__c
+ON L2.name = A.Academic_Program__c
 AND L2.program_id__c = A.Program_ID__c
 LEFT JOIN [edcuat].[dbo].[Opportunity] OD
 ON O.Id = OD.Legacy_ID__c

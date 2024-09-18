@@ -109,3 +109,15 @@ ON C.Legacy_ID__c = A.Legacy_ID__c
 EXEC SF_TableLoader 'Update:BULKAPI','edcuat','Case_Contact_Info_Update'
 
 
+--drop table Case_Sub_Status_Update
+SELECT C.ID,'Fallout' as Sub_Status__c,'Fallout' as sub_stage__c
+into Case_Sub_Status_Update
+FROM [dbo].[11_Case_Opp_Recruitment] A
+INNER JOIN [Case] C
+ON A.Legacy_ID__c = c.Legacy_ID__c
+WHERE A.Status = 'Fallout'
+
+
+
+EXEC SF_TableLoader 'Update:BULKAPI','edcdatadev','Case_Sub_Status_Update'
+

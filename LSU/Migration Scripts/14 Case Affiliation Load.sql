@@ -146,3 +146,44 @@ ON A.legacy_ID__c = B.legacy_ID__c
 WHERE application_id__c IS NOT NULL
 
 EXEC SF_TableLoader 'Update:BULKAPI','edcuat','Case_App_Update'
+
+
+-- Source_RFI Case Update
+
+SELECT A.ID,C.Id AS Source_RFI_Case__c
+INTO Case_RFI_Lookup_Update
+FROM edaprod.dbo.hed__Affiliation__c AFF
+INNER JOIN
+[Case] A
+ON A.Legacy_ID__c = AFF.Id
+LEFT JOIN [edaprod].[dbo].Interaction__c I
+ON I.Affiliation_ID__c = AFF.Id
+LEFT JOIN [Case] C
+ON 'I-'+I.Id = C.Legacy_ID__c
+WHERE C.ID IS NOT NULL
+
+EXEC SF_TableLoader 'Update:BULKAPI','edcuat','Case_RFI_Lookup_Update'
+
+select * from Case_RFI_Lookup_Update_Result
+where error = 'Operation Successful.'
+
+
+-- Related Recruitment Case
+
+SELECT A.ID,C.Id AS Related_Recruitment_Case__c
+INTO Case_Aff_Recruitment_Lookup_Update
+FROM edaprod.dbo.hed__Affiliation__c AFF
+INNER JOIN
+[Case] A
+ON A.Legacy_ID__c = AFF.Id
+LEFT JOIN [edaprod].[dbo].Opportunity O
+ON O.Affiliation__c = AFF.Id
+LEFT JOIN [Case] C
+ON O.Id = C.Legacy_ID__c
+WHERE C.ID IS NOT NULL
+
+
+EXEC SF_TableLoader 'Update:BULKAPI','edcuat','Case_Aff_Recruitment_Lookup_Update'
+
+select * from Case_Aff_Recruitment_Lookup_Update_Result
+where error = 'Operation Successful.'

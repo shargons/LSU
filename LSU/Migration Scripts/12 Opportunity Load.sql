@@ -104,4 +104,16 @@ WHERE C.ID IS NOT NULL
 EXEC SF_TableLoader 'Update:BULKAPI','edcuat','Opportunity_RecruitmentCase_Lookup_Update'
 
 
+--drop table Case_Sub_Status_Update
+SELECT C.ID,'Fallout' as sub_stage__c
+into Opportunity_Sub_Status_Update
+FROM [dbo].[12_EDA_Opportunity] A
+INNER JOIN [Opportunity] C
+ON A.Legacy_ID__c = c.Legacy_ID__c
+WHERE A.StageName = 'Fallout'
+
+
+EXEC SF_TableLoader 'Update:BULKAPI','edcdatadev','Opportunity_Sub_Status_Update'
+
+
 

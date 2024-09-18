@@ -1,4 +1,4 @@
-USE [edcdatadev];
+USE [edcuat];
 GO
 
 /****** Object:  View [dbo].[13_EDA_ReqDocuments]    Script Date: 5/8/2024 2:20:57 PM ******/
@@ -9,7 +9,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 
-CREATE OR ALTER VIEW [dbo].[21_EDA_Enrollments] AS
+CREATE OR ALTER VIEW [dbo].[23E_EDA_Enrollments] AS
 
 SELECT 
 	 NULL												AS ID
@@ -42,8 +42,8 @@ SELECT
 	,enrolled_status__c
 	,enrollmentid__c
 	,R.ext_classic_contact_id__c
-	,ext_classic_id__c
-	,ext_key__c
+	,R.ext_classic_id__c
+	,R.ext_key__c
 	,final_grade__c
 	,final_progress_status__c
 	,R.first_enrollment_date__c
@@ -56,9 +56,9 @@ SELECT
 	,R.lsuamstudentprogramcode__c						AS lsuam_student_program_code__c
 	,lsus_enrollment_term__c
 	,mainframe_dataload_id__c
-	,online_term__c
+	,R.online_term__c
 	,opportunity__c									AS Source_Opportunity
-	,OL.ID											AS Opportunity
+	,OL.ID											AS Opportunity__c
 	--,O.ID											AS ownerid
 	,paymentstautus__c								AS payment_status__c
 	,program__c
@@ -76,16 +76,20 @@ SELECT
 	,waiver_effective_term__c
 	,waivers__c
 	,waivertypecode__c
+	,CO.Id											AS CourseOfferingId
 FROM [edaprod].[dbo].[enrollment__c] R
 --LEFT JOIN [edcuat].[dbo].[User_Lookup] cr
 --ON R.CreatedById = cr.Legacy_ID__c
 --LEFT JOIN [edcuat].[dbo].[User_Lookup] O
 --ON R.OwnerId = O.Legacy_ID__c
-LEFT JOIN [edcdatadev].[dbo].[Contact] C
+LEFT JOIN [edcuat].[dbo].[Contact] C
 ON R.contact__c = C.Legacy_ID__c
-LEFT JOIN [edcdatadev].[dbo].[LearnerProgram] LP
+LEFT JOIN [edcuat].[dbo].[LearnerProgram] LP
 ON R.ce_source_certificate_enrollment__c = LP.EDACERTENROLLID__c
-LEFT JOIN [edcdatadev].[dbo].[Case] CL
+LEFT JOIN [edcuat].[dbo].[Case] CL
 ON R.lsu_affiliation__c = CL.Legacy_ID__c
-LEFT JOIN [edcdatadev].[dbo].[Opportunity] OL
+LEFT JOIN [edcuat].[dbo].[Opportunity] OL
 ON R.opportunity__c = OL.Legacy_ID__c
+LEFT JOIN [edcuat].[dbo].[CourseOffering] CO
+ON R.Id = CO.EDACROFRNGID__c
+WHERE CO.Id IS NOT NULL

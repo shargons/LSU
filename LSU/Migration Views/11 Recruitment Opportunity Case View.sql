@@ -197,7 +197,6 @@ SELECT DISTINCT
 	,R.student_file_created_date__c
 	,R.student_id__c
 	,R.student_status__c
-	,sub_stage__c
 	,R.term_admitted__c
 	,R.term_applied__c
 	,R.term_deferral__c
@@ -255,6 +254,14 @@ SELECT DISTINCT
 		WHEN stagename = 'Accepted'		THEN  stagename
 		ELSE sub_stage__c
 	END AS Sub_Status__c
+	,CASE 
+		WHEN stagename = 'Fallout' 		AND R.Campus__c = 'CE'		THEN  stagename
+		WHEN stagename = 'Denied'		THEN  'Closed Lost'
+		WHEN stagename = 'Admitted'		THEN  NULL
+		WHEN stagename = 'Declined'		THEN  stagename
+		WHEN stagename = 'Accepted'		THEN  stagename
+		ELSE sub_stage__c
+	END AS sub_stage__c
 	,CASE WHEN stagename = 'Fallout'		THEN  'Closed Lost'
 			ELSE stagename
 	 END										AS Stagename__c	
@@ -286,3 +293,7 @@ ON R.Affiliation__c = A.Id
 LEFT JOIN LearningProgram LP
 ON LP.EDAACCOUNTID__c = A.hed__Account__c
 WHERE R.StageName IN  ('Prospect','Application','Admitted','Missing Documents','Applied','Denied','Accepted','Declined','Fallout')
+AND NOT(R.Application_ID__c IS NULL
+AND R.Student_ID__c IS NULL
+AND R.Application_Slate_ID__c IS NULL
+AND R.StageName = 'Fallout')
