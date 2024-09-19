@@ -8,14 +8,14 @@ USE edcdatadev;
 --DROP TABLE IF EXISTS [dbo].[EmailMessage_Load];
 --GO
 SELECT *
-INTO [edcdatadev].dbo.EmailMessage_Load_5
+INTO [edcdatadev].dbo.EmailMessage_Load
 FROM [edcdatadev].[dbo].[24_EDA_EmailMessages] C
 ORDER BY RelatedtoId
 
 
 
 /******* Change ID Column to nvarchar(18) *********/
-ALTER TABLE EmailMessage_Load_5
+ALTER TABLE EmailMessage_Load
 ALTER COLUMN ID NVARCHAR(18)
 
 
@@ -42,11 +42,11 @@ select DISTINCT  Error from EmailMessage_Load_Result
 --ERROR RESOLUTION -   Email Message
 --====================================================================
 /******* DBAmp Delete Script *********/
-DROP TABLE EmailMessage
+DROP TABLE EmailMessage_DELETE
 DECLARE @_table_server	nvarchar(255)	=	DB_NAME()
 EXECUTE sf_generate 'Delete',@_table_server, 'EmailMessage_DELETE'
 
-INSERT INTO EmailMessage_DELETE(Id) SELECT Id FROM EmailMessage_Load_Result WHERE Error = 'Operation Successful.'
+INSERT INTO EmailMessage_DELETE(Id) SELECT Id FROM EmailMessage_Load_5_Result WHERE Error = 'Operation Successful.'
 
 DECLARE @_table_server	nvarchar(255) = DB_NAME()
 EXECUTE	SF_TableLoader
