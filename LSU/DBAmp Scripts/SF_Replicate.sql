@@ -29,6 +29,10 @@ EXEC SF_Replicate 'EDAPROD','hed__course_offering__c','pkchunk,batchsize(50000)'
 
 EXEC SF_Replicate 'EDAPROD','EmailMessage','pkchunk,batchsize(50000)'
 
+EXEC SF_Replicate 'EDAPROD','cfg_subscription__c','pkchunk,batchsize(50000)'
+
+EXEC SF_Replicate 'EDAPROD','cfg_Subscription_Member__c','pkchunk,batchsize(50000)'
+
 SELECT * 
 --INTO edaprod.dbo.hed__Course__c    --- SF_REPLICATE doesnt work with hed__course__c
 FROM EDAPROD.CData.Salesforce.hed__Course__c
@@ -72,3 +76,5 @@ EXEC SF_Replicate 'EDCDATADEV','AcademicTerm','pkchunk,batchsize(50000)'
 EXEC SF_Replicate 'EDCDATADEV','ProgramTermApplnTimeline','pkchunk,batchsize(50000)'
 
 EXEC SF_Replicate 'EDCDATADEV','CourseOffering','pkchunk,batchsize(50000)'
+
+EXEC SF_Replicate 'EDCDATADEV','cfg_subscription__c','pkchunk,batchsize(50000)'

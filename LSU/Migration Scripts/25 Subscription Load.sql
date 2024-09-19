@@ -5,21 +5,19 @@ USE edcdatadev;
 --====================================================================
 
 
---DROP TABLE IF EXISTS [dbo].[EmailMessage_Load];
+--DROP TABLE IF EXISTS [dbo].[cfg_Subscription__c_Load];
 --GO
 SELECT *
-INTO [edcdatadev].dbo.EmailMessage_Load
-FROM [edcdatadev].[dbo].[24_EDA_EmailMessages] C
-ORDER BY RelatedtoId
-
+INTO [edcdatadev].dbo.cfg_Subscription__c_Load
+FROM [edcdatadev].[dbo].[25_EDA_Subscription] C
 
 
 /******* Change ID Column to nvarchar(18) *********/
-ALTER TABLE EmailMessage_Load
+ALTER TABLE cfg_Subscription__c_Load
 ALTER COLUMN ID NVARCHAR(18)
 
 
-SELECT * FROM EmailMessage_Load
+SELECT * FROM cfg_Subscription__c_Load
 
 
 
@@ -27,32 +25,30 @@ SELECT * FROM EmailMessage_Load
 --INSERTING DATA USING DBAMP -   Subscriptions
 --====================================================================
 
-EXEC SF_TableLoader 'Insert:BULKAPI','edcdatadev','EmailMessage_Load_5'
+EXEC SF_TableLoader 'Upsert:BULKAPI','edcdatadev','cfg_Subscription__c_Load'
 
 SELECT *
---INTO EmailMessage_Load_6
-FROM EmailMessage_Load_5_Result where Error <> 'Operation Successful.'
-AND Error like '%Unable%'
-ORDER BY RelatedtoId
+--INTO cfg_Subscription__c_Load_2
+FROM cfg_Subscription__c_Load_Result where Error <> 'Operation Successful.'
 
 
-select DISTINCT  Error from EmailMessage_Load_Result
+select DISTINCT  Error from cfg_Subscription__c_Load_Result
 
 --====================================================================
 --ERROR RESOLUTION -   Subscriptions
 --====================================================================
 /******* DBAmp Delete Script *********/
-DROP TABLE EmailMessage_DELETE
+DROP TABLE cfg_Subscription__c_DELETE
 DECLARE @_table_server	nvarchar(255)	=	DB_NAME()
-EXECUTE sf_generate 'Delete',@_table_server, 'EmailMessage_DELETE'
+EXECUTE sf_generate 'Delete',@_table_server, 'cfg_Subscription__c_DELETE'
 
-INSERT INTO EmailMessage_DELETE(Id) SELECT Id FROM EmailMessage_Load_5_Result WHERE Error = 'Operation Successful.'
+INSERT INTO cfg_Subscription__c_DELETE(Id) SELECT Id FROM cfg_Subscription__c_Load_5_Result WHERE Error = 'Operation Successful.'
 
 DECLARE @_table_server	nvarchar(255) = DB_NAME()
 EXECUTE	SF_TableLoader
 		@operation		=	'Delete'
 ,		@table_server	=	@_table_server
-,		@table_name		=	'EmailMessage_DELETE'
+,		@table_name		=	'cfg_Subscription__c_DELETE'
 
 --====================================================================
 --POPULATING LOOKUP TABLES-   Enrollment
@@ -63,19 +59,14 @@ EXECUTE	SF_TableLoader
 --GO
 
 
-INSERT INTO EmailMessage_Lookup
+
 SELECT
  ID
-,EDAEMAILMSGID__c as Legacy_ID__C 
---INTO EmailMessage_Lookup
-FROM EmailMessage_Load_4_Result
+,Legacy_ID__C 
+INTO Subscription_Lookup
+FROM cfg_Subscription__c_Load_Result
 WHERE Error = 'Operation Successful.'
 
-SELECT * FROM EmailMessage_Lookup
-where Legacy_Id__c = '02s3n00001fYgZJAA0'
 
-
-SELECT * FROM [dbo].[24_EDA_EmailMessages]
-where EDAEMAILMSGID__c = '02s3n00001fYgZJAA0'
-
+SELECT * FROM Subscription_Lookup
 
