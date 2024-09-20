@@ -53,9 +53,9 @@ SELECT  NULL AS ID
 		,current_program_for_reference__c as current_program_for_reference__pc
 		,deferred_due_to_covid_19__c as deferred_due_to_covid_19__pc
 		,C.description
-		,donotcall
+		,donotcall AS PersonDoNotCall
 		,donotuse__c as donotuse__pc
-		,email+'.invalid' as email
+		,LEFT(email, 247) +'.invalid' as Personemail
 		,emailsaftermerge__c as emailsaftermerge__pc
 		,employee_position__c as employee_position__pc
 		,employer__c as employer__pc
@@ -76,24 +76,24 @@ SELECT  NULL AS ID
 		,five9_phone_number__c as five9_phone_number__pc
 		,funding_source__c as funding_source__pc
 		,funding_source_other__c as funding_source_other__pc
-		,gender__c  as gender__pc
+		--,gender__c  as gender__pc
 		,graduated__c as graduated__pc
 		,graduation_term__c AS Source_graduation_term__pc
 		,grouppayor__c as grouppayor__pc
 		,guild_student__c as guild_student__pc
 		,guildcleanup__c as guildcleanup__pc
-		,hasoptedoutofemail
-		,hasoptedoutoffax
+		,hasoptedoutofemail AS Personhasoptedoutofemail
+		,hasoptedoutoffax AS Personhasoptedoutoffax
 		,hed__alternateemail__c                  AS alternateemail__pc
 		,hed__deceased__c                        AS deceased__pc
 		,hed__do_not_contact__c                  AS do_not_contact__pc
 		,hed__financial_aid_applicant__c         AS financial_aid_applicant__pc
-		,hed__gender__c                          AS GenderIdentity
+		,hed__gender__c                          AS PersonGenderIdentity
 		,hed__universityemail__c                 AS universityemail__pc
 		,hed__workemail__c                       AS workemail__pc
 		,hed__workphone__c                       AS workphone__pc
 		,highest_level_of_education__c as highest_level_of_education__pc
-		,homephone
+		,homephone AS Personhomephone
 		,hot_lead__c
 		,C.id                                       AS Legacy_Id__pc
 		,inquiry_date_time__c as inquiry_date_time__pc
@@ -102,7 +102,7 @@ SELECT  NULL AS ID
 		,lead_applicant_pipeline_status__c as lead_applicant_pipeline_status__pc
 		,lead_creation_date_time__c as lead_creation_date_time__pc
 		,lead_email__c as lead_email__pc
-		,leadsource
+		,leadsource AS Personleadsource
 		,learner_concierge__c as Source_learner_concierge__pc
 		,lsu_affiliation_pipeline_status__c as lsu_affiliation_pipeline_status__pc
 		,lsu_affiliation_pipeline_sub_status__c as lsu_affiliation_pipeline_sub_status__pc
@@ -112,18 +112,18 @@ SELECT  NULL AS ID
 		,lsuamstudentprogramcode__c as lsuamstudentprogramcode__pc
 		,lsuf_id__c as lsuf_id__pc
 		,lsusapinitialleaddate__c as lsusapinitialleaddate__pc
-		,mailingcity
-		,mailingcountry
-		,mailingpostalcode
-		,mailingstate
-		,mailingstreet
+		,mailingcity AS Personmailingcity
+		,mailingcountry AS Personmailingcountry
+		,mailingpostalcode AS Personmailingpostalcode
+		,mailingstate AS Personmailingstate
+		,mailingstreet AS Personmailingstreet
 		,manual_guild_id_field__c as manual_guild_id_field__pc
 		,manual_trigger__c as manual_trigger__pc
 		,manualcalls__c as manualcalls__pc
 		,manually_created__c as manually_created__pc
 		,matchesaplead__c as matchesaplead__pc
 		,middlename
-		,mobilephone
+		,mobilephone AS Personmobilephone
 		,most_recent_ce_guild_cohort__c as most_recent_ce_guild_cohort__pc
 		,number_of_primary_address_records__c as number_of_primary_address_records__pc
 		,one_login_id__c as one_login_id__pc
@@ -133,12 +133,12 @@ SELECT  NULL AS ID
 		,original_created_date__c as original_created_date__pc
 		,original_last_activity_date__c as classic_last_activity_date__pc
 		,other_email_address__c as other_email_address__pc
-		,othercity
-		,othercountry
-		,otherphone
-		,otherpostalcode
-		,otherstate
-		,otherstreet
+		,othercity AS Personothercity
+		,othercountry AS Personothercountry
+		,otherphone AS Personotherphone
+		,otherpostalcode AS Personotherpostalcode
+		,otherstate AS Personotherstate
+		,otherstreet AS Personotherstreet
 		--,O.ID AS ownerid
 		,partnershipname__c as partnershipname__pc
 		,personid_int__c as personid_int__pc
@@ -170,7 +170,7 @@ SELECT  NULL AS ID
 		,studentssn__c as studentssn__pc
 		,suffix
 		,Term_of_Interest__c AS Source_term_of_interest__pc
-		,title
+		,LEFT(title, 128) AS Persontitle
 		,total_no_of_affiliations__c as total_no_of_affiliations__pc
 		,total_open_opportunities__c as total_open_opportunities__pc
 		,transcriptreceivedandreviewed__c as transcriptreceivedandreviewed__pc
