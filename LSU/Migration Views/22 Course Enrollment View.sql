@@ -46,9 +46,18 @@ SELECT
 	,start_date_smd__c						AS StartDate
 	,studentxnumber__c						AS student_x_number__c
 	--,O.ID												AS ownerid
-	,E.hed__Status__c as ParticipationStatus
+	,CASE
+	WHEN E.hed__Status__c = 'Current'
+		THEN 'Enrolled'
+	WHEN E.hed__Status__c = 'Voided'
+		THEN 'Expired'
+	ELSE 
+	E.hed__Status__c 
+	END										as ParticipationStatus
 	,AF.Campus__c							as Campus__c 
 	,E.CEDivision__c						AS CE_Division__c
+	,E.CompletionDateMF__c					AS CompletionDate__c
+	,DueDate_ws__c							AS DueDate__c
 FROM  [edaprod].[dbo].[hed__course_enrollment__c] E
 --LEFT JOIN [edcuat].[dbo].[User_Lookup] O
 --ON E.OwnerId = O.Legacy_ID__c
