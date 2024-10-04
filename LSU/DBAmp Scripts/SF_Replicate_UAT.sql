@@ -35,3 +35,7 @@ EXEC SF_Replicate 'EDCUAT','AcademicTerm','pkchunk,batchsize(50000)'
 EXEC SF_Replicate 'EDCUAT','Opportunity','pkchunk,batchsize(50000)'
 
 EXEC SF_Replicate 'EDCUAT','CourseOffering','pkchunk,batchsize(50000)'
+
+EXEC SF_Replicate 'EDCUAT','cfg_subscription__c','pkchunk,batchsize(50000)'
+
+EXEC SF_Replicate 'EDCUAT','cfg_Subscription_Member__c','pkchunk,batchsize(50000)'

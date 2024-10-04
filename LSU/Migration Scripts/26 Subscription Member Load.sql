@@ -1,4 +1,4 @@
-USE edcdatadev;
+USE edcuat;
 
 --====================================================================
 --	INSERTING DATA TO THE LOAD TABLE FROM THE VIEW -  Subscription Members
@@ -8,8 +8,8 @@ USE edcdatadev;
 --DROP TABLE IF EXISTS [dbo].[cfg_Subscription_Member__c_Load];
 --GO
 SELECT *
-INTO [edcdatadev].dbo.cfg_Subscription_Member__c_Load
-FROM [edcdatadev].[dbo].[26_EDA_SubscriptionMembers] C
+INTO [edcuat].dbo.cfg_Subscription_Member__c_Load
+FROM [edcuat].[dbo].[26_EDA_SubscriptionMembers] C
 
 
 /******* Change ID Column to nvarchar(18) *********/
@@ -17,15 +17,20 @@ ALTER TABLE cfg_Subscription_Member__c_Load
 ALTER COLUMN ID NVARCHAR(18)
 
 
-SELECT * FROM cfg_Subscription_Member__c_Load
+SELECT A.Id,B.Legacy_Id__c FROM cfg_Subscription_Member__c A
+INNER JOIN
+[dbo].[26_EDA_SubscriptionMembers] B
+ON A.cfg_contact__c = B.cfg_contact__c
 
+
+select * from cfg_Subscription_Member__c_Load
 
 
 --====================================================================
 --INSERTING DATA USING DBAMP -    Subscription Members
 --====================================================================
 
-EXEC SF_TableLoader 'Insert:BULKAPI','edcdatadev','cfg_Subscription_Member__c_Load'
+EXEC SF_TableLoader 'Insert:BULKAPI','edcuat','cfg_Subscription_Member__c_Load'
 
 SELECT *
 --INTO cfg_Subscription_Member__c_Load_2
@@ -48,13 +53,13 @@ DECLARE @_table_server	nvarchar(255) = DB_NAME()
 EXECUTE	SF_TableLoader
 		@operation		=	'Delete'
 ,		@table_server	=	@_table_server
-,		@table_name		=	'cfg_Subscription__c_DELETE'
+,		@table_name		=	'cfg_Subscription_Member__c_DELETE'
 
 --====================================================================
 --POPULATING LOOKUP TABLES-    Subscription Members
 --====================================================================
 
-
+--DROP TABLE Subscription_Member_Lookup
 SELECT
  ID
 ,Legacy_ID__C 
@@ -63,6 +68,4 @@ FROM cfg_Subscription_Member__c_Load_Result
 WHERE Error = 'Operation Successful.'
 
 
-SELECT * FROM Subscription_Member_Lookup
-where legacy_ID__c = 'a4d3n000000Mkv1AAC'
 

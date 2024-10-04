@@ -1,4 +1,4 @@
-USE [edcuat];
+USE [edcdatadev];
 GO
 
 /****** Object:  View [dbo].[13_EDA_ReqDocuments]    Script Date: 5/8/2024 2:20:57 PM ******/
@@ -24,15 +24,16 @@ SELECT
 	,R.name
 	--,O.ID												AS ownerid
 	,LL.ID												AS LearningAchievementId
+	,'Credit Hours'										AS DurationUnit
 	,R.systemmodstamp
 FROM [edaprod].[dbo].[hed__plan_requirement__c] R
---LEFT JOIN [edcuat].[dbo].[User_Lookup] cr
+--LEFT JOIN [edcdatadev].[dbo].[User_Lookup] cr
 --ON R.CreatedById = cr.Legacy_ID__c
---LEFT JOIN [edcuat].[dbo].[User_Lookup] O
+--LEFT JOIN [edcdatadev].[dbo].[User_Lookup] O
 --ON R.OwnerId = O.Legacy_ID__c
-LEFT JOIN [edcuat].[dbo].[LearningProgramPlan] P
+LEFT JOIN [edcdatadev].[dbo].[LearningProgramPlan] P
 	ON R.hed__program_plan__c = P.Legacy_ID__c
-LEFT JOIN [edcuat].[dbo].[LearningCourse] C
+LEFT JOIN [edcdatadev].[dbo].[LearningCourse] C
 	ON R.hed__course__c = C.EDACOURSEID__c
-LEFT JOIN [edcuat].[dbo].[LearningAchievement_Lookup] LL
+LEFT JOIN [edcdatadev].[dbo].[LearningAchievement_Lookup] LL
 ON LL.Legacy_Id__c = P.Legacy_ID__c

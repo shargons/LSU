@@ -121,8 +121,8 @@ SELECT DISTINCT
 		  WHEN Pipeline_Sub_Status__c = 'Applied' THEN 'Processing'
 		  WHEN Pipeline_Sub_Status__c = 'Missing Documents' THEN 'Missing Documents'
 		  WHEN Pipeline_Sub_Status__c = 'Awaiting Payment' THEN 'Processing'
-		  WHEN Pipeline_Sub_Status__c = 'Denied' THEN 'Application Decision'
-		  WHEN Pipeline_Sub_Status__c = 'Admitted' THEN 'Application Decision'
+		  WHEN Pipeline_Sub_Status__c = 'Denied' THEN 'Deny'
+		  WHEN Pipeline_Sub_Status__c = 'Admitted' THEN 'Admit'
 		  WHEN Pipeline_Sub_Status__c = 'Awaiting Submission' THEN 'Processing'
 		  WHEN Pipeline_Sub_Status__c = 'Withdrawn' THEN 'Cancelled'
 	END AS [Status]

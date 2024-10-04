@@ -1,4 +1,4 @@
-USE [edcdatadev];
+USE [edcuat];
 GO
 
 /****** Object:  View [dbo].[12_EDA_Interactions]    Script Date: 5/8/2024 2:20:57 PM ******/
@@ -21,10 +21,10 @@ NULL									AS ID
 ,browser								AS browser__c
 ,browserlanguage						AS browserlanguage__c
 ,caseid									AS Source_Case
-,Ca.Id									AS CaseId
+,Ca.Id									AS Case__c
 ,chatduration							AS chatduration__c
 ,T.contactid							AS Source_Contact
-,C.Id									AS ContactId
+,C.Id									AS Contact__c
 ,T.createddate
 ,endedby								AS endedby__c
 ,endtime								AS endtime__c
@@ -50,9 +50,9 @@ NULL									AS ID
 --,O.ID											AS ownerid
 --,CR.ID										AS createdbyid
 FROM  [edaprod].[dbo].[livechattranscript] T
-LEFT JOIN [edcdatadev].[dbo].[Contact] C
+LEFT JOIN [edcuat].[dbo].[Contact] C
 ON C.Legacy_ID__c = T.contactid
-LEFT JOIN [edcdatadev].[dbo].[Case] Ca
+LEFT JOIN [edcuat].[dbo].[Case] Ca
 ON Ca.Legacy_ID__c = T.caseid
 --LEFT JOIN [edcuat].[dbo].[User_Lookup] cr
 --ON T.CreatedById = cr.Legacy_ID__c

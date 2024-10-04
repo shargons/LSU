@@ -32,9 +32,10 @@ SELECT
 		  WHEN Pipeline_Sub_Status__c = 'Denied' THEN 'Deny'
 		  WHEN Pipeline_Sub_Status__c = 'Admitted' THEN 'Admit'
 		  WHEN Pipeline_Sub_Status__c = 'Awaiting Submission' THEN 'Enroll'
-		  WHEN Pipeline_Sub_Status__c = 'Withdrawn' THEN '	Cancelled'
+		  WHEN Pipeline_Sub_Status__c = 'Withdrawn' THEN 'Cancelled'
 	END AS ApplicationDecision
 	,I.ID										AS ApplicationId
 FROM  [edaprod].[dbo].[Application__c] A
 LEFT JOIN [edcuat].[dbo].[IndividualApplication_Lookup] I
 ON I.legacy_ID__c = A.Id
+WHERE Pipeline_Status__c = 'Decision Released'

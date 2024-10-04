@@ -1,4 +1,4 @@
-USE edcdatadev;
+USE edcuat;
 
 --====================================================================
 --	INSERTING DATA TO THE LOAD TABLE FROM THE VIEW -  Subscriptions
@@ -8,8 +8,8 @@ USE edcdatadev;
 --DROP TABLE IF EXISTS [dbo].[cfg_Subscription__c_Load];
 --GO
 SELECT *
-INTO [edcdatadev].dbo.cfg_Subscription__c_Load
-FROM [edcdatadev].[dbo].[25_EDA_Subscription] C
+INTO [edcuat].dbo.cfg_Subscription__c_Load
+FROM [edcuat].[dbo].[25_EDA_Subscription] C
 
 
 /******* Change ID Column to nvarchar(18) *********/
@@ -25,7 +25,7 @@ SELECT * FROM cfg_Subscription__c_Load
 --INSERTING DATA USING DBAMP -   Subscriptions
 --====================================================================
 
-EXEC SF_TableLoader 'Upsert:BULKAPI','edcdatadev','cfg_Subscription__c_Load'
+EXEC SF_TableLoader 'Upsert:BULKAPI','edcuat','cfg_Subscription__c_Load','Legacy_ID__c'
 
 SELECT *
 --INTO cfg_Subscription__c_Load_2
@@ -42,7 +42,7 @@ DROP TABLE cfg_Subscription__c_DELETE
 DECLARE @_table_server	nvarchar(255)	=	DB_NAME()
 EXECUTE sf_generate 'Delete',@_table_server, 'cfg_Subscription__c_DELETE'
 
-INSERT INTO cfg_Subscription__c_DELETE(Id) SELECT Id FROM cfg_Subscription__c_Load_5_Result WHERE Error = 'Operation Successful.'
+INSERT INTO cfg_Subscription__c_DELETE(Id) SELECT Id FROM cfg_Subscription__c_Load_Result WHERE Error = 'Operation Successful.'
 
 DECLARE @_table_server	nvarchar(255) = DB_NAME()
 EXECUTE	SF_TableLoader
@@ -55,7 +55,7 @@ EXECUTE	SF_TableLoader
 --====================================================================
 
 -- Contact Lookup
---DROP TABLE IF EXISTS [dbo].[CourseOfferingParticipant_Lookup];
+--DROP TABLE IF EXISTS [dbo].[Subscription_Lookup];
 --GO
 
 
@@ -68,5 +68,4 @@ FROM cfg_Subscription__c_Load_Result
 WHERE Error = 'Operation Successful.'
 
 
-SELECT * FROM Subscription_Lookup
 

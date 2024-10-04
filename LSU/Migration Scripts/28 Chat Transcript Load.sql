@@ -1,5 +1,5 @@
 
-USE edcdatadev;
+USE edcuat;
 
 --====================================================================
 --	INSERTING DATA TO THE LOAD TABLE FROM THE VIEW - Chat Transcript
@@ -9,9 +9,9 @@ USE edcdatadev;
 --DROP TABLE IF EXISTS [dbo].[Chat_Transcript__c_LOAD];
 --GO
 SELECT *
-INTO [edcdatadev].[dbo].[Chat_Transcript__c_LOAD]
-FROM [edcdatadev].[dbo].[28_EDA_ChatTranscripts] C
-ORDER BY ContactId
+INTO [edcuat].[dbo].[Chat_Transcript__c_LOAD]
+FROM [edcuat].[dbo].[28_EDA_ChatTranscripts] C
+ORDER BY Contact__c
 
 SELECT * FROM [Chat_Transcript__c_LOAD]
 
@@ -25,7 +25,7 @@ ALTER COLUMN ID NVARCHAR(18)
 
 SELECT * FROM [Chat_Transcript__c_LOAD]
 
-EXEC SF_TableLoader 'Insert:BULKAPI','edcdatadev','Chat_Transcript__c_LOAD'
+EXEC SF_TableLoader 'Insert:BULKAPI','edcuat','Chat_Transcript__c_LOAD'
 
 SELECT * 
 --INTO Chat_Transcript__c_LOAD_2
@@ -65,6 +65,9 @@ SELECT
 INTO Chat_Transcript_Lookup
 FROM Chat_Transcript__c_LOAD_Result
 WHERE Error = 'Operation Successful.'
+
+SELECT * FROM Chat_Transcript_Lookup
+where Legacy_id__c = '5702E000003pCdUQAU'
 
 
 

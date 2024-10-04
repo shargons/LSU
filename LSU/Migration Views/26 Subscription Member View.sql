@@ -1,4 +1,4 @@
-USE [edcdatadev];
+USE [edcuat];
 GO
 
 /****** Object:  View [dbo].[26_EDA_SubscriptionMembers]    Script Date: 5/8/2024 2:20:57 PM ******/
@@ -29,7 +29,7 @@ FROM [edaprod].[dbo].[cfg_Subscription_Member__c] R
 --ON R.CreatedById = cr.Legacy_ID__c
 --LEFT JOIN [edcuat].[dbo].[User_Lookup] O
 --ON R.OwnerId = O.Legacy_ID__c
-LEFT JOIN [edcdatadev].[dbo].[Contact] C
+LEFT JOIN [edcuat].[dbo].[Contact] C
 ON C.Legacy_Id__c = R.cfg_contact__c
-LEFT JOIN [edcdatadev].[dbo].[cfg_subscription__c] S
+LEFT JOIN [edcuat].[dbo].[cfg_subscription__c] S
 ON S.Legacy_Id__c = R.cfg_subscription__c

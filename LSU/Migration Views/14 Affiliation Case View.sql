@@ -9,7 +9,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 
---CREATE OR ALTER VIEW [dbo].[14_EDA_Affiliations] AS
+CREATE OR ALTER VIEW [dbo].[14_EDA_Affiliations] AS
 
 SELECT DISTINCT
 	NULL						AS ID
@@ -40,8 +40,8 @@ SELECT DISTINCT
 	,backup_pipeline_sub_status__c
 	,A.ce_activity__c								AS activity__c
 	,A.ce_activity_additional_info__c				AS activity_additional_info__c
-	,ce_ce_status__c							AS CE_Status__c
-	,ce_ce_sub_status__c						AS CE_Sub_Status__c
+	,ce_ce_status__c								 AS CE_Status__c
+	,ce_ce_sub_status__c							 AS CE_Sub_Status__c
 	,ce_high_risk_date__c
 	,ce_high_risk_type__c
 	,A.ce_initial_guild_registration_completed__c
@@ -204,6 +204,22 @@ SELECT DISTINCT
 	,welcome_call_time_zone__c
 	,A.welcome_email_sent__c
 	,OD.Id										AS Related_Opportunity__c
+	,CASE WHEN ce_ce_status__c	= 'Completer'           THEN 'Completed'
+		  WHEN ce_ce_status__c	= 'Continuing Student'	THEN 'Enrolled'
+		  WHEN ce_ce_status__c	= 'Inactive'			THEN 'Dropped'
+		  WHEN A.pipeline_status__c = 'Degree Candidate'  THEN 'Enrolled'
+		  WHEN A.pipeline_status__c = 'Application'		THEN 'Awaiting Submission'
+		  WHEN A.pipeline_status__c = 'Prospect'			THEN 'Prospect'
+		  WHEN A.pipeline_status__c = 'Alumni'				THEN 'Completed'
+		  WHEN A.pipeline_status__c = 'Fallout'			THEN 'Completed'
+		  WHEN A.pipeline_status__c = 'Attempting'			THEN 'Attempting'
+		  WHEN A.pipeline_status__c = 'Term 1 / 2'			THEN 'Enrolled'
+		  WHEN A.pipeline_status__c = 'Continuing Student'	THEN 'Enrolled'
+		  WHEN A.pipeline_status__c = 'Inactive'			THEN 'Dropped'
+		  WHEN A.pipeline_status__c = 'Decision Released'	THEN 'Closed'
+		  WHEN A.pipeline_status__c = 'Onboarding'			THEN 'Enrolled'
+		  WHEN A.pipeline_status__c = 'Stop Out'			THEN  'Stop Out'
+	 END										AS [Status]
 FROM [edaprod].[dbo].[hed__Affiliation__c]	A
 --LEFT JOIN [edcuat].[dbo].[User_Lookup] cr
 --ON A.CreatedById = cr.Legacy_ID__c

@@ -1,5 +1,5 @@
 
-USE edcdatadev;
+USE edcuat;
 
 --====================================================================
 --	INSERTING DATA TO THE LOAD TABLE FROM THE VIEW - Case
@@ -9,8 +9,8 @@ USE edcdatadev;
 --DROP TABLE IF EXISTS [dbo].[Case_LOAD];
 --GO
 SELECT *
-INTO [edcdatadev].[dbo].[Case_LOAD]
-FROM [edcdatadev].[dbo].[27_EDA_Case] C
+INTO [edcuat].[dbo].[Case_LOAD]
+FROM [edcuat].[dbo].[27_EDA_Case] C
 ORDER BY ContactId
 
 SELECT * FROM Case_LOAD
@@ -25,15 +25,15 @@ ALTER COLUMN ID NVARCHAR(18)
 
 SELECT * FROM Case_LOAD
 
-EXEC SF_TableLoader 'Insert:BULKAPI','edcdatadev','Case_LOAD'
+EXEC SF_TableLoader 'Insert:BULKAPI','edcuat','Case_LOAD_3'
 
 SELECT * 
-INTO Case_LOAD_2
-FROM Case_LOAD_Result where Error <> 'Operation Successful.'
+INTO Case_LOAD_3
+FROM Case_LOAD_2_Result where Error <> 'Operation Successful.'
 ORDER BY ContactId
 
-update Case_LOAD_2
-set academic_interest__c = null
+update Case_LOAD_3
+set Last_Name__c = null
 
 select DISTINCT  Error from Case_LOAD_Result
 
@@ -60,12 +60,12 @@ EXECUTE	SF_TableLoader
 -- Contact Lookup
 --DROP TABLE IF EXISTS [dbo].[Case_Lookup];
 --GO
-INSERT INTO [edcdatadev].[dbo].[Case_Case_Lookup]
+INSERT INTO [edcuat].[dbo].[Case_Case_Lookup]
 SELECT
  ID
 ,legacy_ID__c
 --INTO Case_Case_Lookup
-FROM Case_LOAD_2_Result
+FROM Case_LOAD_3_Result
 WHERE Error = 'Operation Successful.'
 
 
@@ -76,17 +76,17 @@ WHERE Error = 'Operation Successful.'
 --DROP TABLE Case_AcadInterest_Update
 SELECT C.ID,LP.ID AS academic_interest__c
 INTO Case_AcadInterest_Update
-FROM [edcdatadev].[dbo].[Case_Lookup] C
-INNER JOIN [edcdatadev].[dbo].[11_EDA_Cases] E
+FROM [edcuat].[dbo].[Case_Lookup] C
+INNER JOIN [edcuat].[dbo].[11_EDA_Cases] E
 ON C.legacy_ID__c = E.EDACASEID__c
 LEFT JOIN [edaprod].dbo.hed__Affiliation__c A
 ON E.Source_academic_interest__c = A.hed__Account__c
 AND A.hed__Contact__c = E.Source_contactid
-LEFT JOIN [edcdatadev].[dbo].LearnerProgram_Lookup LP
+LEFT JOIN [edcuat].[dbo].LearnerProgram_Lookup LP
 ON LP.LSU_Affiliation__c = A.Id 
 WHERE LP.ID IS NOT NULL
 
-EXEC SF_TableLoader 'Update:BULKAPI','EDCDATADEV','Case_AcadInterest_Update'
+EXEC SF_TableLoader 'Update:BULKAPI','edcuat','Case_AcadInterest_Update'
 
 SELECT * FROM Case_AcadInterest_Update
 

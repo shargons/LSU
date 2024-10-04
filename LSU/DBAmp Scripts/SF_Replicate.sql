@@ -1,6 +1,8 @@
 
 
 /********************** EDAPROD ***************************/
+EXEC SF_Replicate 'EDAPROD','User','pkchunk,batchsize(50000)'
+
 EXEC SF_Replicate 'EDAPROD','hed__Affiliation__c','pkchunk,batchsize(50000)'
 
 EXEC SF_Replicate 'EDAPROD','hed__Term__c','pkchunk,batchsize(50000)'
@@ -34,6 +36,8 @@ EXEC SF_Replicate 'EDAPROD','cfg_subscription__c','pkchunk,batchsize(50000)'
 EXEC SF_Replicate 'EDAPROD','cfg_Subscription_Member__c','pkchunk,batchsize(50000)'
 
 EXEC SF_Replicate 'EDAPROD','LiveChatTranscript','pkchunk,batchsize(50000)'
+
+EXEC SF_Replicate 'EDAPROD','ContentVersion','pkchunk,batchsize(50000)'
 
 SELECT * 
 --INTO edaprod.dbo.hed__Course__c    --- SF_REPLICATE doesnt work with hed__course__c
@@ -80,3 +84,5 @@ EXEC SF_Replicate 'EDCDATADEV','ProgramTermApplnTimeline','pkchunk,batchsize(500
 EXEC SF_Replicate 'EDCDATADEV','CourseOffering','pkchunk,batchsize(50000)'
 
 EXEC SF_Replicate 'EDCDATADEV','cfg_subscription__c','pkchunk,batchsize(50000)'
+
+EXEC SF_Replicate 'EDCDATADEV','EmailMessage','pkchunk,batchsize(50000)'

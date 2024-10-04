@@ -5,7 +5,7 @@ USE edcuat;
 --====================================================================
 
 
---DROP TABLE IF EXISTS [dbo].[EmailMessage_Load];
+--DROP TABLE IF EXISTS [dbo].[CourseOfferingParticipant_Enr_LOAD];
 --GO
 SELECT *
 INTO [edcuat].dbo.CourseOfferingParticipant_Enr_LOAD

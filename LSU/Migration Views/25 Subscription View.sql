@@ -1,4 +1,4 @@
-USE [edcdatadev];
+USE [edcuat];
 GO
 
 /****** Object:  View [dbo].[25_EDA_Subscription]    Script Date: 5/8/2024 2:20:57 PM ******/
@@ -17,7 +17,7 @@ NULL								AS ID
 ,cfg_tab__c
 ,cfg_type__c
 ,createddate
-,description__c
+,description__c							AS cfg_description__c
 ,id										AS Legacy_ID__c
 ,name
 	--,O.ID											AS ownerid

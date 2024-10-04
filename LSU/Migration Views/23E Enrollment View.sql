@@ -38,7 +38,10 @@ SELECT
 	,current_student__c
 	,dropped_from_enrollment_file__c
 	,effective_date__c
-	,end_date__c
+	,Enrollment_Term_Start_Date__c					AS StartDate
+	,Start_Date__c
+	,End_Date__c
+	,Enrollment_Term_End_Date__c					AS EndDate
 	,enrolled_status__c
 	,enrollmentid__c
 	,R.ext_classic_contact_id__c
@@ -64,7 +67,6 @@ SELECT
 	,program__c
 	,R.role__c
 	,sectionid__c
-	,start_date__c
 	,status_code__c
 	,status_desc__c
 	,status_reason_code__c

@@ -1,4 +1,4 @@
-USE [edcdatadev];
+USE [edcuat];
 GO
 
 /****** Object:  View [dbo].[12_EDA_Interactions]    Script Date: 5/8/2024 2:20:57 PM ******/
@@ -42,17 +42,17 @@ NULL									AS ID
 ,Co.Email								AS Email__c
 FROM [edaprod].[dbo].[Case] C
 LEFT JOIN
-[edcdatadev].[dbo].[LearningProgram] LP
+[edcuat].[dbo].[LearningProgram] LP
 ON LP.EDAACCOUNTID__c = C.Academic_Interest__c
 --LEFT JOIN [edcuat].[dbo].[User_Lookup] cr
 --ON C.CreatedById = cr.Legacy_ID__c
 --LEFT JOIN [edcuat].[dbo].[User_Lookup] O
 --ON C.OwnerId = O.Legacy_ID__c
-LEFT JOIN [edcdatadev].[dbo].[Contact] Co
+LEFT JOIN [edcuat].[dbo].[Contact] Co
 ON Co.Legacy_Id__c = C.contactid
 LEFT JOIN [edaprod].[dbo].[Account] A
 ON C.Academic_Interest__c = A.Id
-LEFT JOIN [edcdatadev].[dbo].[Recordtype] R2
+LEFT JOIN [edcuat].[dbo].[Recordtype] R2
 ON R2.DeveloperName = 'RFI_OE'
-LEFT JOIN [edcdatadev].[dbo].[Recordtype] R3
+LEFT JOIN [edcuat].[dbo].[Recordtype] R3
 ON R3.DeveloperName = 'RFI_CE'

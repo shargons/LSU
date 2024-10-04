@@ -1,4 +1,4 @@
-USE [edcuat];
+USE [edcdatadev];
 GO
 
 /****** Object:  View [dbo].[13_EDA_ReqDocuments]    Script Date: 5/8/2024 2:20:57 PM ******/
@@ -22,15 +22,23 @@ SELECT
 	--,CR.ID											AS createdbyid
 	,credithourscompleted__c							AS credit_hours_completed__c
 	,flag__c					
-	,R.id													AS EDACERTENROLLID__c
+	,R.id												 AS EDACERTENROLLID__c
 	,R.name
 	,one_certificate_code__c
 	,one_certificate_id__c
 	,one_certificate_status__c
+	,CASE WHEN one_certificate_status__c = 'Issued'		THEN 'Completed'
+		  WHEN one_certificate_status__c = 'Dropped'	THEN 'Dropped'
+		  WHEN one_certificate_status__c = 'InProgress'	THEN 'Active'
+		  WHEN one_certificate_status__c = 'Completed'	THEN 'Completed'
+		  WHEN one_certificate_status__c = 'Expired'	THEN 'Inactive'
+	 END												 AS Status
 	,one_certificate_title__c
 	,one_completion_date__c
+	,one_completion_date__c								AS EndDate
 	,one_drop_date__c
 	,one_enrollment_date__c
+	,one_enrollment_date__c								AS StartDate
 	,one_issuance_date__c
 	,one_last_activity_date__c
 	,one_program_office_code__c
@@ -46,18 +54,17 @@ SELECT
 	,LP.Id												AS LearningProgramPlanId
 	,totalcreditsenrolled__c							AS total_credits_enrolled__c
 	,CoursesFailed__c									AS Courses_Failed__c
-	,CL.Learning_Program_of_Interest__c					AS ParentLearnerProgramId
 	,CL.Related_Opportunity__c							AS OpportunityId
 FROM [edaprod].[dbo].[one_certificate_enrollment__c] R
---LEFT JOIN [edcuat].[dbo].[User_Lookup] cr
+--LEFT JOIN [edcdatadev].[dbo].[User_Lookup] cr
 --ON R.CreatedById = cr.Legacy_ID__c
---LEFT JOIN [edcuat].[dbo].[User_Lookup] O
+--LEFT JOIN [edcdatadev].[dbo].[User_Lookup] O
 --ON R.OwnerId = O.Legacy_ID__c
-INNER JOIN [edcuat].[dbo].[Contact] C
+INNER JOIN [edcdatadev].[dbo].[Contact] C
 ON R.one_student_id__c = C.Legacy_ID__c
-INNER JOIN [edcuat].[dbo].LearningProgramPlan_ProgPlan_Lookup LP
+INNER JOIN [edcdatadev].[dbo].LearningProgramPlan_ProgPlan_Lookup LP
 ON R.programplan__c = LP.Legacy_ID__c
-INNER JOIN [edcuat].[dbo].[Case] CL
+INNER JOIN [edcdatadev].[dbo].[Case] CL
 ON R.affiliation__c = CL.Legacy_ID__c
 
 

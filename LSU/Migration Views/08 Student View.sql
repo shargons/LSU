@@ -24,7 +24,7 @@ SELECT
 	,aggregate_match_id_2__c
 	,applid__c
 	,birthdte__c
-	,campus__c
+	,S.campus__c
 	,city__c
 	,classic_created_date__c
 	,college_attend__c
@@ -41,18 +41,18 @@ SELECT
 	,drop_indicator__c
 	,drop_start_date__c
 	,drop_term_code__c
-	,dropped_from_student_file__c
+	,S.dropped_from_student_file__c
 	,emplcode__c
-	,employer__c
+	,S.employer__c
 	,enrolled_hours__c
-ext_classic_id__c
-ext_key__c
-finaidaccept1__c
-finaidaccept2__c
-finaidaccept3__c
-finaidaccept4__c
-frstname__c
-gender__c
+	,ext_classic_id__c
+	,ext_key__c
+	,finaidaccept1__c
+	,finaidaccept2__c
+	,finaidaccept3__c
+	,finaidaccept4__c
+	,frstname__c
+	,gender__c
 	,financial_aid_indicator__c
 	,graddate__c
 	,holddate1__c
@@ -69,18 +69,18 @@ gender__c
 	,hours__c
 	,instdate__c
 	,internl__c
-	,ID			AS UpsertKey__c
-	,lsua_degree_code__c
-	,lsua_grad_degree__c
-	,lsua_grad_status__c
-	,lsua_grad_term__c
-	,lsua_grad_year__c
-	,lsua_matriculation_year__c
-	,lsua_term_1_financial_aid_status_codes__c
-	,lsua_term_2_financial_aid_status_codes__c
-	,lsua_term_3_financial_aid_status_codes__c
-	,lsua_term_4_financial_aid_status_codes__c
-	,lsua_total_earned_credits__c
+	,S.ID			AS UpsertKey__c
+	,S.lsua_degree_code__c
+	,S.lsua_grad_degree__c
+	,S.lsua_grad_status__c
+	,S.lsua_grad_term__c
+	,S.lsua_grad_year__c
+	,S.lsua_matriculation_year__c
+	,S.lsua_term_1_financial_aid_status_codes__c
+	,S.lsua_term_2_financial_aid_status_codes__c
+	,S.lsua_term_3_financial_aid_status_codes__c
+	,S.lsua_term_4_financial_aid_status_codes__c
+	,S.lsua_total_earned_credits__c
 	,lsuemail__c
 	,lsufice__c
 	,lsuhourscarried__c
@@ -90,14 +90,14 @@ gender__c
 	,minor_2__c
 	,minor_3__c
 	,minor_4__c
-missingdocs1__c
-missingdocs2__c
-missingdocs3__c
-missingdocs4__c
+	,missingdocs1__c
+	,missingdocs2__c
+	,missingdocs3__c
+	,missingdocs4__c
 	,moddegcd__c
 	,moddegds__c
 	,nextterm__c
-	,noteligibletoreturn__c					AS not_eligible_to_return__c
+	,S.noteligibletoreturn__c					AS not_eligible_to_return__c
 	,online_term__c
 	,origterm__c
 	,othrname__c
@@ -108,7 +108,7 @@ missingdocs4__c
 	,paystatus__c
 	,pgmadmdt__c
 	,pgmcode__c  AS Source_pgmcode__c
-	,phone__c
+	,S.phone__c
 	,previous_term_academic_action__c
 	,previous_term_academic_action_desc__c
 	,program_enrollment_status_code__c
@@ -118,8 +118,8 @@ missingdocs4__c
 	,sponsor1__c
 	,sponsor2__c
 	,sponsor3__c
-	,state__c
-status_code__c 
+	,S.state__c
+	,status_code__c 
 	,status_date__c
 	,status_description__c
 	,stopreason1__c
@@ -147,9 +147,28 @@ status_code__c
 	--,CR.ID AS createdbyid
 	--,O.ID AS ownerid
 	,EMAIL1__c+'.invalid'			AS EMAIL1__c
-FROM [edaprod].[dbo].[student__c]
+	,CASE WHEN A.ce_ce_status__c	= 'Completer'           THEN 'Completed'
+		  WHEN A.ce_ce_status__c	= 'Continuing Student'	THEN 'Enrolled'
+		  WHEN A.ce_ce_status__c	= 'Inactive'			THEN 'Dropped'
+		  WHEN A.pipeline_status__c = 'Degree Candidate'  THEN 'Enrolled'
+		  WHEN A.pipeline_status__c = 'Application'		THEN 'Active'
+		  WHEN A.pipeline_status__c = 'Prospect'			THEN 'Active'
+		  WHEN A.pipeline_status__c = 'Alumni'				THEN 'Completed'
+		  WHEN A.pipeline_status__c = 'Fallout'			THEN 'Completed'
+		  WHEN A.pipeline_status__c = 'Attempting'			THEN 'Active'
+		  WHEN A.pipeline_status__c = 'Term 1 / 2'			THEN 'Enrolled'
+		  WHEN A.pipeline_status__c = 'Continuing Student'	THEN 'Enrolled'
+		  WHEN A.pipeline_status__c = 'Inactive'			THEN 'Dropped'
+		  WHEN A.pipeline_status__c = 'Decision Released'	THEN 'Completed'
+		  WHEN A.pipeline_status__c = 'Onboarding'			THEN 'Enrolled'
+		  WHEN A.pipeline_status__c = 'Stop Out'			THEN  'Inactive'
+	 END										AS [Status]
+	 ,wphone__c
+	 ,zip__c
+FROM [edaprod].[dbo].[student__c] S
 --LEFT JOIN [edcdatadev].[dbo].[User_Lookup] cr
 --ON A.CreatedById = cr.Legacy_ID__c
 --LEFT JOIN [edcdatadev].[dbo].[User_Lookup] O
 --ON A.OwnerId = O.Legacy_ID__c
-
+LEFT JOIN [edaprod].[dbo].[hed__Affiliation__c] A
+ON A.Id = S.LSU_Affiliation__c

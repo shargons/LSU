@@ -1,15 +1,15 @@
-USE edcdatadev;
+USE edcuat;
 
 --====================================================================
---	INSERTING DATA TO THE LOAD TABLE FROM THE VIEW -  Subscriptions
+--	INSERTING DATA TO THE LOAD TABLE FROM THE VIEW -  EmailMessage
 --====================================================================
 
 
 --DROP TABLE IF EXISTS [dbo].[EmailMessage_Load];
 --GO
 SELECT *
-INTO [edcdatadev].dbo.EmailMessage_Load
-FROM [edcdatadev].[dbo].[24_EDA_EmailMessages] C
+INTO [edcuat].dbo.EmailMessage_Load
+FROM [edcuat].[dbo].[24_EDA_EmailMessages] C
 ORDER BY RelatedtoId
 
 
@@ -24,15 +24,15 @@ SELECT * FROM EmailMessage_Load
 
 
 --====================================================================
---INSERTING DATA USING DBAMP -   Subscriptions
+--INSERTING DATA USING DBAMP -   EmailMessage
 --====================================================================
 
-EXEC SF_TableLoader 'Insert:BULKAPI','edcdatadev','EmailMessage_Load_5'
+EXEC SF_TableLoader 'Insert:BULKAPI','edcuat','EmailMessage_Load'
 
+--DROP TABLE EmailMessage_Load_6
 SELECT *
---INTO EmailMessage_Load_6
-FROM EmailMessage_Load_5_Result where Error <> 'Operation Successful.'
-AND Error like '%Unable%'
+--INTO EmailMessage_Load_7
+FROM EmailMessage_Load_Result where Error <> 'Operation Successful.'
 ORDER BY RelatedtoId
 
 
@@ -59,23 +59,22 @@ EXECUTE	SF_TableLoader
 --====================================================================
 
 -- Contact Lookup
---DROP TABLE IF EXISTS [dbo].[CourseOfferingParticipant_Lookup];
+--DROP TABLE IF EXISTS [dbo].[EmailMessage_Lookup];
 --GO
 
 
-INSERT INTO EmailMessage_Lookup
 SELECT
  ID
 ,EDAEMAILMSGID__c as Legacy_ID__C 
---INTO EmailMessage_Lookup
-FROM EmailMessage_Load_4_Result
+INTO EmailMessage_Lookup
+FROM EmailMessage_Load_Result
 WHERE Error = 'Operation Successful.'
 
 SELECT * FROM EmailMessage_Lookup
-where Legacy_Id__c = '02s3n00001fYgZJAA0'
+where Legacy_Id__c = '02s3n00001fC9zLAAS'
 
 
 SELECT * FROM [dbo].[24_EDA_EmailMessages]
-where EDAEMAILMSGID__c = '02s3n00001fYgZJAA0'
+where EDAEMAILMSGID__c = '02s3n00001RAPLAAA5'
 
 
