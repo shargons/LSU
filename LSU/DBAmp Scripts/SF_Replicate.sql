@@ -3,6 +3,8 @@
 /********************** EDAPROD ***************************/
 EXEC SF_Replicate 'EDAPROD','User','pkchunk,batchsize(50000)'
 
+EXEC SF_Replicate 'EDAPROD','UserRole','pkchunk,batchsize(50000)'
+
 EXEC SF_Replicate 'EDAPROD','hed__Affiliation__c','pkchunk,batchsize(50000)'
 
 EXEC SF_Replicate 'EDAPROD','hed__Term__c','pkchunk,batchsize(50000)'

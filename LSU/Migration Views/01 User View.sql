@@ -1,4 +1,4 @@
-USE [edcdatadev];
+USE [edcuat];
 GO
 
 /****** Object:  View [dbo].[NMSS_Navigator_Individuals]    Script Date: 5/8/2024 2:20:57 PM ******/
@@ -46,7 +46,7 @@ SELECT
 		,mobilephone
 		,phone
 		,postalcode
-		,P.ID AS profileid
+		,P.ID AS ProfileId
 		,receivesadmininfoemails
 		,receivesinfoemails
 		,sendername
@@ -57,7 +57,9 @@ SELECT
 		,timezonesidkey
 		,title
 		,REPLACE(username,'eda','edc')+'.uat' as username
-		--,userroleid
+		,'00EHu000004zh6DMAQ'				  as userroleid
 FROM [edaprod].[dbo].[User] A
 LEFT JOIN [edcuat].dbo.Profile	P
-ON P.Name = 'Standard User'
+ON P.Name = 'Standard Platform User'
+
+

@@ -1,6 +1,7 @@
 /***** Replicate *****/
 USE edcuat;
 
+EXEC SF_Replicate 'EDCUAT','UserRole','pkchunk,batchsize(50000)'
 
 EXEC SF_Replicate 'EDCUAT','Profile','pkchunk,batchsize(50000)'
 
@@ -13,8 +14,6 @@ EXEC SF_Replicate 'EDCUAT','Contact','pkchunk,batchsize(50000)'
 EXEC SF_Replicate 'EDCUAT','Account','pkchunk,batchsize(50000)'
 
 EXEC SF_Replicate 'EDCUAT','Case','pkchunk,batchsize(50000)'
-
-EXEC SF_Replicate 'EDCUAT','User','pkchunk,batchsize(50000)'
 
 EXEC SF_Replicate 'EDCUAT','Opportunity','pkchunk,batchsize(50000)'
 

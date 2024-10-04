@@ -8,7 +8,7 @@ USE EDCUAT;
 --GO
 SELECT *
 INTO [EDCUAT].dbo.User_LOAD
-FROM [edcdatadev].[dbo].[01_EDA_User] C
+FROM [edcuat].[dbo].[01_EDA_User] C
 
 
 /******* Check Load table *********/
@@ -24,11 +24,11 @@ ALTER TABLE User_LOAD
 ALTER COLUMN ID NVARCHAR(18)
 
 
-EXEC SF_TableLoader 'Insert:BULKAPI','EDCUAT','User_LOAD_2'
+EXEC SF_TableLoader 'Insert:BULKAPI','EDCUAT','User_LOAD'
 
 SELECT * 
 --INTO User_LOAD_2
-FROM User_LOAD_2_Result where Error <> 'Operation Successful.'
+FROM User_LOAD_Result where Error <> 'Operation Successful.'
 
 UPDATE User_LOAD_2
 SET country = 'United States'
