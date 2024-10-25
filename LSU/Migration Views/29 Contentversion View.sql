@@ -43,8 +43,8 @@ LEFT JOIN
 edcuat.dbo.[Opportunity] Op
 ON C.FirstPublishLocationId = Op.Legacy_ID__c
 LEFT JOIN
-[edcuat].[dbo].[EmailMessage_Lookup] Em
+[edcuat].[dbo].[EmailMessage] Em
 ON C.FirstPublishLocationId = Em.EDAEMAILMSGID__c
 INNER JOIN
-[edaprod].[dbo].[ContentVersion_Blobs] B
+[edaprod].[dbo].[ContentVersion_1600001_2556037] B
 ON C.Id = B.Id

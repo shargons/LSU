@@ -8,7 +8,7 @@ USE edcuat;
 --GO
 SELECT *
 INTO [edcuat].[dbo].AcademicTerm_LOAD
-FROM [edcdatadev].[dbo].[05B_EDA_AcademicTerm] C
+FROM [edcuat].[dbo].[05B_EDA_AcademicTerm] C
 
 
 

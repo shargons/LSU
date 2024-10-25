@@ -24,6 +24,7 @@ SELECT DISTINCT
 FROM  [edaprod].[dbo].[enrollment__c] A
 LEFT JOIN [edcuat].dbo.Account B
 ON A.Campus__c = B.Name
-AND B.CreatedById = '005D1000004gVpBIAU'
+AND B.CreatedById = '005KT000000poMtYAI'
+and B.Legacy_Id__c is not null
 WHERE A.Offering_Code__c IS NOT NULL
 

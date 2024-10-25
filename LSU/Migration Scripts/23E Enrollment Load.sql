@@ -28,11 +28,12 @@ SELECT * FROM CourseOfferingParticipant_Enr_LOAD
 --INSERTING DATA USING DBAMP -   Enrollment
 --====================================================================
 
-EXEC SF_TableLoader 'Insert:BULKAPI','edcuat','CourseOfferingParticipant_Enr_LOAD_3'
+EXEC SF_TableLoader 'Insert:BULKAPI','edcuat','CourseOfferingParticipant_Enr_LOAD_2'
 
+DROP TABLE CourseOfferingParticipant_Enr_LOAD_2
 SELECT *
-INTO CourseOfferingParticipant_Enr_LOAD_3
-FROM CourseOfferingParticipant_Enr_LOAD_2_Result where Error <> 'Operation Successful.'
+INTO CourseOfferingParticipant_Enr_LOAD_2
+FROM CourseOfferingParticipant_Enr_LOAD_Result where Error <> 'Operation Successful.'
 
 
 ORDER BY Opportunity,ParticipantContactId
@@ -47,7 +48,7 @@ DROP TABLE CourseOfferingParticipant_DELETE
 DECLARE @_table_server	nvarchar(255)	=	DB_NAME()
 EXECUTE sf_generate 'Delete',@_table_server, 'CourseOfferingParticipant_DELETE'
 
-INSERT INTO CourseOfferingParticipant_DELETE(Id) SELECT Id FROM EmailMessage_Load_Result WHERE Error = 'Operation Successful.'
+INSERT INTO CourseOfferingParticipant_DELETE(Id) SELECT Id FROM CourseOfferingParticipant_Enr_LOAD_Result WHERE Error = 'Operation Successful.'
 
 DECLARE @_table_server	nvarchar(255) = DB_NAME()
 EXECUTE	SF_TableLoader
@@ -69,7 +70,7 @@ SELECT
  ID
 ,Legacy_ID__C 
 --INTO CourseOfferingParticipant_Lookup
-FROM EmailMessage_Load_Result
+FROM CourseOfferingParticipant_Enr_LOAD_2_Result
 WHERE Error = 'Operation Successful.'
 
 SELECT * FROM CourseOfferingParticipant_Lookup

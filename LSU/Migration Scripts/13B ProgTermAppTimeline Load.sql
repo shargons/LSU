@@ -24,14 +24,11 @@ ALTER COLUMN ID NVARCHAR(18)
 
 SELECT * FROM ProgramTermApplnTimeline_LOAD
 
-EXEC SF_TableLoader 'Insert:BULKAPI','edcuat','ProgramTermApplnTimeline_LOAD'
-
-
+EXEC SF_TableLoader 'Insert:BULKAPI','edcuat','ProgramTermApplnTimeline_LOAD_3'
 
 SELECT * 
---INTO IndividualApplication_LOAD_2
-FROM ProgramTermApplnTimeline_LOAD_Result where Error <> 'Operation Successful.'
-ORDER BY ContactId
+INTO ProgramTermApplnTimeline_LOAD_3
+FROM ProgramTermApplnTimeline_LOAD_2_Result where Error <> 'Operation Successful.'
 
 select DISTINCT  Error from ProgramTermApplnTimeline_LOAD_Result
 
@@ -39,31 +36,32 @@ select DISTINCT  Error from ProgramTermApplnTimeline_LOAD_Result
 --ERROR RESOLUTION - ProgramTermApplnTimeline
 --====================================================================
 /******* DBAmp Delete Script *********/
-DROP TABLE IndividualApplication_DELETE
+DROP TABLE ProgramTermApplnTimeline_DELETE
 DECLARE @_table_server	nvarchar(255)	=	DB_NAME()
-EXECUTE sf_generate 'Delete',@_table_server, 'IndividualApplication_DELETE'
+EXECUTE sf_generate 'Delete',@_table_server, 'ProgramTermApplnTimeline_DELETE'
 
-INSERT INTO IndividualApplication_DELETE(Id) SELECT Id FROM IndividualApplication_LOAD_Result WHERE Error = 'Operation Successful.'
+INSERT INTO ProgramTermApplnTimeline_DELETE(Id) SELECT Id FROM IndividualApplication_LOAD_Result WHERE Error = 'Operation Successful.'
 
 DECLARE @_table_server	nvarchar(255) = DB_NAME()
 EXECUTE	SF_TableLoader
 		@operation		=	'Delete'
 ,		@table_server	=	@_table_server
-,		@table_name		=	'IndividualApplication_DELETE'
+,		@table_name		=	'ProgramTermApplnTimeline_DELETE'
 
 --====================================================================
 --POPULATING LOOOKUP TABLES- ProgramTermApplnTimeline
 --====================================================================
 
 
---DROP TABLE IF EXISTS [dbo].[IndividualApplication_Lookup];
+--DROP TABLE IF EXISTS [dbo].[ProgramTermApplnTimeline_Lookup];
 --GO
 
+INSERT INTO [edcuat].[dbo].[ProgramTermApplnTimeline_Lookup]
 SELECT
  ID
 ,UpsertKey__c AS legacy_ID__c
-INTO [edcuat].[dbo].[ProgramTermApplnTimeline_Lookup]
-FROM ProgramTermApplnTimeline_LOAD_Result
+--INTO [edcuat].[dbo].[ProgramTermApplnTimeline_Lookup]
+FROM ProgramTermApplnTimeline_LOAD_3_Result
 WHERE Error = 'Operation Successful.'
 
 
@@ -73,6 +71,7 @@ WHERE Error = 'Operation Successful.'
 
 -- Application PTAT Lookup
 
+--DROP TABLE IndividualApplication_PTAT_Update
 SELECT B.ID,A.ID AS ProgramTermApplnTimelineId
 INTO IndividualApplication_PTAT_Update
 FROM [ProgramTermApplnTimeline_Lookup] A
@@ -81,6 +80,10 @@ IndividualApplication_Lookup B
 ON A.legacy_ID__c = B.legacy_ID__c
 
 EXEC SF_TableLoader 'Update:BULKAPI','edcuat','IndividualApplication_PTAT_Update'
+
+SELECT *
+FROM IndividualApplication_PTAT_Update_Result 
+WHERE Error <> 'Operation Successful.'
 
 
 

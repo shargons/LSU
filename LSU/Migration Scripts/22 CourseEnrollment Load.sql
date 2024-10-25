@@ -23,16 +23,20 @@ SELECT * FROM CourseOfferingParticipant_CC_LOAD
 
 
 
+
 --====================================================================
 --INSERTING DATA USING DBAMP -   CourseOfferingParticipant
 --====================================================================
 
-EXEC SF_TableLoader 'Insert:BULKAPI','edcuat','CourseOfferingParticipant_CC_LOAD_8'
+EXEC SF_TableLoader 'Insert:BULKAPI','edcuat','CourseOfferingParticipant_CC_LOAD_3'
 
---DROP TABLE CourseOfferingParticipant_CC_LOAD_2
+DROP TABLE CourseOfferingParticipant_CC_LOAD_3
 SELECT *
---INTO CourseOfferingParticipant_CC_LOAD_8
-FROM CourseOfferingParticipant_CC_LOAD_8_Result where Error <> 'Operation Successful.'
+INTO CourseOfferingParticipant_CC_LOAD_3
+FROM CourseOfferingParticipant_CC_LOAD_2_Result where Error <> 'Operation Successful.'
+
+UPDATE CourseOfferingParticipant_CC_LOAD_3
+SET CompletionDate__c = CAST(CompletionDate__c AS datetime)
 
 
 select DISTINCT  Error from CourseOfferingParticipant_CC_LOAD_Result
@@ -45,7 +49,7 @@ DROP TABLE CourseOfferingParticipant_DELETE
 DECLARE @_table_server	nvarchar(255)	=	DB_NAME()
 EXECUTE sf_generate 'Delete',@_table_server, 'CourseOfferingParticipant_DELETE'
 
-INSERT INTO CourseOfferingParticipant_DELETE(Id) SELECT Id FROM CourseOfferingParticipant_CC_LOAD_2_Result WHERE Error = 'Operation Successful.'
+INSERT INTO CourseOfferingParticipant_DELETE(Id) SELECT Id FROM CourseOfferingParticipant_CC_LOAD_Result WHERE Error = 'Operation Successful.'
 
 DECLARE @_table_server	nvarchar(255) = DB_NAME()
 EXECUTE	SF_TableLoader
@@ -68,7 +72,7 @@ SELECT
  ID
 ,Legacy_ID__C 
 --INTO CourseOfferingParticipant_CE_Lookup
-FROM CourseOfferingParticipant_CC_LOAD_7_Result
+FROM CourseOfferingParticipant_CC_LOAD_3_Result
 WHERE Error = 'Operation Successful.'
 
 

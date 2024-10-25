@@ -36,7 +36,7 @@ SELECT DISTINCT
 	,application_state_code__c						AS application_state_code__c
 	,application_status_description__c
 	,application_student_type__c
-	,applied_date__c								AS AppliedDate
+	,CAST(Applied_Date__c AS datetime)								AS AppliedDate
 	,calculated_4_0_transcript_gpa__c
 	,A.campus__c
 	,class_level__c

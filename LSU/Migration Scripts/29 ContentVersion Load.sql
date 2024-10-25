@@ -26,7 +26,7 @@ ALTER COLUMN ID NVARCHAR(18)
 
 SELECT * FROM [ContentVersion_LOAD]
 
-Exec SF_TableLoader 'Insert','edcuat','ContentVersion_LOAD'
+Exec SF_TableLoader 'Insert:soap','edcuat','ContentVersion_LOAD'
 
 SELECT * 
 --INTO ContentVersion_LOAD_2

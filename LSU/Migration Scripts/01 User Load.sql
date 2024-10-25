@@ -24,14 +24,15 @@ ALTER TABLE User_LOAD
 ALTER COLUMN ID NVARCHAR(18)
 
 
-EXEC SF_TableLoader 'Insert:BULKAPI','EDCUAT','User_LOAD'
+EXEC SF_TableLoader 'Insert:BULKAPI','EDCUAT','User_LOAD_2'
 
+DROP TABLE User_LOAD_2
 SELECT * 
 --INTO User_LOAD_2
-FROM User_LOAD_Result where Error <> 'Operation Successful.'
+FROM User_LOAD_2_Result where Error <> 'Operation Successful.'
 
 UPDATE User_LOAD_2
-SET country = 'United States'
+SET forecastenabled = 0
 
 UPDATE User_LOAD_2
 SET state = 'Louisiana'
@@ -67,6 +68,7 @@ INSERT INTO [EDCUAT].[dbo].[User_Lookup]
 SELECT
  ID
 ,EDAUSERID__c AS Legacy_ID__c
+--INTO [EDCUAT].[dbo].[User_Lookup]
 FROM User_LOAD_2_Result
 WHERE Error = 'Operation Successful.'
 
@@ -80,3 +82,4 @@ INNER JOIN User_LOAD_Result B
 ON A.Username = b.Username
 
 EXEC SF_TableLoader 'Update:BULKAPI','EDCUAT','User_Update'
+

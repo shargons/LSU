@@ -1,4 +1,4 @@
-USE [edcdatadev];
+USE [edcuat];
 GO
 
 /****** Object:  View [dbo].[02_EDA_OrgAccount]    Script Date: 5/8/2024 2:20:57 PM ******/
@@ -69,7 +69,7 @@ SELECT
 	,hours__c
 	,instdate__c
 	,internl__c
-	,S.ID			AS UpsertKey__c
+	,S.ID			AS EDACERTENROLLID__c
 	,S.lsua_degree_code__c
 	,S.lsua_grad_degree__c
 	,S.lsua_grad_status__c
@@ -104,7 +104,7 @@ SELECT
 	,ovrlgpa__c
 	,ovrlhrsca__c
 	,ovrlhrsen__c
-	,paymentdate__c
+	,paymentdate__c								as Payment_Date__c
 	,paystatus__c
 	,pgmadmdt__c
 	,pgmcode__c  AS Source_pgmcode__c
@@ -166,9 +166,9 @@ SELECT
 	 ,wphone__c
 	 ,zip__c
 FROM [edaprod].[dbo].[student__c] S
---LEFT JOIN [edcdatadev].[dbo].[User_Lookup] cr
+--LEFT JOIN [edcuat].[dbo].[User_Lookup] cr
 --ON A.CreatedById = cr.Legacy_ID__c
---LEFT JOIN [edcdatadev].[dbo].[User_Lookup] O
+--LEFT JOIN [edcuat].[dbo].[User_Lookup] O
 --ON A.OwnerId = O.Legacy_ID__c
 LEFT JOIN [edaprod].[dbo].[hed__Affiliation__c] A
 ON A.Id = S.LSU_Affiliation__c

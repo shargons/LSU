@@ -1,4 +1,4 @@
-USE [edcdatadev];
+USE [edcuat];
 GO
 
 /****** Object:  View [dbo].[02_EDA_OrgAccount]    Script Date: 5/8/2024 2:20:57 PM ******/
@@ -30,9 +30,7 @@ SELECT
 		,clientemployer__c
 		,A.createddate          AS EDACREATEDDATE__c
 		,declined__c
-		,CASE WHEN degree_level__c = 'TPP' THEN 'TPP Course'
-		 ELSE degree_level__c
-		 END AS degree_level__c
+		,degree_level__c		AS AcademicLevel
 		,denied__c
 		,A.description
 		,enrolled__c
@@ -53,8 +51,8 @@ SELECT
 		FROM [edaprod].[dbo].[Account] A
 LEFT JOIN [edaprod].[dbo].[Recordtype] R_EDA
 ON A.RecordtypeId = R_EDA.ID
---LEFT JOIN [edcdatadev].[dbo].[User_Lookup] CR
+--LEFT JOIN [edcuat].[dbo].[User_Lookup] CR
 --ON A.CreatedById = CR.Legacy_ID__c
---LEFT JOIN [edcdatadev].[dbo].[User_Lookup] O
+--LEFT JOIN [edcuat].[dbo].[User_Lookup] O
 --ON A.OwnerId = O.Legacy_ID__c
 WHERE R_EDA.DeveloperName IN ('Academic_Program')

@@ -1,5 +1,5 @@
 
-USE edcdatadev;
+USE edcuat;
 
 --====================================================================
 --	INSERTING DATA TO THE LOAD TABLE FROM THE VIEW - Account
@@ -8,7 +8,7 @@ USE edcdatadev;
 --GO
 SELECT C.*
 INTO [edcuat].dbo.Account_ProgramParent_LOAD
-FROM [edcdatadev].[dbo].[04A_EDA_ProgramParents] C
+FROM [edcuat].[dbo].[04A_EDA_ProgramParents] C
 
 
 
@@ -64,10 +64,10 @@ WHERE Error = 'Operation Successful.'
 --====================================================================
 --UPDATING PARENTID - Learning
 --====================================================================
-
+--DROP TABLE Learning_Update
 SELECT C.ID,B.ID AS ProviderId,'LearningProgram' as Type
 INTO Learning_Update
-FROM [edcdatadev].[dbo].[03_EDA_Learning] A
+FROM [edcuat].[dbo].[03_EDA_Learning] A
 LEFT JOIN [edcuat].[dbo].[Account_ProgramParent_Lookup] B
 ON A.Source_ParentID = B.Legacy_ID__c
 LEFT JOIN [edcuat].[dbo].[Learning_Lookup] C
@@ -76,5 +76,8 @@ WHERE A.Source_ParentID IS NOT NULL
 
 
 EXEC SF_TableLoader 'Update:BULKAPI','EDCUAT','Learning_Update'
+
+SELECT *  FROM Learning_Update_Result
+WHERE Error = 'Operation Successful.'
 
 

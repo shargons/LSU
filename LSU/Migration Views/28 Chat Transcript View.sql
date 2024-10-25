@@ -52,7 +52,7 @@ NULL									AS ID
 FROM  [edaprod].[dbo].[livechattranscript] T
 LEFT JOIN [edcuat].[dbo].[Contact] C
 ON C.Legacy_ID__c = T.contactid
-LEFT JOIN [edcuat].[dbo].[Case] Ca
+LEFT JOIN [edcuat].[dbo].[Case_Case_Lookup] Ca
 ON Ca.Legacy_ID__c = T.caseid
 --LEFT JOIN [edcuat].[dbo].[User_Lookup] cr
 --ON T.CreatedById = cr.Legacy_ID__c

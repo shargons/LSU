@@ -5,6 +5,8 @@ EXEC SF_Replicate 'EDCUAT','UserRole','pkchunk,batchsize(50000)'
 
 EXEC SF_Replicate 'EDCUAT','Profile','pkchunk,batchsize(50000)'
 
+EXEC SF_Replicate 'EDCUAT','User','pkchunk,batchsize(50000)'
+
 EXEC SF_Replicate 'EDCUAT','Recordtype','pkchunk,batchsize(50000)'
 
 EXEC SF_Replicate 'EDCUAT','LearningProgram','pkchunk,batchsize(50000)'
@@ -35,6 +37,12 @@ EXEC SF_Replicate 'EDCUAT','Opportunity','pkchunk,batchsize(50000)'
 
 EXEC SF_Replicate 'EDCUAT','CourseOffering','pkchunk,batchsize(50000)'
 
+EXEC SF_Replicate 'EDCUAT','CourseOfferingParticipant','pkchunk,batchsize(50000)'
+
 EXEC SF_Replicate 'EDCUAT','cfg_subscription__c','pkchunk,batchsize(50000)'
 
 EXEC SF_Replicate 'EDCUAT','cfg_Subscription_Member__c','pkchunk,batchsize(50000)'
+
+EXEC SF_Replicate 'EDCUAT','EmailMessage','pkchunk,batchsize(50000)'
+
+EXEC SF_Replicate 'EDCUAT','Chat_Transcript__c','pkchunk,batchsize(50000)'

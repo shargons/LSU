@@ -32,8 +32,8 @@ SELECT
 	,status__c
 	,termid__c as Term_Id__c
 	,termno__c as Term_No__c
-	,hed__start_date__c as startdate
-	,hed__end_date__c as EndDate
+	,DATEADD(HOUR,12,hed__start_date__c) as startdate
+	,DATEADD(HOUR,12,hed__end_date__c) as EndDate
 	,applicationdeadline__c
 	,Current_Term__c
 	,upcoming_term__c

@@ -26,18 +26,17 @@ ALTER COLUMN ID NVARCHAR(18)
 --INSERTING DATA USING DBAMP -  Certificate Enrollment
 --====================================================================
 
-EXEC SF_TableLoader 'Insert:BULKAPI','edcuat','LearningCourse_LOAD'
+EXEC SF_TableLoader 'Upsert:BULKAPI','edcuat','LearningCourse_LOAD_2','one_course_id__c'
 
-
+DROP TABLE LearningCourse_LOAD_2
 SELECT *
 --INTO LearningCourse_LOAD_2
-FROM LearningCourse_LOAD_2_Result where Error <> 'Operation Successful.'
+FROM LearningCourse_LOAD_Result where Error = 'Operation Successful.'
 ORDER BY ProviderId
 
 ALTER TABLE LearningCourse_LOAD_2
 DROP COLUMN LearningId
 
-EXEC SF_TableLoader 'Upsert:BULKAPI','edcuat','LearningCourse_LOAD_2','One_Course_ID__c'
 
 select DISTINCT  Error from LearningCourse_LOAD_Result
 
@@ -62,14 +61,14 @@ EXECUTE	SF_TableLoader
 --====================================================================
 
 -- Contact Lookup
---DROP TABLE IF EXISTS [dbo].[LearningProgramPlan_ProgPlan_Lookup];
+--DROP TABLE IF EXISTS [dbo].[LearningCourse_Lookup];
 --GO
 INSERT INTO LearningCourse_Lookup
 SELECT
  ID
 ,EDACOURSEID__c AS Legacy_ID__c
 --INTO LearningCourse_Lookup
-FROM LearningCourse_LOAD_2_Result
+FROM LearningCourse_LOAD_Result
 WHERE Error = 'Operation Successful.'
 
 

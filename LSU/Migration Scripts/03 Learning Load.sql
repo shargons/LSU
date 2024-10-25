@@ -1,5 +1,5 @@
 
-USE edcdatadev;
+USE edcuat;
 
 --====================================================================
 --	INSERTING DATA TO THE LOAD TABLE FROM THE VIEW - Account
@@ -8,11 +8,12 @@ USE edcdatadev;
 --GO
 SELECT *
 INTO [edcuat].dbo.Learning_LOAD
-FROM [edcdatadev].[dbo].[03_EDA_Learning] C
+FROM [edcuat].[dbo].[03_EDA_Learning] C
 
 
 /******* Check Load table *********/
 SELECT * FROM [edcuat].dbo.Learning_LOAD
+
 
 --====================================================================
 --INSERTING DATA USING DBAMP - Account

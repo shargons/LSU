@@ -26,7 +26,7 @@ ALTER COLUMN ID NVARCHAR(18)
 
 EXEC SF_TableLoader 'Insert:BULKAPI','edcuat','Learning_Enrollment_LOAD'
 
-SELECT * FROM Learning_Enrollment_LOAD_Result where Error <> 'Operation Successful.'
+SELECT * FROM Learning_Enrollment_LOAD_Result where Error = 'Operation Successful.'
 
 
 select DISTINCT  Error from Learning_LOAD_Result
@@ -39,7 +39,7 @@ DROP TABLE Learning_DELETE
 DECLARE @_table_server	nvarchar(255)	=	DB_NAME()
 EXECUTE sf_generate 'Delete',@_table_server, 'Learning_DELETE'
 
-INSERT INTO Learning_DELETE(Id) SELECT Id FROM Learning_LOAD_Result WHERE Error = 'Operation Successful.'
+INSERT INTO Learning_DELETE(Id) SELECT Id FROM Learning_Enrollment_LOAD_Result WHERE Error = 'Operation Successful.'
 
 DECLARE @_table_server	nvarchar(255) = DB_NAME()
 EXECUTE	SF_TableLoader

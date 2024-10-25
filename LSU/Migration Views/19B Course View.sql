@@ -16,7 +16,7 @@ SELECT
 	 ,R.createddate										AS EDACREATEDDATE__c
 	 --,cr.id												AS CreatedById
 	 ,hed__account__c									AS Source_ProviderId
-	 ,A.Id											    AS ProviderId
+	 ,B.Id											    AS ProviderId
 	 ,L.Id												AS LearningId
 	 ,hed__course_id__c									AS Course_id__c
 	 ,hed__credit_hours__c								AS Credit_hours__c
@@ -37,7 +37,7 @@ FROM [edaprod].[dbo].[hed__course__c] R
 --ON R.CreatedById = cr.Legacy_ID__c
 --LEFT JOIN [edcuat].[dbo].[User_Lookup] O
 --ON R.OwnerId = O.Legacy_ID__c
-LEFT JOIN [edcuat].[dbo].[LearningProgram] A
-	ON A.EDAACCOUNTID__c = R.hed__account__c
+LEFT JOIN [edcuat].dbo.Account B
+ON R.hed__account__c = B.Legacy_Id__c
 LEFT JOIN [edcuat].[dbo].[Learning] L
 	ON L.EDAACCOUNTID__c = R.Id

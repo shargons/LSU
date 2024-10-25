@@ -11,7 +11,6 @@ USE edcuat;
 SELECT *
 INTO [edcuat].dbo.IndividualApplication_LOAD
 FROM [edcuat].[dbo].[13A_EDA_Application] C
-where ContactId is not null
 ORDER BY ContactId
 
 
@@ -23,16 +22,16 @@ ALTER COLUMN ID NVARCHAR(18)
 --INSERTING DATA USING DBAMP - Case
 --====================================================================
 
-SELECT * FROM IndividualApplication_LOAD
 
-EXEC SF_TableLoader 'Upsert:BULKAPI','edcuat','IndividualApplication_LOAD','EXT_Key__c'
-
+EXEC SF_TableLoader 'Insert:BULKAPI','edcuat','IndividualApplication_LOAD_2'
 
 
+--drop table IndividualApplication_LOAD_2
 SELECT * 
---INTO IndividualApplication_LOAD_2
+INTO IndividualApplication_LOAD_2
 FROM IndividualApplication_LOAD_Result where Error <> 'Operation Successful.'
 ORDER BY ContactId
+
 
 select DISTINCT  Error from IndividualApplication_LOAD_Result
 
@@ -60,11 +59,12 @@ EXECUTE	SF_TableLoader
 --DROP TABLE IF EXISTS [dbo].[IndividualApplication_Lookup];
 --GO
 
+INSERT INTO [edcuat].[dbo].IndividualApplication_Lookup
 SELECT
  ID
 ,legacy_ID__c
-INTO [edcuat].[dbo].[IndividualApplication_Lookup]
-FROM IndividualApplication_LOAD_Result
+--INTO [edcuat].[dbo].[IndividualApplication_Lookup]
+FROM IndividualApplication_LOAD_2_Result
 WHERE Error = 'Operation Successful.'
 
 
@@ -75,6 +75,7 @@ WHERE Error = 'Operation Successful.'
 -- Application Lookup
 
 --DROP TABLE Opportunity_Application_Lookup
+DROP TABLE Opportunity_Application_Lookup
 SELECT A.ID,C.ID AS application_id__c
 into Opportunity_Application_Lookup
 FROM [edcuat].[dbo].[Opportunity_Lookup] A
@@ -114,7 +115,7 @@ LEFT JOIN [edaprod].[dbo].[Interaction__c] I
 ON I.LSU_Application_ID__c = A.Legacy_Id__c
 LEFT JOIN [edcuat].[dbo].[IndividualApplication_Lookup] IL
 ON A.Legacy_Id__c = IL.legacy_ID__c
-LEFT JOIN Case_Lookup CL
+LEFT JOIN [Case] CL
 ON CL.legacy_ID__c = 'I-'+I.Id
 where I.LSU_Application_ID__c is not null
 

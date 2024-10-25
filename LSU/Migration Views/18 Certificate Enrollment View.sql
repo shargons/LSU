@@ -1,4 +1,4 @@
-USE [edcdatadev];
+USE [edcuat];
 GO
 
 /****** Object:  View [dbo].[13_EDA_ReqDocuments]    Script Date: 5/8/2024 2:20:57 PM ******/
@@ -56,15 +56,15 @@ SELECT
 	,CoursesFailed__c									AS Courses_Failed__c
 	,CL.Related_Opportunity__c							AS OpportunityId
 FROM [edaprod].[dbo].[one_certificate_enrollment__c] R
---LEFT JOIN [edcdatadev].[dbo].[User_Lookup] cr
+--LEFT JOIN [edcuat].[dbo].[User_Lookup] cr
 --ON R.CreatedById = cr.Legacy_ID__c
---LEFT JOIN [edcdatadev].[dbo].[User_Lookup] O
+--LEFT JOIN [edcuat].[dbo].[User_Lookup] O
 --ON R.OwnerId = O.Legacy_ID__c
-INNER JOIN [edcdatadev].[dbo].[Contact] C
+LEFT JOIN [edcuat].[dbo].[Contact] C
 ON R.one_student_id__c = C.Legacy_ID__c
-INNER JOIN [edcdatadev].[dbo].LearningProgramPlan_ProgPlan_Lookup LP
+LEFT JOIN [edcuat].[dbo].LearningProgramPlan_ProgPlan_Lookup LP
 ON R.programplan__c = LP.Legacy_ID__c
-INNER JOIN [edcdatadev].[dbo].[Case] CL
+LEFT JOIN [edcuat].[dbo].[Case] CL
 ON R.affiliation__c = CL.Legacy_ID__c
 
 

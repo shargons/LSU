@@ -8,7 +8,7 @@ USE edcuat;
 --GO
 SELECT *
 INTO [edcuat].dbo.AcademicYear_LOAD
-FROM [edcdatadev].[dbo].[05A_EDA_AcademicYear] C
+FROM [edcuat].[dbo].[05A_EDA_AcademicYear] C
 
 
 /******* Check Load table *********/
@@ -50,7 +50,7 @@ EXECUTE	SF_TableLoader
 --POPULATING LOOOKUP TABLES- Account
 --====================================================================
 
--- Contact Lookup
+-- Lookup
 DROP TABLE IF EXISTS [dbo].[AcademicYear_Lookup];
 GO
 SELECT

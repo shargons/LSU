@@ -25,7 +25,7 @@ ALTER COLUMN ID NVARCHAR(18)
 
 SELECT * FROM [ContactProfile_LOAD]
 
-Exec SF_TableLoader 'Upsert:BULKAPI','edcuat','ContactProfile_LOAD','Legacy_Id__c'
+Exec SF_TableLoader 'Insert:BULKAPI','edcuat','ContactProfile_LOAD'
 
 SELECT * 
 --INTO ContactProfile_LOAD

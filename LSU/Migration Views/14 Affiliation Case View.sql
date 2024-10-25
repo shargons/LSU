@@ -248,3 +248,4 @@ LEFT JOIN [edcuat].[dbo].[Opportunity] OD
 ON O.Id = OD.Legacy_ID__c
 LEFT JOIN [edcuat].[dbo].[IndividualApplication] IA
 ON IA.Legacy_Id__c = A.application_id__c
+WHERE O.StageName = 'Enrolled'

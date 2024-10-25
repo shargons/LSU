@@ -23,7 +23,7 @@ ALTER COLUMN ID NVARCHAR(18)
 
 SELECT * FROM DocumentChecklistItem_LOAD
 
-EXEC SF_TableLoader 'Insert:BULKAPI','edcuat','DocumentChecklistItem_LOAD_2'
+EXEC SF_TableLoader 'Insert:BULKAPI','edcuat','DocumentChecklistItem_LOAD'
 
 EXEC SF_TableLoader 'Upsert:BULKAPI','edcuat','DocumentChecklistItem_LOAD','EDAREQDOCID__c'
 
@@ -62,6 +62,9 @@ INSERT INTO [edcuat].[dbo].[DocumentChecklistItem_Lookup]
 SELECT
  ID
 ,EDAREQDOCID__c as legacy_ID__c
---INTO [edcuat].[dbo].[DocumentChecklistItem_Lookup]
-FROM DocumentChecklistItem_LOAD_2_Result
+INTO [edcuat].[dbo].[DocumentChecklistItem_Lookup]
+FROM DocumentChecklistItem_LOAD_Result
 WHERE Error = 'Operation Successful.'
+
+select * from [DocumentChecklistItem_Lookup]
+where legacy_ID__c = 'a0M3n00000Klc03EAB'

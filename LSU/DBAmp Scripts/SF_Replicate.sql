@@ -3,7 +3,15 @@
 /********************** EDAPROD ***************************/
 EXEC SF_Replicate 'EDAPROD','User','pkchunk,batchsize(50000)'
 
+EXEC SF_Replicate 'EDAPROD','Recordtype','pkchunk,batchsize(50000)'
+
 EXEC SF_Replicate 'EDAPROD','UserRole','pkchunk,batchsize(50000)'
+
+EXEC SF_Replicate 'EDAPROD','Account','pkchunk,batchsize(50000)'
+
+EXEC SF_Replicate 'EDAPROD','Contact','pkchunk,batchsize(50000)'
+
+EXEC SF_Replicate 'EDAPROD','student__c','pkchunk,batchsize(50000)'
 
 EXEC SF_Replicate 'EDAPROD','hed__Affiliation__c','pkchunk,batchsize(50000)'
 
@@ -41,14 +49,17 @@ EXEC SF_Replicate 'EDAPROD','LiveChatTranscript','pkchunk,batchsize(50000)'
 
 EXEC SF_Replicate 'EDAPROD','ContentVersion','pkchunk,batchsize(50000)'
 
+--DROP TABLE edaprod.dbo.hed__Course__c
 SELECT * 
---INTO edaprod.dbo.hed__Course__c    --- SF_REPLICATE doesnt work with hed__course__c
+INTO edaprod.dbo.hed__Course__c    --- SF_REPLICATE doesnt work with hed__course__c
 FROM EDAPROD.CData.Salesforce.hed__Course__c
 
+--DROP TABLE edaprod.dbo.hed__course_offering__c
 SELECT * 
 INTO edaprod.dbo.hed__course_offering__c    --- SF_REPLICATE doesnt work with hed__course_offering__c
 FROM EDAPROD.CData.Salesforce.hed__course_offering__c
 
+--DROP TABLE edaprod.dbo.hed__course_enrollment__c
 SELECT * 
 INTO edaprod.dbo.hed__course_enrollment__c    --- SF_REPLICATE doesnt work with hed__course_offering__c
 FROM EDAPROD.CData.Salesforce.hed__course_enrollment__c

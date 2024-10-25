@@ -29,9 +29,9 @@ SELECT * FROM EmailMessage_Load
 
 EXEC SF_TableLoader 'Insert:BULKAPI','edcuat','EmailMessage_Load'
 
---DROP TABLE EmailMessage_Load_6
+--DROP TABLE EmailMessage_Load_2
 SELECT *
---INTO EmailMessage_Load_7
+--INTO EmailMessage_Load_2
 FROM EmailMessage_Load_Result where Error <> 'Operation Successful.'
 ORDER BY RelatedtoId
 

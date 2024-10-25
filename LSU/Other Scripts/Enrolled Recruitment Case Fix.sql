@@ -2,14 +2,6 @@ USE [edcuat];
 GO
 
 /****** Object:  View [dbo].[13_EDA_ReqDocuments]    Script Date: 5/8/2024 2:20:57 PM ******/
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
-
-CREATE OR ALTER VIEW [dbo].[11_Case_Opp_Recruitment] AS
 
 SELECT DISTINCT
 	 NULL												AS ID
@@ -235,36 +227,13 @@ SELECT DISTINCT
 	 END						AS Email__c
 	,C.phone					AS ContactPhone
 	,LP.Id						AS Learning_Program_of_Interest__c
-	,CASE 
-		WHEN stagename = 'Prospect'				THEN  'Prospect'
-		WHEN stagename = 'Application'  		THEN  'Application In Progress'
-		WHEN stagename = 'Fallout'		AND R.Campus__c = 'CE'		THEN  'Enrollment Decision'
-		WHEN stagename = 'Denied'				THEN  'Application Denied'
-		WHEN stagename = 'Admitted'				THEN  'Application Admitted'
-		WHEN stagename = 'Declined'			THEN  'Learner Decision'
-		WHEN stagename = 'Accepted'			THEN  'Learner Decision'
-		WHEN stagename = 'Closed Lost'		THEN  'Enrollment Decision'
-		WHEN stagename = 'Fallout'			THEN  stagename
-		END AS [Status]
-	,CASE 
-		WHEN stagename = 'Fallout' 		AND R.Campus__c = 'CE'		THEN  stagename
-		WHEN stagename = 'Denied'		THEN  'Closed Lost'
-		WHEN stagename = 'Admitted'		THEN  NULL
-		WHEN stagename = 'Declined'		THEN  stagename
-		WHEN stagename = 'Accepted'		THEN  stagename
-		ELSE sub_stage__c
-	END AS Sub_Status__c
-	,CASE 
-		WHEN stagename = 'Fallout' 		AND R.Campus__c = 'CE'		THEN  stagename
-		WHEN stagename = 'Denied'		THEN  'Closed Lost'
-		WHEN stagename = 'Admitted'		THEN  NULL
-		WHEN stagename = 'Declined'		THEN  stagename
-		WHEN stagename = 'Accepted'		THEN  stagename
-		ELSE sub_stage__c
-	END AS sub_stage__c
+	,StageName as  [Status]
+	,StageName AS Sub_Status__c
+	,StageName AS sub_stage__c
 	,CASE WHEN stagename = 'Fallout'		THEN  'Closed Lost'
 			ELSE stagename
 	 END										AS Stagename__c	
+INTO Case_Enrolled_Opportunity_Insert
 	FROM [edaprod].[dbo].[Opportunity] R
 LEFT JOIN [edcuat].[dbo].[Contact] C
 ON R.contact__c = C.Legacy_Id__c
@@ -288,10 +257,90 @@ ON R3.DeveloperName = 'Recruitment_CE'
 --ON R.OwnerId = O.Legacy_ID__c
 --LEFT JOIN [edcuat].[dbo].[User_Lookup] OC
 --ON R.coordinator__c = OC.Legacy_ID__c
+LEFT JOIN [edaprod].[dbo].[hed__Affiliation__c] A
+ON R.Affiliation__c = A.Id
 LEFT JOIN [edcuat].[dbo].[LearningProgram] LP
-ON LP.Name =R.Academic_Program__c
-WHERE R.StageName IN  ('Prospect','Application','Admitted','Missing Documents','Applied','Denied','Accepted','Declined','Fallout','Enrolled')
+ON LP.EDAACCOUNTID__c = A.hed__Account__c
+WHERE R.StageName = 'Enrolled'
 AND NOT(R.Application_ID__c IS NULL
 AND R.Student_ID__c IS NULL
 AND R.Application_Slate_ID__c IS NULL
 AND R.StageName = 'Fallout')
+
+ALTER TABLE Case_Enrolled_Opportunity_Insert
+ALTER COLUMN ID NVARCHAR(18)
+
+EXEC SF_TableLoader 'Insert:BULKAPI','edcuat','Case_Enrolled_Opportunity_Insert_3'
+
+SELECT * 
+INTO Case_Enrolled_Opportunity_Insert_3
+FROM Case_Enrolled_Opportunity_Insert_2_Result
+WHERE Error <> 'Operation Successful.'
+AND Error not like 'DUPLICATE_VALUE%'
+
+INSERT INTO Case_Enrolled_Opportunity_Lookup
+SELECT Id,Legacy_Id__c 
+FROM Case_Enrolled_Opportunity_Insert_3_Result
+WHERE Error = 'Operation Successful.'
+
+--DROP TABLE Case_Recruitment_Lookup_Update
+SELECT A.ID,C.ID AS Related_Recruitment_Case__c
+INTO Case_Recr_Enr_Lookup_Update
+FROM [Case] A
+LEFT JOIN [edaprod].[dbo].Interaction__c I
+ON 'I-'+I.Id = A.Legacy_ID__c
+LEFT JOIN Case_Enrolled_Opportunity_Lookup C
+ON I.Opportunity__c = C.Legacy_ID__c
+WHERE C.ID IS NOT NULL
+
+select * from Case_Recr_Enr_Lookup_Update
+
+EXEC SF_TableLoader 'Update:BULKAPI','edcuat','Case_Recr_Enr_Lookup_Update'
+
+select * from Case_Recr_Enr_Lookup_Update_Result
+where error <> 'Operation Successful.'
+
+-- Source RFI Case Lookup
+SELECT A.ID as Source_RFI_Case__c,C.ID 
+--INTO Case_Source_RFI_Lookup_Update
+FROM [Case] A
+LEFT JOIN [edaprod].[dbo].Interaction__c I
+ON 'I-'+I.Id = A.Legacy_ID__c
+LEFT JOIN Case_Enrolled_Opportunity_Lookup C
+ON I.Opportunity__c = C.Legacy_ID__c
+WHERE C.ID IS NOT NULL
+
+-- Related Opportunity Lookup
+
+DROP TABLE Case_RFI_Related_Opp_Lookup_Update
+SELECT A.ID,Op.Id as Related_Opportunity__c
+INTO Case_RFI_Related_Opp_Lookup_Update
+FROM [Case_Enrolled_Opportunity_Lookup] A
+INNER JOIN [edaprod].[dbo].Interaction__c I
+ON 'I-'+I.Id = A.Legacy_ID__c
+LEFT JOIN [edaprod].[dbo].[Opportunity] O
+ON I.Opportunity__c = O.Id
+LEFT JOIN [edcuat].[dbo].[Opportunity] Op
+ON Op.Legacy_ID__c = O.Id
+WHERE O.ID IS NOT NULL
+
+EXEC SF_TableLoader 'Update:BULKAPI','edcdatadev','Case_RFI_Related_Opp_Lookup_Update'
+
+
+-- Related Recruitment Case
+--DROP TABLE Case_Enr_Recruitment_Lookup_Update
+SELECT A.ID,C.Id AS Related_Recruitment_Case__c
+INTO Case_Enr_Recruitment_Lookup_Update
+FROM edaprod.dbo.hed__Affiliation__c AFF
+INNER JOIN
+[Case] A
+ON A.Legacy_ID__c = AFF.Id
+LEFT JOIN [edaprod].[dbo].Opportunity O
+ON O.Affiliation__c = AFF.Id
+LEFT JOIN [Case_Enrolled_Opportunity_Lookup] C
+ON O.Id = C.Legacy_ID__c
+WHERE C.ID IS NOT NULL
+
+EXEC SF_TableLoader 'Update:BULKAPI','edcuat','Case_Enr_Recruitment_Lookup_Update'
+
+SELECT * FROM [Case_Enrolled_Opportunity_Lookup]

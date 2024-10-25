@@ -27,17 +27,18 @@ ALTER COLUMN ID NVARCHAR(18)
 
 SELECT * FROM Case_Interaction_LOAD
 
-EXEC SF_TableLoader 'Insert:BULKAPI','edcuat','Case_Interaction_LOAD_5'
+EXEC SF_TableLoader 'Insert:BULKAPI','edcuat','Case_Interaction_LOAD_4'
 
---DROP TABLE Case_Interaction_LOAD_5
+--DROP TABLE Case_Interaction_LOAD_4
 SELECT * 
-----INTO Case_Interaction_LOAD_5
+--INTO Case_Interaction_LOAD_4
 FROM Case_Interaction_LOAD_4_Result where Error <> 'Operation Successful.'
 ORDER BY AccountId,ContactId
 
 UPDATE A
-SET ContactEmail = null
-FROM Case_Interaction_LOAD_5 A
+SET Last_Name__c = LEFT(Last_Name__c,50)
+FROM Case_Interaction_LOAD_4 A
+WHERE Error like '%Last Name%'
 
 
 select * from Case_Interaction_LOAD_2

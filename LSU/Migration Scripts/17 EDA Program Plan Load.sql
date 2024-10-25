@@ -23,12 +23,15 @@ ALTER COLUMN ID NVARCHAR(18)
 
 SELECT * FROM LearningProgramPlan_ProgPlan_LOAD
 
-EXEC SF_TableLoader 'Insert:BULKAPI','edcuat','LearningProgramPlan_ProgPlan_LOAD'
+EXEC SF_TableLoader 'Insert:BULKAPI','edcuat','LearningProgramPlan_ProgPlan_LOAD_2'
 
 SELECT *
 --INTO LearningProgramPlan_ProgPlan_LOAD_2
-FROM LearningProgramPlan_ProgPlan_LOAD_Result where Error <> 'Operation Successful.'
+FROM LearningProgramPlan_ProgPlan_LOAD_2_Result where Error <> 'Operation Successful.'
 ORDER BY LearningProgramId
+
+UPDATE LearningProgramPlan_ProgPlan_LOAD_2
+SET IsActive = 1
 
 select DISTINCT  Error from LearningProgramPlan_ProgPlan_LOAD_Result
 

@@ -38,7 +38,8 @@ SELECT
 		  WHEN C.Id IS NULL AND O.Id IS NULL AND Ci.Id IS NOT NULL THEN Ci.Id
 		  WHEN C.Id IS NULL AND O.Id IS NULL AND Ci.Id IS NULL AND CA.Id IS NOT NULL THEN CA.Id
 		END as RelatedToId
-	,E.[Status]
+	,E.[Status]  AS Source_Status
+	,5 as [Status]
 	,E.Subject
 	,TextBody
 	,ToAddress+'.invalid'				as ToAddress

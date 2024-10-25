@@ -8,9 +8,9 @@ USE edcuat;
 --GO
 SELECT C.*,L.ID AS LearningId
 INTO [edcuat].dbo.LearningProgram_LOAD
-FROM [edcdatadev].[dbo].[04_EDA_AccountProgram] C
-LEFT JOIN [edcuat].[dbo].[Learning_Lookup] L
-ON C.EDAACCOUNTID__c = L.Legacy_ID__c
+FROM [edcuat].[dbo].[04_EDA_AccountProgram] C
+LEFT JOIN [edcuat].[dbo].[Learning] L
+ON C.EDAACCOUNTID__c = L.EDAACCOUNTID__c
 
 
 /******* Check Load table *********/
@@ -27,11 +27,19 @@ ALTER TABLE LearningProgram_LOAD
 ALTER COLUMN ID NVARCHAR(18)
 
 
-EXEC SF_TableLoader 'Insert:BULKAPI','EDCUAT','LearningProgram_LOAD_2'
+EXEC SF_TableLoader 'Insert:BULKAPI','EDCUAT','LearningProgram_LOAD_3'
 
+--DROP TABLE LearningProgram_LOAD_2
 SELECT * 
-INTO LearningProgram_LOAD_2
-FROM LearningProgram_LOAD_Result where Error <> 'Operation Successful.'
+--INTO LearningProgram_LOAD_3
+FROM LearningProgram_LOAD_2_Result where Error <> 'Operation Successful.'
+and Error like 'INVALID_OR_NULL_FOR_RESTRICTED_PICKLIST%'
+
+INVALID_OR_NULL_FOR_RESTRICTED_PICKLIST:Client/Employer: bad value for restricted picklist field: Macy&#39;s:clientemployer__c --
+
+UPDATE LearningProgram_LOAD_3
+SET clientemployer__c = REPLACE(clientemployer__c,'Macy''s','Macys')
+WHERE clientemployer__c like'%Macy%'
 
 select DISTINCT  Error from LearningProgram_LOAD_Result
 
@@ -43,7 +51,7 @@ DROP TABLE LearningProgram_DELETE
 DECLARE @_table_server	nvarchar(255)	=	DB_NAME()
 EXECUTE sf_generate 'Delete',@_table_server, 'LearningProgram_DELETE'
 
-INSERT INTO LearningProgram_DELETE(Id) SELECT Id FROM LearningProgram WHERE Error = 'Operation Successful.'
+INSERT INTO LearningProgram_DELETE(Id) SELECT Id FROM LearningProgram_LOAD_Result WHERE Error = 'Operation Successful.'
 
 DECLARE @_table_server	nvarchar(255) = DB_NAME()
 EXECUTE	SF_TableLoader
@@ -62,11 +70,12 @@ INSERT INTO [edcuat].[dbo].[Account_Program_Lookup]
 SELECT
  ID
 ,EDAACCOUNTID__c as Legacy_ID__c
-FROM LearningProgram_LOAD_2_Result
+--INTO [edcuat].[dbo].[Account_Program_Lookup]
+FROM LearningProgram_LOAD_3_Result
 WHERE Error = 'Operation Successful.'
 
 
 
-
+SELECT * FROM [Account_Program_Lookup]
 
 

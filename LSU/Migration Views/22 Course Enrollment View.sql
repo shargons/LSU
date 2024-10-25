@@ -30,7 +30,7 @@ SELECT
 	,E.one_drop_date__c
 	,E.one_enrollment_date__c
 	,one_enrollment_end_date__c
-	,one_enrollment_end_date__c				AS 	EndDate
+	,DATEADD(HOUR,12,Due_Date_SMD__c)				AS 	EndDate
 	,one_enrollment_id__c
 	,one_gclid__c
 	,one_group_payor_name__c

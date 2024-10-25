@@ -1,7 +1,7 @@
 USE [edcuat];
 GO
 
-/****** Object:  View [dbo].[13_EDA_ReqDocuments]    Script Date: 5/8/2024 2:20:57 PM ******/
+/****** Object:  View [dbo].[23E_EDA_Enrollments]    Script Date: 5/8/2024 2:20:57 PM ******/
 SET ANSI_NULLS ON
 GO
 
@@ -41,7 +41,7 @@ SELECT
 	,Enrollment_Term_Start_Date__c					AS StartDate
 	,Start_Date__c
 	,End_Date__c
-	,Enrollment_Term_End_Date__c					AS EndDate
+	,CompletionDate__c	AS EndDate
 	,enrolled_status__c
 	,enrollmentid__c
 	,R.ext_classic_contact_id__c

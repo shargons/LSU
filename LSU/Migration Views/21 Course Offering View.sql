@@ -32,9 +32,9 @@ SELECT
 	,one_class_number__c					
 	,C.one_destiny_one_flag__c				
 	,one_destiny_one_id__c					
-	,one_destiny_one_section_status__c		
-	,sectionenddatews__c					AS EndDate
-	,sectionstartdatews__c					AS StartDate		
+	,one_destiny_one_section_status__c	
+	,IIF(sectionenddatews__c IS NULL,DATEADD(HOUR,12,hed__End_Date__c),DATEADD(HOUR,12,sectionenddatews__c)) 					AS EndDate
+	,IIF(SectionStartDatews__c IS NULL,DATEADD(HOUR,12,hed__Start_Date__c),DATEADD(HOUR,12,SectionStartDatews__c))					AS StartDate		
 	--,O.ID												AS ownerid
 FROM  [edaprod].[dbo].[hed__course_offering__c] C
 LEFT JOIN [edcuat].[dbo].[LearningCourse] LC
@@ -45,3 +45,4 @@ LEFT JOIN [edcuat].[dbo].[AcademicTerm] T
 --ON R.CreatedById = cr.Legacy_ID__c
 --LEFT JOIN [edcuat].[dbo].[User_Lookup] O
 --ON R.OwnerId = O.Legacy_ID__c
+--WHERE C.Name = '2013-14 OLLI Mem - 006'

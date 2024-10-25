@@ -1,5 +1,5 @@
 
-USE edcdatadev;
+USE edcuat;
 
 --====================================================================
 --	INSERTING DATA TO THE LOAD TABLE FROM THE VIEW - Account
@@ -8,7 +8,7 @@ USE edcdatadev;
 --GO
 SELECT *
 INTO [edcuat].dbo.Account_Org_LOAD
-FROM [edcdatadev].[dbo].[02_EDA_OrgAccount] C
+FROM [edcuat].[dbo].[02_EDA_OrgAccount] C
 
 
 /******* Check Load table *********/
@@ -51,12 +51,12 @@ EXECUTE	SF_TableLoader
 --====================================================================
 
 -- Contact Lookup
-DROP TABLE IF EXISTS [dbo].[Account_Lookup];
-GO
+--DROP TABLE IF EXISTS [dbo].[Account_Org_Lookup];
+--GO
 SELECT
  ID
 ,Legacy_ID__c
-INTO [edcuat].[dbo].[Account_Lookup]
+INTO [edcuat].[dbo].[Account_Org_Lookup]
 FROM Account_Org_LOAD_Result
 WHERE Error = 'Operation Successful.'
 
@@ -64,13 +64,13 @@ WHERE Error = 'Operation Successful.'
 --====================================================================
 --UPDATING PARENTID - Account
 --====================================================================
-
+DROP TABLE Account_Update
 SELECT C.ID,B.ID AS ParentId
 INTO Account_Update
-FROM [edcdatadev].[dbo].[02_EDA_OrgAccount] A
-LEFT JOIN [edcuat].[dbo].[Account_Lookup] B
+FROM [edcuat].[dbo].[02_EDA_OrgAccount] A
+LEFT JOIN [edcuat].[dbo].[Account_Org_Lookup] B
 ON A.Source_ParentID = B.Legacy_ID__c
-LEFT JOIN [edcuat].[dbo].[Account_Lookup] C
+LEFT JOIN [edcuat].[dbo].[Account_Org_Lookup] C
 ON A.Legacy_ID__c = C.Legacy_ID__c
 WHERE A.Source_ParentID IS NOT NULL
 

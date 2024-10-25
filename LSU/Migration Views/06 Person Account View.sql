@@ -55,7 +55,7 @@ SELECT  NULL AS ID
 		,C.description
 		,donotcall AS PersonDoNotCall
 		,donotuse__c as donotuse__pc
-		,LEFT(email, 246) +'.invalid' as Personemail
+		,LEFT(email, 246) +'.test' as Personemail
 		,emailsaftermerge__c as emailsaftermerge__pc
 		,employee_position__c as employee_position__pc
 		,employer__c as employer__pc
@@ -1692,7 +1692,11 @@ SELECT  NULL AS ID
 		,sms_text_opt_out__c as sms_text_opt_out__pc
 		,ssnonfile__c as ssnonfile__pc
 		,state__c as state__pc
-		,status__c as status__pc
+		,CASE WHEN status__c = 'Open' THEN 'Attempting'
+			  WHEN status__c = 'Qualified' THEN 'Attempting'
+			  WHEN status__c = 'Unqualified' THEN 'Attempting'
+		 ELSE status__c
+		 END as status__pc
 		,stop_auto_dialer__c as stop_auto_dialer__pc
 		,stoppardotautocomms__c as stoppardotautocomms__pc
 		,studentssn__c as studentssn__pc
@@ -1722,5 +1726,5 @@ ON R.DeveloperName = 'PersonAccount'
 --ON A.Name = C.graduation_term__c
 --LEFT JOIN [edcuat].[dbo].[AcademicTerm_Lookup] B
 --ON B.Name = C.Term_of_Interest__c
-LEFT JOIN [edcuat].[dbo].Account_Program_Lookup P
+LEFT JOIN [edcuat].[dbo].[Account_Program_Lookup] P
 ON C.Primary_Academic_Program__c = P.Legacy_ID__c
