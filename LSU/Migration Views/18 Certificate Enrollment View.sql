@@ -19,7 +19,7 @@ SELECT
 	,coursescompleted__c								AS courses_completed__c
 	,coursesenrolled__c									AS courses_enrolled__c
 	,R.createddate										AS EDACREATEDDATE__c
-	--,CR.ID											AS createdbyid
+	,CR.ID											AS createdbyid
 	,credithourscompleted__c							AS credit_hours_completed__c
 	,flag__c					
 	,R.id												 AS EDACERTENROLLID__c
@@ -48,7 +48,7 @@ SELECT
 	,C.Id												AS one_Student_Id__c
 	,C.Id												AS LearnerContactId
 	,C.AccountId										AS LearnerAccountId
-	--,O.ID												AS ownerid
+	,O.ID												AS ownerid
 	,programplan__c										AS Source_learning_program_plan
 	,LP.Id												AS Learning_Program_Plan__c
 	,LP.Id												AS LearningProgramPlanId
@@ -56,10 +56,10 @@ SELECT
 	,CoursesFailed__c									AS Courses_Failed__c
 	,CL.Related_Opportunity__c							AS OpportunityId
 FROM [edaprod].[dbo].[one_certificate_enrollment__c] R
---LEFT JOIN [edcuat].[dbo].[User_Lookup] cr
---ON R.CreatedById = cr.Legacy_ID__c
---LEFT JOIN [edcuat].[dbo].[User_Lookup] O
---ON R.OwnerId = O.Legacy_ID__c
+LEFT JOIN [edcuat].[dbo].[User_Lookup] cr
+ON R.CreatedById = cr.Legacy_ID__c
+LEFT JOIN [edcuat].[dbo].[User_Lookup] O
+ON R.OwnerId = O.Legacy_ID__c
 LEFT JOIN [edcuat].[dbo].[Contact] C
 ON R.one_student_id__c = C.Legacy_ID__c
 LEFT JOIN [edcuat].[dbo].LearningProgramPlan_ProgPlan_Lookup LP

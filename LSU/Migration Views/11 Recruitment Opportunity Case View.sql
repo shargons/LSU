@@ -78,9 +78,9 @@ SELECT DISTINCT
 	,C.Id										AS ContactId
 	,C.AccountId								AS AccountId
 	,R.coordinator__c								AS Source_coordinator__c
-	--,OC.Id									AS coordinator__c
+	,OC.Id									AS coordinator__c
 	,R.courseraeoisubmitteddate__c				AS Coursera_EOI_Submitted_Date__c
-	--,cr.id									AS createdbyid
+	,cr.id									AS createdbyid
 	,R.createddate
 	,R.cumulative_gpa__c
 	,current_term_enrollmentsx__c				AS Current_Term_Enrollments__c
@@ -147,7 +147,7 @@ SELECT DISTINCT
 	,not_scheduled_entry_date__c
 	,R.opportunity_key__c
 	,R.original_created_date__c
-	--,O.Id									AS ownerid
+	,O.Id									AS ownerid
 	,R.p_o_created__c
 	,R.paidforcurrentterm__c					AS Paid_for_current_Term__c
 	,R.paidforupcomingterm__c					AS Paid_for_UpComing_Term__c
@@ -282,12 +282,12 @@ LEFT JOIN [edcuat].[dbo].[Recordtype] R2
 ON R2.DeveloperName = 'Recruitment_OE'
 LEFT JOIN [edcuat].[dbo].[Recordtype] R3
 ON R3.DeveloperName = 'Recruitment_CE'
---LEFT JOIN [edcuat].[dbo].[User_Lookup] cr
---ON R.CreatedById = cr.Legacy_ID__c
---LEFT JOIN [edcuat].[dbo].[User_Lookup] O
---ON R.OwnerId = O.Legacy_ID__c
---LEFT JOIN [edcuat].[dbo].[User_Lookup] OC
---ON R.coordinator__c = OC.Legacy_ID__c
+LEFT JOIN [edcuat].[dbo].[User_Lookup] cr
+ON R.CreatedById = cr.Legacy_ID__c
+LEFT JOIN [edcuat].[dbo].[User_Lookup] O
+ON R.OwnerId = O.Legacy_ID__c
+LEFT JOIN [edcuat].[dbo].[User_Lookup] OC
+ON R.coordinator__c = OC.Legacy_ID__c
 LEFT JOIN [edcuat].[dbo].[LearningProgram] LP
 ON LP.Name =R.Academic_Program__c
 WHERE R.StageName IN  ('Prospect','Application','Admitted','Missing Documents','Applied','Denied','Accepted','Declined','Fallout','Enrolled')

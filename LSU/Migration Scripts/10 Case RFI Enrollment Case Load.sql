@@ -10,7 +10,7 @@ USE edcuat;
 
 SELECT *
 INTO [edcuat].dbo.Case_RFI_Enrollment_LOAD
-FROM [edcuat].[dbo].[dbo].[30_Case_Enrollment_RFI] C
+FROM [edcuat].[dbo].[30_Case_Enrollment_RFI] C
 ORDER BY ContactId
 
 

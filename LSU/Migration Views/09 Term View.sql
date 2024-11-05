@@ -15,14 +15,14 @@ SELECT
 	NULL						AS ID
 	,campus__c
 	,campus_term_code__c
-	,Name
+	,A.Name
 	,createddate                AS EDACREATEDDATE__c
 	,hed__account__c            AS Source_Account_ID
 	,NULL						AS Account__c
 	,hed__parent_term__c        AS Source_Parent_Term
 	,NULL						AS Parent_Term__c
 	,hed__type__c				AS Type__c
-	,id							AS EDATERMID__c
+	,A.id							AS EDATERMID__c
 	,one_destiny_one_flag__c
 	,one_term_code__c
 	,one_term_id__c
@@ -40,10 +40,7 @@ SELECT
 	,priorterm__c 
 	,cohortno__c
 	,census_date__c
-	--,CR.ID AS createdbyid
-	--,O.ID AS ownerid
+	,CR.ID AS createdbyid
 FROM [edaprod].[dbo].[hed__term__c]	A
---LEFT JOIN [edcdatadev].[dbo].[User_Lookup] cr
---ON A.CreatedById = cr.Legacy_ID__c
---LEFT JOIN [edcdatadev].[dbo].[User_Lookup] O
---ON A.OwnerId = O.Legacy_ID__c
+LEFT JOIN [edcuat].[dbo].[User_Lookup] cr
+ON A.CreatedById = cr.Legacy_ID__c

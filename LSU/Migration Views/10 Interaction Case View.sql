@@ -33,7 +33,7 @@ SELECT
 	 END						AS Email__c
 	,C.phone					AS ContactPhone
 	,C.phone					AS Phone__c
-	--,CR.ID AS createdbyid
+	,CR.ID AS createdbyid
 	,event_name__c
 	,I.gclid__c
 	,interaction_source__c		AS [Source__c]
@@ -41,7 +41,7 @@ SELECT
 	,I.marketing_channel__c
 	,online_employer_partnership__c 
 	,online_family_of_employer_partnership__c
-	--,O.ID AS ownerid
+	,O.ID AS ownerid
 	,I.partner_admissions_flag_reason__c
 	,I.Partner_Admissions_Status__c
 	,I.Partner_External_ID__c
@@ -124,16 +124,16 @@ SELECT
 FROM [edaprod].[dbo].[Interaction__c]	I
 INNER JOIN [edcuat].[dbo].[Contact] C
 ON I.contact__c = C.Legacy_ID__c
---LEFT JOIN [edcuat].[dbo].[User_Lookup] cr
---ON I.CreatedById = cr.Legacy_ID__c
+LEFT JOIN [edcuat].[dbo].[User_Lookup] cr
+ON I.CreatedById = cr.Legacy_ID__c
 LEFT JOIN [edcuat].[dbo].[Recordtype] R2
 ON R2.DeveloperName = 'RFI_OE'
 LEFT JOIN [edcuat].[dbo].[Recordtype] R3
 ON R3.DeveloperName = 'RFI_CE'
 LEFT JOIN [edaprod].[dbo].[Opportunity] Op
 ON Op.Id = I.Opportunity__c
---LEFT JOIN [edcuat].[dbo].[User_Lookup] O
---ON Op.OwnerId = O.Legacy_ID__c
+LEFT JOIN [edcuat].[dbo].[User_Lookup] O
+ON I.OwnerId = O.Legacy_ID__c
 INNER JOIN [edcuat].[dbo].[LearningProgram] LP
 ON LP.EDAACCOUNTID__c = I.affiliated_account__c
 WHERE I.Interaction_Source__c IN 

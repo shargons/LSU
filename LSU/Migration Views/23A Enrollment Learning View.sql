@@ -21,6 +21,8 @@ SELECT DISTINCT
 		--,'Course' as Type
 		,A.Campus__c 						AS Source_ProviderID
 		,B.ID								AS ProviderId
+		,B.CreatedById
+		,B.OwnerId
 FROM  [edaprod].[dbo].[enrollment__c] A
 LEFT JOIN [edcuat].dbo.Account B
 ON A.Campus__c = B.Name

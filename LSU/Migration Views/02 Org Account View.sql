@@ -21,7 +21,7 @@ SELECT
 		,A.createddate
 		,A.id						as Legacy_Id__c
         ,A.name
-		--,O.ID AS ownerid
+		,O.ID AS ownerid
 		,A.parentid					as Source_ParentID
 		,NULL AS parentID
 		,CASE WHEN R_EDA.DeveloperName = 'LSU_College' THEN R2.Id

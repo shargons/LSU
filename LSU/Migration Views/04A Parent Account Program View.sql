@@ -49,8 +49,8 @@ SELECT DISTINCT
 		,P.registered__c
 		,P.scheduled__c
 		,RP.ID AS RecordTypeId
-		--,CR.ID AS createdbyid
-		--,O.ID AS ownerid
+		,CR.ID AS createdbyid
+		,O.ID AS ownerid
 		FROM [edaprod].[dbo].[Account] A
 INNER JOIN [edaprod].[dbo].[Account] P
 ON A.ParentId = P.Id
@@ -58,8 +58,8 @@ LEFT JOIN [edaprod].[dbo].[Recordtype] R_EDA
 ON A.RecordtypeId = R_EDA.ID
 LEFT JOIN [edcuat].[dbo].[Recordtype] RP
 ON RP.DeveloperName = 'College'
---LEFT JOIN [edcuat].[dbo].[User_Lookup] CR
---ON A.CreatedById = CR.Legacy_ID__c
---LEFT JOIN [edcuat].[dbo].[User_Lookup] O
---ON A.OwnerId = O.Legacy_ID__c
+LEFT JOIN [edcuat].[dbo].[User_Lookup] CR
+ON A.CreatedById = CR.Legacy_ID__c
+LEFT JOIN [edcuat].[dbo].[User_Lookup] O
+ON A.OwnerId = O.Legacy_ID__c
 WHERE R_EDA.DeveloperName IN ('Academic_Program')

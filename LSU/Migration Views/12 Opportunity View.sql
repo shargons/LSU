@@ -18,14 +18,14 @@ SELECT
 	,closedate
 	,contact__c										as Source_contact__c
 	,C.AccountId									AS AccountId
-	--,CR.ID AS createdbyid
+	,CR.ID AS createdbyid
 	,O.createddate
 	,expectedrevenue
 	,O.gclid__c
 	,O.id						AS Legacy_ID__c
 	,O.leadsource
 	,O.name
-	--,O.ID AS ownerid
+	,OC.ID AS ownerid
 	,probability
 	,CASE WHEN O.Campus__c = 'CE' THEN R3.Id
 		  ELSE R2.Id
@@ -79,10 +79,10 @@ END AS Closed_Reason__c
 ,O.Application_ID__c			AS Source_application_id__c
 ,LP.Id							AS Learning_Program_of_Interest__c
 FROM [edaprod].[dbo].[Opportunity] O
---LEFT JOIN [edcuat].[dbo].[User_Lookup] cr
---ON A.CreatedById = cr.Legacy_ID__c
---LEFT JOIN [edcuat].[dbo].[User_Lookup] O
---ON A.OwnerId = O.Legacy_ID__c
+LEFT JOIN [edcuat].[dbo].[User_Lookup] cr
+ON O.CreatedById = cr.Legacy_ID__c
+LEFT JOIN [edcuat].[dbo].[User_Lookup] OC
+ON O.OwnerId = OC.Legacy_ID__c
 LEFT JOIN [edcuat].[dbo].[Contact] C
 ON O.contactid = C.Legacy_ID__c
 LEFT JOIN [edcuat].[dbo].[Case] EA

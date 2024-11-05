@@ -23,14 +23,15 @@ SELECT DISTINCT
 	,T.Id									AS Academic_Term__c
 	,C.id									AS EDACROFRNGID__c
 	,C.Offering_Code__c						AS Name										
-	--,O.ID												AS ownerid
+	,O.ID									AS ownerid
+	,CR.ID									AS CreatedById
 FROM  [edaprod].[dbo].[enrollment__c] C
 LEFT JOIN [edcuat].[dbo].[LearningCourse] LC
 	ON C.Id = LC.EDACOURSEID__c
 LEFT JOIN [edcuat].[dbo].[AcademicTerm] T
 	ON C.Term__c = T.EDATERMID__c
---LEFT JOIN [edcuat].[dbo].[User_Lookup] cr
---ON R.CreatedById = cr.Legacy_ID__c
---LEFT JOIN [edcuat].[dbo].[User_Lookup] O
---ON R.OwnerId = O.Legacy_ID__c
+LEFT JOIN [edcuat].[dbo].[User] cr
+ON C.CreatedById = cr.EDAUSERID__c
+LEFT JOIN [edcuat].[dbo].[User] O
+ON C.OwnerId = O.EDAUSERID__c
 WHERE Offering_Code__c IS NOT NULL

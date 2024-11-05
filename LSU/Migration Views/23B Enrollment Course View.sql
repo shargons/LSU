@@ -14,20 +14,20 @@ CREATE OR ALTER VIEW [dbo].[23B_Enr_Course] AS
 SELECT DISTINCT
 	  NULL												AS ID
 	 ,R.createddate										AS EDACREATEDDATE__c
-	 --,cr.id												AS CreatedById
 	 ,AF.hed__Account__c								AS Source_ProviderId
 	 ,A.Id											    AS ProviderId
 	 ,L.Id												AS LearningId
 	 ,R.id												AS EDACOURSEID__c
 	 ,R.Offering_Code__c								AS Name
-	 --,O.Id											    AS OwnerId
+	 ,O.Id											    AS OwnerId
+	 ,CR.Id											    AS CreatedById
 FROM [edaprod].[dbo].[enrollment__c] R
 LEFT JOIN [edaprod].[dbo].[hed__Affiliation__c] AF
 ON R.LSU_Affiliation__c = AF.Id
---LEFT JOIN [edcuat].[dbo].[User_Lookup] cr
---ON R.CreatedById = cr.Legacy_ID__c
---LEFT JOIN [edcuat].[dbo].[User_Lookup] O
---ON R.OwnerId = O.Legacy_ID__c
+LEFT JOIN [edcuat].[dbo].[User] cr
+ON R.CreatedById = cr.EDAUSERID__c
+LEFT JOIN [edcuat].[dbo].[User] O
+ON R.OwnerId = O.EDAUSERID__c
 LEFT JOIN [edcuat].[dbo].[LearningProgram] A
 	ON A.EDAACCOUNTID__c = AF.hed__Account__c
 LEFT JOIN [edcuat].[dbo].[Learning] L

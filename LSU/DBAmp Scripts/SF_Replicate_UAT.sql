@@ -46,3 +46,11 @@ EXEC SF_Replicate 'EDCUAT','cfg_Subscription_Member__c','pkchunk,batchsize(50000
 EXEC SF_Replicate 'EDCUAT','EmailMessage','pkchunk,batchsize(50000)'
 
 EXEC SF_Replicate 'EDCUAT','Chat_Transcript__c','pkchunk,batchsize(50000)'
+
+EXEC SF_Replicate 'EDCUAT','DocumentChecklistItem','pkchunk,batchsize(50000)'
+
+EXEC SF_Replicate 'EDCUAT','Financial_Aid__c','pkchunk,batchsize(50000)'
+
+EXEC SF_Replicate 'EDCUAT','LearningAchievement','pkchunk,batchsize(50000)'
+
+EXEC SF_Replicate 'EDCUAT','LearningProgramPlanRqmt','pkchunk,batchsize(50000)'

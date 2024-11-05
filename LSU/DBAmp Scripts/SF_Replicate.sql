@@ -49,6 +49,14 @@ EXEC SF_Replicate 'EDAPROD','LiveChatTranscript','pkchunk,batchsize(50000)'
 
 EXEC SF_Replicate 'EDAPROD','ContentVersion','pkchunk,batchsize(50000)'
 
+EXEC SF_Replicate 'EDAPROD','ContentDocument','pkchunk,batchsize(50000)'
+
+EXEC SF_Replicate 'EDAPROD','ContentDocumentLink','pkchunk,batchsize(50000)'
+
+EXEC SF_Replicate 'EDAPROD','ContentNote','pkchunk,batchsize(50000)'
+
+EXEC SF_Replicate 'EDAPROD','Task','pkchunk,batchsize(50000)'
+
 --DROP TABLE edaprod.dbo.hed__Course__c
 SELECT * 
 INTO edaprod.dbo.hed__Course__c    --- SF_REPLICATE doesnt work with hed__course__c
@@ -99,3 +107,5 @@ EXEC SF_Replicate 'EDCDATADEV','CourseOffering','pkchunk,batchsize(50000)'
 EXEC SF_Replicate 'EDCDATADEV','cfg_subscription__c','pkchunk,batchsize(50000)'
 
 EXEC SF_Replicate 'EDCDATADEV','EmailMessage','pkchunk,batchsize(50000)'
+
+EXEC SF_Replicate 'EDCDATADEV','ContentNote','pkchunk,batchsize(50000)'

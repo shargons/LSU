@@ -144,8 +144,8 @@ SELECT
 	,RACEDESC__c
 	,ETHNIC__c
 	,ETHNDESC__c
-	--,CR.ID AS createdbyid
-	--,O.ID AS ownerid
+	,CR.ID AS createdbyid
+	,O.ID AS ownerid
 	,EMAIL1__c+'.invalid'			AS EMAIL1__c
 	,CASE WHEN A.ce_ce_status__c	= 'Completer'           THEN 'Completed'
 		  WHEN A.ce_ce_status__c	= 'Continuing Student'	THEN 'Enrolled'
@@ -166,9 +166,9 @@ SELECT
 	 ,wphone__c
 	 ,zip__c
 FROM [edaprod].[dbo].[student__c] S
---LEFT JOIN [edcuat].[dbo].[User_Lookup] cr
---ON A.CreatedById = cr.Legacy_ID__c
---LEFT JOIN [edcuat].[dbo].[User_Lookup] O
---ON A.OwnerId = O.Legacy_ID__c
+LEFT JOIN [edcuat].[dbo].[User_Lookup] cr
+ON S.CreatedById = cr.Legacy_ID__c
+LEFT JOIN [edcuat].[dbo].[User_Lookup] O
+ON S.OwnerId = O.Legacy_ID__c
 LEFT JOIN [edaprod].[dbo].[hed__Affiliation__c] A
 ON A.Id = S.LSU_Affiliation__c

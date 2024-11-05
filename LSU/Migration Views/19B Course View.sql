@@ -14,7 +14,7 @@ CREATE OR ALTER VIEW [dbo].[19B_EDA_Course] AS
 SELECT 
 	  NULL												AS ID
 	 ,R.createddate										AS EDACREATEDDATE__c
-	 --,cr.id												AS CreatedById
+	 ,cr.id												AS CreatedById
 	 ,hed__account__c									AS Source_ProviderId
 	 ,B.Id											    AS ProviderId
 	 ,L.Id												AS LearningId
@@ -32,9 +32,10 @@ SELECT
 	 ,R.systemmodstamp
 	 ,termbasedcourse__c							    AS term_based_course__c 
 	 --,O.Id											    AS OwnerId
+	 ,Modality__c
 FROM [edaprod].[dbo].[hed__course__c] R
---LEFT JOIN [edcuat].[dbo].[User_Lookup] cr
---ON R.CreatedById = cr.Legacy_ID__c
+LEFT JOIN [edcuat].[dbo].[User_Lookup] cr
+ON R.CreatedById = cr.Legacy_ID__c
 --LEFT JOIN [edcuat].[dbo].[User_Lookup] O
 --ON R.OwnerId = O.Legacy_ID__c
 LEFT JOIN [edcuat].dbo.Account B

@@ -32,7 +32,7 @@ SELECT
 	,coursedropdate__c								AS course_drop_date__c
 	,courseid__c
 	,R.createddate									AS EDACREATEDDATE__c
-	--,CR.ID										AS createdbyid
+	,CR.ID										AS createdbyid
 	--,credit_hours_for_course__c
 	,credithoursforcourse__c						AS credit_hours_for_course__c
 	,current_student__c
@@ -62,7 +62,7 @@ SELECT
 	,R.online_term__c
 	,opportunity__c									AS Source_Opportunity
 	,OL.ID											AS Opportunity__c
-	--,O.ID											AS ownerid
+	,O.ID											AS ownerid
 	,paymentstautus__c								AS payment_status__c
 	,program__c
 	,R.role__c
@@ -80,10 +80,10 @@ SELECT
 	,waivertypecode__c
 	,CO.Id											AS CourseOfferingId
 FROM [edaprod].[dbo].[enrollment__c] R
---LEFT JOIN [edcuat].[dbo].[User_Lookup] cr
---ON R.CreatedById = cr.Legacy_ID__c
---LEFT JOIN [edcuat].[dbo].[User_Lookup] O
---ON R.OwnerId = O.Legacy_ID__c
+LEFT JOIN [edcuat].[dbo].[User] cr
+ON R.CreatedById = cr.EDAUSERID__c
+LEFT JOIN [edcuat].[dbo].[User] O
+ON R.OwnerId = O.EDAUSERID__c
 LEFT JOIN [edcuat].[dbo].[Contact] C
 ON R.contact__c = C.Legacy_ID__c
 LEFT JOIN [edcuat].[dbo].[LearnerProgram] LP

@@ -48,7 +48,7 @@ SELECT  NULL AS ID
 		,company__c as company__pc
 		,convertedleadid__c as convertedleadid__pc
 		,covid_19_deferment_reason__c as covid_19_deferment_reason__pc
-		--,CR.ID AS createdbyid
+		,CR.ID AS createdbyid
 		,C.createddate
 		,current_program_for_reference__c as current_program_for_reference__pc
 		,deferred_due_to_covid_19__c as deferred_due_to_covid_19__pc
@@ -1667,7 +1667,7 @@ SELECT  NULL AS ID
 		ELSE otherstate
 		END AS Personotherstate
 		,otherstreet AS Personotherstreet
-		--,O.ID AS ownerid
+		,O.ID AS ownerid
 		,partnershipname__c as partnershipname__pc
 		,personid_int__c as personid_int__pc
 		,phone
@@ -1718,10 +1718,10 @@ SELECT  NULL AS ID
 FROM [edaprod].[dbo].[Contact] C
 LEFT JOIN [edcuat].dbo.Recordtype R
 ON R.DeveloperName = 'PersonAccount'
---LEFT JOIN [edcuat].[dbo].[User_Lookup] CR
---ON C.CreatedById = CR.Legacy_ID__c
---LEFT JOIN [edcuat].[dbo].[User_Lookup] O
---ON C.OwnerId = O.Legacy_ID__c
+LEFT JOIN [edcuat].[dbo].[User_Lookup] CR
+ON C.CreatedById = CR.Legacy_ID__c
+LEFT JOIN [edcuat].[dbo].[User_Lookup] O
+ON C.OwnerId = O.Legacy_ID__c
 --LEFT JOIN [edcuat].[dbo].[AcademicTerm_Lookup] A
 --ON A.Name = C.graduation_term__c
 --LEFT JOIN [edcuat].[dbo].[AcademicTerm_Lookup] B

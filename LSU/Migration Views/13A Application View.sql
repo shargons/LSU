@@ -36,7 +36,7 @@ SELECT DISTINCT
 	,application_state_code__c						AS application_state_code__c
 	,application_status_description__c
 	,application_student_type__c
-	,CAST(Applied_Date__c AS datetime)								AS AppliedDate
+	,Applied_Date__c 								AS AppliedDate
 	,calculated_4_0_transcript_gpa__c
 	,A.campus__c
 	,class_level__c
@@ -126,6 +126,8 @@ SELECT DISTINCT
 		  WHEN Pipeline_Sub_Status__c = 'Awaiting Submission' THEN 'Processing'
 		  WHEN Pipeline_Sub_Status__c = 'Withdrawn' THEN 'Cancelled'
 	END AS [Status]
+	,OC.ID AS ownerid
+	,CR.ID AS CreatedById
 FROM [edaprod].[dbo].[Application__c] A
 LEFT JOIN
 [edcuat].[dbo].[Contact] C
@@ -133,5 +135,8 @@ ON A.Contact__c = C.Legacy_Id__c
 LEFT JOIN
 [edaprod].[dbo].[Opportunity] O
 ON A.Opportunity__c = O.Id
-
+LEFT JOIN [edcuat].[dbo].[User_Lookup] cr
+ON A.CreatedById = cr.Legacy_ID__c
+LEFT JOIN [edcuat].[dbo].[User_Lookup] OC
+ON A.OwnerId = OC.Legacy_ID__c
 

@@ -20,13 +20,13 @@ SELECT DISTINCT
 	,AC.Id						AS Account__c
 	,Type						AS Type__c
 	,A.Online_Term__c			AS EDATERMID__c
-	--,CR.ID AS createdbyid
-	--,O.ID AS ownerid
+	,CR.ID AS createdbyid
+	,O.ID AS ownerid
 FROM [edaprod].[dbo].[enrollment__c] A
---LEFT JOIN [edcuat].[dbo].[User_Lookup] cr
---ON A.CreatedById = cr.Legacy_ID__c
---LEFT JOIN [edcuat].[dbo].[User_Lookup] O
---ON A.OwnerId = O.Legacy_ID__c
+LEFT JOIN [edcuat].[dbo].[User] cr
+ON A.CreatedById = cr.EDAUSERID__c
+LEFT JOIN [edcuat].[dbo].[User] O
+ON A.OwnerId = O.EDAUSERID__c
 LEFT JOIN [edcuat].dbo.Account AC
 ON A.Campus__c = AC.Name
 AND AC.CreatedById = '005D1000004gVpBIAU'

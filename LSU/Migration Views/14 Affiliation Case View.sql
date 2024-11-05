@@ -64,7 +64,7 @@ SELECT DISTINCT
 	,contact_retention__c						AS Source_contact_retention__c
 	,C2.ID										AS Contact_retention__c
 	,continuing_student_entry_date__c
-	--,CR.ID AS createdbyid
+	,CR.ID AS createdbyid
 	,A.createddate
 	,A.cumulative_gpa__c
 	,A.current_term_enrollments__c
@@ -141,7 +141,7 @@ SELECT DISTINCT
 	,opportunity_rollup__c
 	,A.original_created_date__c
 	,A.owner_signature__c
-	--,O.ID AS ownerid
+	,Ou.ID AS ownerid
 	,A.p_o_created__c
 	,A.paidforcurrentterm__c						AS paid_for_current_term__c
 	,A.paidforupcomingterm__c						AS paid_for_upcoming_term__c
@@ -221,10 +221,10 @@ SELECT DISTINCT
 		  WHEN A.pipeline_status__c = 'Stop Out'			THEN  'Stop Out'
 	 END										AS [Status]
 FROM [edaprod].[dbo].[hed__Affiliation__c]	A
---LEFT JOIN [edcuat].[dbo].[User_Lookup] cr
---ON A.CreatedById = cr.Legacy_ID__c
---LEFT JOIN [edcuat].[dbo].[User_Lookup] Ou
---ON A.OwnerId = O.Legacy_ID__c
+LEFT JOIN [edcuat].[dbo].[User_Lookup] cr
+ON A.CreatedById = cr.Legacy_ID__c
+LEFT JOIN [edcuat].[dbo].[User_Lookup] Ou
+ON A.OwnerId = Ou.Legacy_ID__c
 --LEFT JOIN [edcuat].[dbo].[User_Lookup] U
 --ON A.user__c = U.Legacy_ID__c
 LEFT JOIN [edcuat].[dbo].[Contact] C

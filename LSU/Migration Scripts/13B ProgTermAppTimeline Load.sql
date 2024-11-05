@@ -2,6 +2,54 @@
 USE edcuat;
 
 --====================================================================
+--	INSERTING NULL Academic Terms - PTAT
+--====================================================================
+
+SELECT DISTINCT 
+NULL AS ID
+,SourceAcademicTerm  AS Name
+,SourceAcademicTerm  AS Term_ID__c
+INTO AcademicTerm_PTAT_Load
+FROM [dbo].[13B_EDA_PTAT]
+WHERE AcademicTermId is null
+
+/******* Check Load table *********/
+SELECT * FROM [edcuat].dbo.AcademicTerm_PTAT_Load
+
+
+--====================================================================
+--INSERTING DATA USING DBAMP - Account
+--====================================================================
+
+
+/******* Change ID Column to nvarchar(18) *********/
+ALTER TABLE AcademicTerm_PTAT_Load
+ALTER COLUMN ID NVARCHAR(18)
+
+
+EXEC SF_TableLoader 'Insert:BULKAPI','EDCUAT','AcademicTerm_PTAT_Load'
+
+
+--====================================================================
+--POPULATING LOOKUP TABLE - Academic Term
+--====================================================================
+
+-- Contact Lookup
+--DROP TABLE IF EXISTS [dbo].[AcademicTerm_PTAT_Lookup];
+--GO
+
+SELECT
+ ID
+,Name
+INTO [edcuat].[dbo].AcademicTerm_PTAT_Lookup
+FROM AcademicTerm_PTAT_Load_Result
+WHERE Error = 'Operation Successful.'
+
+/***** Replicate AcademicTerm before running the view **********/
+EXEC SF_Replicate 'EDCUAT','AcademicTerm','pkchunk,batchsize(50000)'
+
+
+--====================================================================
 --	INSERTING DATA TO THE LOAD TABLE FROM THE VIEW - PTAT
 --====================================================================
 

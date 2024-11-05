@@ -20,7 +20,7 @@ SELECT
 	,R.classic_created_date__c
 	,contact__c					AS Source_Contact
 	,C.ID						AS Contact__c
-	--,CR.ID					AS createdbyid
+	,CR.ID					AS createdbyid
 	,R.createddate
 	,disbursementterm__c		AS 	Disbursement_Term__c
 	,documentdate__c			AS Document_Date__c
@@ -32,7 +32,7 @@ SELECT
 	,ineligibilityterm__c		AS in_eligibility_term__c
 	,interview_date__c
 	,R.name
-	--,O.ID						AS ownerid
+	,O.ID						AS ownerid
 	,packageddate__c			AS Packaged_Date__c
 	,statuscode__c				AS Status_Code__c
 	,statusdate__c				AS Status_Date__c
@@ -41,9 +41,9 @@ SELECT
 	,term__c					AS Term__c
 	,verified__c				AS Verified__c
 FROM [edaprod].[dbo].[financial_aid_record__c] R
---LEFT JOIN [edcuat].[dbo].[User_Lookup] cr
---ON A.CreatedById = cr.Legacy_ID__c
---LEFT JOIN [edcuat].[dbo].[User_Lookup] O
---ON A.OwnerId = O.Legacy_ID__c
+LEFT JOIN [edcuat].[dbo].[User_Lookup] cr
+ON R.CreatedById = cr.Legacy_ID__c
+LEFT JOIN [edcuat].[dbo].[User_Lookup] O
+ON R.OwnerId = O.Legacy_ID__c
 LEFT JOIN [edcuat].[dbo].[Contact] C
 ON R.contact__c = C.Legacy_ID__c

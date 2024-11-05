@@ -45,7 +45,8 @@ SELECT
 	,sfceenrollmentid__c					AS SF_CE_Enrollment_ID__c
 	,start_date_smd__c						AS StartDate
 	,studentxnumber__c						AS student_x_number__c
-	--,O.ID												AS ownerid
+	,O.ID									AS ownerid
+	,CR.Id									AS CreatedById
 	,CASE
 	WHEN E.hed__Status__c = 'Current'
 		THEN 'Enrolled'
@@ -59,8 +60,10 @@ SELECT
 	,E.CompletionDateMF__c					AS CompletionDate__c
 	,DueDate_ws__c							AS DueDate__c
 FROM  [edaprod].[dbo].[hed__course_enrollment__c] E
---LEFT JOIN [edcuat].[dbo].[User_Lookup] O
---ON E.OwnerId = O.Legacy_ID__c
+LEFT JOIN [edcuat].[dbo].[User] O
+ON E.OwnerId = O.EDAUSERID__c
+LEFT JOIN [edcuat].[dbo].[User] cr
+ON E.CreatedById = cr.EDAUSERID__c
 LEFT JOIN [edcuat].[dbo].[LearnerProgram] LP
 ON LP.EDACERTENROLLID__c = E.certificateenrollment__c
 LEFT JOIN [edcuat].[dbo].[Case] C
