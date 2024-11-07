@@ -24,7 +24,7 @@ ALTER TABLE LearningProgramPlan_LOAD
 ALTER COLUMN ID NVARCHAR(18)
 
 
-EXEC SF_TableLoader 'Insert:BULKAPI','EDCUAT','LearningProgramPlan_LOAD'
+EXEC SF_TableLoader 'Upsert:BULKAPI','EDCUAT','LearningProgramPlan_LOAD','Legacy_Id__c'
 
 SELECT * FROM LearningProgramPlan_LOAD_Result where Error <> 'Operation Successful.'
 

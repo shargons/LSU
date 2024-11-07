@@ -244,3 +244,114 @@ WHERE C.OwnerID IS NOT NULL
 
 EXEC SF_TableLoader 'Update:BULKAPI','EDCUAT','CourseOffering_Owner_Update'
 
+
+SELECT A.ID,C.OwnerId
+INTO [edcuat].dbo.CourseOfferingParticipant_Owner_Update_2
+FROM [dbo].[23E_EDA_Enrollments] C
+INNER JOIN
+CourseOfferingParticipant A
+ON A.Legacy_Id__c = C.Legacy_Id__c
+WHERE C.OwnerID IS NOT NULL
+
+
+EXEC SF_TableLoader 'Update:BULKAPI','EDCUAT','CourseOfferingParticipant_Owner_Update_2'
+
+
+SELECT A.ID,C.OwnerId
+INTO [edcuat].dbo.CourseOfferingParticipant_Owner_Update_2
+FROM [dbo].[23E_EDA_Enrollments] C
+INNER JOIN
+CourseOfferingParticipant A
+ON A.Legacy_Id__c = C.Legacy_Id__c
+WHERE C.OwnerID IS NOT NULL
+
+
+EXEC SF_TableLoader 'Update:BULKAPI','EDCUAT','CourseOfferingParticipant_Owner_Update_2'
+
+
+SELECT A.ID,C.OwnerId
+INTO [edcuat].dbo.cfg_Subscription__c_Owner_Update
+FROM [dbo].[25_EDA_Subscription] C
+INNER JOIN
+cfg_Subscription__c A
+ON A.Legacy_Id__c = C.Legacy_Id__c
+WHERE C.OwnerID IS NOT NULL
+
+
+EXEC SF_TableLoader 'Update:BULKAPI','EDCUAT','cfg_Subscription__c_Owner_Update'
+
+--DROP TABLE cfg_Subscription_Member__c_Owner_Update
+SELECT A.ID,C.OwnerId
+INTO [edcuat].dbo.cfg_Subscription_Member__c_Owner_Update
+FROM [dbo].[26_EDA_SubscriptionMembers] C
+INNER JOIN
+cfg_Subscription_Member__c A
+ON A.Legacy_Id__c = C.Legacy_Id__c
+WHERE C.OwnerID IS NOT NULL
+
+
+EXEC SF_TableLoader 'Update:BULKAPI','EDCUAT','cfg_Subscription_Member__c_Owner_Update'
+
+select * from cfg_Subscription_Member__c_Owner_Update_Result
+
+
+SELECT A.ID,C.OwnerId
+INTO [edcuat].dbo.Case_Owner_Update
+FROM [dbo].[27_EDA_Case] C
+INNER JOIN
+[Case] A
+ON A.Legacy_Id__c = C.Legacy_Id__c
+WHERE C.OwnerID IS NOT NULL
+
+
+EXEC SF_TableLoader 'Update:BULKAPI','EDCUAT','Case_Owner_Update'
+
+
+SELECT A.ID,C.OwnerId
+INTO [edcuat].dbo.Chat_Transcript__c_Owner_Update
+FROM [dbo].[28_EDA_ChatTranscripts] C
+INNER JOIN
+[Chat_Transcript__c] A
+ON A.Legacy_Id__c = C.Legacy_Id__c
+WHERE C.OwnerID IS NOT NULL
+
+
+EXEC SF_TableLoader 'Update:BULKAPI','EDCUAT','Chat_Transcript__c_Owner_Update'
+
+
+SELECT A.ID,C.OwnerId
+INTO [edcuat].dbo.Case_Owner_Update_2
+FROM [dbo].[30_Case_Enrollment_RFI] C
+INNER JOIN
+[Case] A
+ON A.Legacy_Id__c = C.Legacy_Id__c
+WHERE C.OwnerID IS NOT NULL
+
+
+EXEC SF_TableLoader 'Update:BULKAPI','EDCUAT','Case_Owner_Update_2'
+
+SELECT A.ID,C.OwnerId
+INTO [edcuat].dbo.Case_Owner_Update_2
+FROM [dbo].[30_Case_Enrollment_RFI] C
+INNER JOIN
+[Case] A
+ON A.Legacy_Id__c = C.Legacy_Id__c
+WHERE C.OwnerID IS NOT NULL
+
+select *
+into Case_Owner_Update_3
+from Case_Owner_Update_2_Result
+where Error <> 'Operation Successful.'
+
+EXEC SF_TableLoader 'Update:BULKAPI','EDCUAT','Case_Owner_Update_3'
+
+
+SELECT A.ID,C.OwnerId
+INTO [edcuat].dbo.Task_Owner_Update
+FROM [dbo].[32_EDA_Tasks] C
+INNER JOIN
+[Task] A
+ON A.Legacy_Id__c = C.Legacy_Id__c
+WHERE C.OwnerID IS NOT NULL
+
+EXEC SF_TableLoader 'Update:BULKAPI','EDCUAT','Task_Owner_Update'

@@ -47,14 +47,14 @@ NULL									AS ID
 ,visitormessagecount					AS visitormessagecount__c
 ,visitornetwork							AS visitornetwork__c
 ,waittime								AS waittime__c
---,O.ID											AS ownerid
---,CR.ID										AS createdbyid
+,O.ID											AS ownerid
+,CR.ID										AS createdbyid
 FROM  [edaprod].[dbo].[livechattranscript] T
 LEFT JOIN [edcuat].[dbo].[Contact] C
 ON C.Legacy_ID__c = T.contactid
 LEFT JOIN [edcuat].[dbo].[Case_Case_Lookup] Ca
 ON Ca.Legacy_ID__c = T.caseid
---LEFT JOIN [edcuat].[dbo].[User_Lookup] cr
---ON T.CreatedById = cr.Legacy_ID__c
---LEFT JOIN [edcuat].[dbo].[User_Lookup] O
---ON T.OwnerId = O.Legacy_ID__c
+LEFT JOIN [edcuat].[dbo].[User] cr
+ON T.CreatedById = cr.EDAUSERID__c
+LEFT JOIN [edcuat].[dbo].[User] O
+ON T.OwnerId = O.EDAUSERID__c

@@ -85,11 +85,11 @@ SELECT P.ID,UL.ID AS enrollment_concierge__pc
 INTO Account_EConc_Update
 FROM [edcuat].dbo.[06_EDA_PersonAccount] A
 LEFT JOIN
-[Account_Person_Lookup] P
+[Account] P
 ON A.Legacy_Id__pc = P.Legacy_Id__pc
 LEFT JOIN
-User_Lookup UL
-ON UL.Legacy_ID__c = A.Source_enrollment_concierge__pc
+[User] UL
+ON UL.EDAUSERID__c = A.Source_enrollment_concierge__pc
 WHERE UL.ID IS NOT NULL
 
 EXEC SF_TableLoader 'Update:BULKAPI','EDCUAT','Account_EConc_Update'
@@ -103,17 +103,14 @@ SELECT P.ID,UL.ID AS enrollment_coordinator__pc
 INTO Account_ECoord_Update
 FROM [edcuat].[dbo].[06_EDA_PersonAccount] A
 LEFT JOIN
-[Account_Person_Lookup] P
+[Account] P
 ON A.Legacy_Id__pc = P.Legacy_Id__pc
 LEFT JOIN
-User_Lookup UL
-ON UL.Legacy_ID__c = A.Source_enrollment_coordinator__pc
+[User] UL
+ON UL.EDAUSERID__c = A.Source_enrollment_coordinator__pc
 WHERE UL.ID IS NOT NULL
 
 EXEC SF_TableLoader 'Update:BULKAPI','EDCUAT','Account_ECoord_Update'
-
-select * from Account_ECoord_Update
-where Id = '001KT0000041wT9YAI'
 
 
 -- ext_classic_contact_id__pc Text(255)

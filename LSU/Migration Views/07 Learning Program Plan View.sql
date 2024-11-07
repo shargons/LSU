@@ -19,6 +19,7 @@ SELECT
 		,O.ID AS ownerid
 		,IIF(Inactive__c = 1,0,1) as IsActive
 		,P.ID AS LearningProgramId
+		,A.ID AS Legacy_Id__c
 		FROM [edaprod].[dbo].[Account] A
 LEFT JOIN [edaprod].[dbo].[Recordtype] R_EDA
 ON A.RecordtypeId = R_EDA.ID

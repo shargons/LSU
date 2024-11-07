@@ -16,14 +16,14 @@ NULL								AS ID
 ,cfg_display_in_subscription_center__c 
 ,cfg_tab__c
 ,cfg_type__c
-,createddate
+,R.createddate
 ,description__c							AS cfg_description__c
-,id										AS Legacy_ID__c
-,name
-	--,O.ID											AS ownerid
-	--,CR.ID										AS createdbyid
+,R.id										AS Legacy_ID__c
+,R.name
+	,O.ID											AS ownerid
+	,CR.ID										AS createdbyid
 FROM [edaprod].[dbo].[cfg_subscription__c] R
---LEFT JOIN [edcuat].[dbo].[User_Lookup] cr
---ON R.CreatedById = cr.Legacy_ID__c
---LEFT JOIN [edcuat].[dbo].[User_Lookup] O
---ON R.OwnerId = O.Legacy_ID__c
+LEFT JOIN [edcuat].[dbo].[User] cr
+ON R.CreatedById = cr.EDAUSERID__c
+LEFT JOIN [edcuat].[dbo].[User] O
+ON R.OwnerId = O.EDAUSERID__c

@@ -41,7 +41,7 @@ SELECT
 	,Enrollment_Term_Start_Date__c					AS StartDate
 	,Start_Date__c
 	,End_Date__c
-	,CompletionDate__c	AS EndDate
+	--,CompletionDateMF__c	AS EndDate
 	,enrolled_status__c
 	,enrollmentid__c
 	,R.ext_classic_contact_id__c

@@ -54,3 +54,5 @@ EXEC SF_Replicate 'EDCUAT','Financial_Aid__c','pkchunk,batchsize(50000)'
 EXEC SF_Replicate 'EDCUAT','LearningAchievement','pkchunk,batchsize(50000)'
 
 EXEC SF_Replicate 'EDCUAT','LearningProgramPlanRqmt','pkchunk,batchsize(50000)'
+
+EXEC SF_Replicate 'EDCUAT','Task','pkchunk,batchsize(50000)'

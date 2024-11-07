@@ -22,13 +22,13 @@ NULL								AS ID
 ,R.createddate
 ,R.id								AS Legacy_Id__c
 ,R.name
---,O.ID											AS ownerid
---,CR.ID										AS createdbyid
+,O.ID											AS ownerid
+,CR.ID										AS createdbyid
 FROM [edaprod].[dbo].[cfg_Subscription_Member__c] R
---LEFT JOIN [edcuat].[dbo].[User_Lookup] cr
---ON R.CreatedById = cr.Legacy_ID__c
---LEFT JOIN [edcuat].[dbo].[User_Lookup] O
---ON R.OwnerId = O.Legacy_ID__c
+LEFT JOIN [edcuat].[dbo].[User] cr
+ON R.CreatedById = cr.EDAUSERID__c
+LEFT JOIN [edcuat].[dbo].[User] O
+ON R.OwnerId = O.EDAUSERID__c
 LEFT JOIN [edcuat].[dbo].[Contact] C
 ON C.Legacy_Id__c = R.cfg_contact__c
 LEFT JOIN [edcuat].[dbo].[cfg_subscription__c] S

@@ -43,18 +43,15 @@ SELECT
 	,E.Subject
 	,TextBody
 	,ToAddress+'.invalid'				as ToAddress
-	--,O.ID											AS ownerid
-	--,CR.ID										AS createdbyid
+	,CR.ID										AS createdbyid
 FROM [edaprod].[dbo].[EmailMessage] E
 LEFT JOIN
 [edaprod].[dbo].[Account] A
 ON E.RelatedtoId = A.Id
 LEFT JOIN [edcuat].[dbo].[Contact] C
 ON A.hed__Primary_Contact__c = C.Legacy_Id__c
---LEFT JOIN [edcuat].[dbo].[User_Lookup] cr
---ON R.CreatedById = cr.Legacy_ID__c
---LEFT JOIN [edcuat].[dbo].[User_Lookup] O
---ON R.OwnerId = O.Legacy_ID__c
+LEFT JOIN [edcuat].[dbo].[User] cr
+ON E.CreatedById = cr.EDAUSERID__c
 LEFT JOIN [edcuat].[dbo].[Opportunity] O
 ON E.RelatedtoId = O.Legacy_ID__c
 LEFT JOIN [edcuat].[dbo].[Case] Ci

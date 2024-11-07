@@ -19,7 +19,7 @@ NULL									AS ID
 ,C.accountid							AS Source_Account
 ,are_you_a_current_student__c
 ,area_of_interest__c
-,contactid								AS Source_Contact
+,c.contactid								AS Source_Contact
 ,Co.Id									AS ContactId
 ,Co.AccountId							AS AccountId
 ,C.createddate
@@ -32,8 +32,8 @@ NULL									AS ID
 ,status
 ,student_type__c
 ,ISNULL(area_of_interest__c,'')+'-'+ISNULL(student_type__c,'')+'-'+ISNULL(Co.Name,'')	AS subject
---,O.ID											AS ownerid
---,CR.ID										AS createdbyid
+,O.ID											AS ownerid
+,CR.ID										AS createdbyid
 ,CASE WHEN A.Campus__c = 'CE' THEN R3.Id
 		  ELSE R2.Id
 	 END										AS RecordtypeId
@@ -44,10 +44,10 @@ FROM [edaprod].[dbo].[Case] C
 LEFT JOIN
 [edcuat].[dbo].[LearningProgram] LP
 ON LP.EDAACCOUNTID__c = C.Academic_Interest__c
---LEFT JOIN [edcuat].[dbo].[User_Lookup] cr
---ON C.CreatedById = cr.Legacy_ID__c
---LEFT JOIN [edcuat].[dbo].[User_Lookup] O
---ON C.OwnerId = O.Legacy_ID__c
+LEFT JOIN [edcuat].[dbo].[User] cr
+ON C.CreatedById = cr.EDAUSERID__c
+LEFT JOIN [edcuat].[dbo].[User] O
+ON C.OwnerId = O.EDAUSERID__c
 LEFT JOIN [edcuat].[dbo].[Contact] Co
 ON Co.Legacy_Id__c = C.contactid
 LEFT JOIN [edaprod].[dbo].[Account] A

@@ -24,7 +24,7 @@ SELECT
       ,[CallType]
       ,[CompletedDateTime]
       ,[Created_Date_Time__c]
-      --,CR.Id								AS [CreatedById]
+      ,CR.Id								AS [CreatedById]
       ,T.[CreatedDate]
       ,T.[Description]					AS 	Description__c
 	  ,[Five9__Five9Agent__c]
@@ -47,7 +47,7 @@ SELECT
       ,[IsRecurrence]
       ,[IsReminderSet]
       ,[IsVisibleInSelfService]
-      --,O.Id								AS [OwnerId]
+      ,O.Id								AS [OwnerId]
       ,[OwnerRole__c]
       ,T.[Power_of_One__c]
       ,[Priority]
@@ -59,9 +59,9 @@ SELECT
   LEFT JOIN
   [edcuat].[dbo].[Contact] C
   ON T.WhoId = C.Legacy_Id__c
-   --LEFT JOIN [edcuat].[dbo].[User_Lookup] cr
-	--ON T.CreatedById = cr.Legacy_ID__c
-	--LEFT JOIN [edcuat].[dbo].[User_Lookup] O
-	--ON T.OwnerId = O.Legacy_ID__c
+   LEFT JOIN [edcuat].[dbo].[User] cr
+	ON T.CreatedById = cr.EDAUSERID__c
+	LEFT JOIN [edcuat].[dbo].[User] O
+	ON T.OwnerId = O.EDAUSERID__c
 
 

@@ -10,7 +10,7 @@ GO
 
 
 
-CREATE OR ALTER VIEW [dbo].[01_EDA_User] AS
+--CREATE OR ALTER VIEW [dbo].[01_EDA_User] AS
 
 
 
@@ -38,7 +38,7 @@ SELECT
 		,firstname
 		,forecastenabled
 		,A.id									as EDAUSERID__c
-		,0 as isactive
+		,isactive
 		,languagelocalekey
 		,lastname
 		,localesidkey
@@ -56,8 +56,9 @@ SELECT
 		,suffix
 		,timezonesidkey
 		,title
-		,REPLACE(username,'eda','edc')+'.uat' as username
-		,'00EHu000004zh6DMAQ'				  as userroleid
+		,REPLACE(username,'eda','edc') as username
+		--,'00EHu000004zh6DMAQ'				  as userroleid
+		,userroleid
 FROM [edaprod].[dbo].[User] A
 LEFT JOIN [edcuat].dbo.Profile	P
 ON P.Name = 'Standard Platform User'
