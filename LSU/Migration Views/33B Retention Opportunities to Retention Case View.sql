@@ -1,19 +1,19 @@
 USE [edcuat];
 GO
 
-/****** Object:  View [dbo].[02_EDA_OrgAccount]    Script Date: 5/8/2024 2:20:57 PM ******/
-SET ANSI_NULLS ON
-GO
+--/****** Object:  View [dbo].[34_EDA_Retention_Opportunities]    Script Date: 5/8/2024 2:20:57 PM ******/
+--SET ANSI_NULLS ON
+--GO
 
-SET QUOTED_IDENTIFIER ON
-GO
+--SET QUOTED_IDENTIFIER ON
+--GO
 
 
-CREATE OR ALTER VIEW [dbo].[14_EDA_Affiliations] AS
+CREATE OR ALTER VIEW [dbo].[34B_EDA_Ret_Opportunity] AS
 
 SELECT DISTINCT
 	NULL						AS ID
-	,C.Name+'-'+L.Legacy_ID__c  AS Subject
+	,ISNULL(C.Name,'')+'-'+ISNULL(L2.Name,'')  AS Subject
 	,L.ID						AS Program_of_Interest__c
 	,academic_action__c
 	,academic_action_comments__c
@@ -248,4 +248,6 @@ LEFT JOIN [edcuat].[dbo].[Opportunity] OD
 ON O.Id = OD.Legacy_ID__c
 LEFT JOIN [edcuat].[dbo].[IndividualApplication] IA
 ON IA.Legacy_Id__c = A.application_id__c
-WHERE O.StageName = 'Enrolled'
+LEFT JOIN [edaprod].[dbo].[Recordtype] OPR
+ON OPR.ID = O.RecordTypeId
+WHERE OPR.DeveloperName = 'Retention_Opportunity'

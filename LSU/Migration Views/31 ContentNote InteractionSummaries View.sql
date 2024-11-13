@@ -13,7 +13,7 @@ CREATE OR ALTER VIEW [dbo].[31_EDA_ContentNotes] AS
 
 
 
-SELECT 
+SELECT DISTINCT
 	   NULL							AS ID
       --,CR.ID						AS [CreatedById]
       ,C.[CreatedDate]				AS EDACREATEDDATE__c
@@ -27,7 +27,8 @@ SELECT
 	  ,CO.AccountId					AS AccountID
 	  ,DL.LinkedEntityId
 	  ,'Published'					AS Status
-  FROM [edaprod].[dbo].[ContentVersion] C
+  FROM 
+  [edaprod].[dbo].[ContentVersion] C
   LEFT JOIN 
   [edaprod].[dbo].[ContentDocumentLink] DL
   ON C.ContentDocumentId = DL.ContentDocumentId
@@ -44,9 +45,12 @@ SELECT
 	--ON C.CreatedById = cr.Legacy_ID__c
 	--LEFT JOIN [edcuat].[dbo].[User_Lookup] O
 --ON C.OwnerId = O.Legacy_ID__c
-  WHERE FileType = 'Snote'
-  AND DL.LinkedEntityId NOT LIKE '0053%'
+  WHERE 
+  FileType = 'Snote'
+  AND 
+  DL.LinkedEntityId NOT LIKE '0053%'
   AND (CO.Id is not null OR CA.Id is not null OR O.Id is not null)
+  AND C.IsLatest = 1
 
   --select * from ContentVersion where FileType = 'Snote'
 

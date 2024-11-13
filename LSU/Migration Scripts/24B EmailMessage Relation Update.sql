@@ -5,21 +5,15 @@ USE edcuat;
 --====================================================================
 
 
---DROP TABLE IF EXISTS [dbo].[EmailMessageRelation_Load];
+--DROP TABLE IF EXISTS [dbo].[EmailMessage_Relation_Update];
 --GO
-SELECT *
-INTO [edcuat].dbo.EmailMessageRelation_Load
-FROM [edcuat].[dbo].[33_EDA_EmailMessageRelation] C
-ORDER BY [RelationId]
+SELECT B.Id,A.[RelationId],A.[RelationType]
+INTO EmailMessageRelation_Update
+FROM  [33_EDA_EmailMessageRelation] A
+INNER JOIN EmailMessageRelation B
+ON A.EmailMessageId = B.EmailMessageID 
+AND A.RelationAddress = B.RelationAddress
 
-
-
-/******* Change ID Column to nvarchar(18) *********/
-ALTER TABLE EmailMessageRelation_Load
-ALTER COLUMN ID NVARCHAR(18)
-
-
-SELECT * FROM EmailMessageRelation_Load
 
 
 
@@ -27,7 +21,7 @@ SELECT * FROM EmailMessageRelation_Load
 --INSERTING DATA USING DBAMP -   EmailMessageRelation
 --====================================================================
 
-EXEC SF_TableLoader 'Insert:BULKAPI','edcuat','EmailMessageRelation_Load'
+EXEC SF_TableLoader 'Update:BULKAPI','edcuat','EmailMessageRelation_Update'
 
 --DROP TABLE EmailMessageRelation_Load_2
 SELECT *

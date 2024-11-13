@@ -66,7 +66,7 @@ SELECT
 	 END						AS RecordTypeId
 	,LEFT(I.zip_postal_code__c,10) AS zip_postal_code__c
 	,CASE 
-		WHEN Op.StageName NOT IN ('New','Attempting','Qualified','Nurture','Disqualified','Duplicate') THEN 'Closed'
+		WHEN Op.StageName NOT IN ('New','Prospect','Attempting','Qualified','Nurture','Disqualified','Duplicate','Scheduled','Not Scheduled') THEN 'Closed'
 		ELSE Op.StageName
 		END							AS Status
 	,CASE  
@@ -121,19 +121,21 @@ SELECT
 			WHEN Op.Sub_Stage__c = 'Not Interested' THEN 'Not Interested'
 			WHEN Op.Sub_Stage__c = 'Not Qualified'		 THEN 'Not Qualified'
 	END AS Disqualified_Reason__c
+	,I.Original_Created_Date__c					AS Original_Created_Date__c
+	--,Op.StageName
 FROM [edaprod].[dbo].[Interaction__c]	I
 INNER JOIN [edcuat].[dbo].[Contact] C
 ON I.contact__c = C.Legacy_ID__c
-LEFT JOIN [edcuat].[dbo].[User_Lookup] cr
-ON I.CreatedById = cr.Legacy_ID__c
+LEFT JOIN [edcuat].[dbo].[User] cr
+ON I.CreatedById = cr.edauserid__c
 LEFT JOIN [edcuat].[dbo].[Recordtype] R2
 ON R2.DeveloperName = 'RFI_OE'
 LEFT JOIN [edcuat].[dbo].[Recordtype] R3
 ON R3.DeveloperName = 'RFI_CE'
 LEFT JOIN [edaprod].[dbo].[Opportunity] Op
 ON Op.Id = I.Opportunity__c
-LEFT JOIN [edcuat].[dbo].[User_Lookup] O
-ON I.OwnerId = O.Legacy_ID__c
+LEFT JOIN [edcuat].[dbo].[User] O
+ON I.OwnerId = O.edauserid__c
 INNER JOIN [edcuat].[dbo].[LearningProgram] LP
 ON LP.EDAACCOUNTID__c = I.affiliated_account__c
 WHERE I.Interaction_Source__c IN 

@@ -127,6 +127,7 @@ SELECT
 	END AS Disqualified_Reason__c
 	--,CO.Id as Recruitment_Opportunity
 	,ROW_NUMBER() OVER(PARTITION BY Op.Id ORDER BY I.CreatedDate ASC )as rownum
+	,I.Original_Created_Date__c
 FROM [edaprod].[dbo].[Interaction__c]	I
 INNER JOIN [edcuat].[dbo].[Contact] C
 ON I.contact__c = C.Legacy_ID__c

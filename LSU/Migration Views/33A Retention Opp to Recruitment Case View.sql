@@ -9,7 +9,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 
-CREATE OR ALTER VIEW [dbo].[11_Case_Opp_Recruitment] AS
+CREATE OR ALTER VIEW [dbo].[34A_Ret_Opp_Recruitment] AS
 
 SELECT DISTINCT
 	 NULL												AS ID
@@ -265,7 +265,6 @@ SELECT DISTINCT
 	,CASE WHEN stagename = 'Fallout'		THEN  'Closed Lost'
 			ELSE stagename
 	 END										AS Stagename__c	
-	 ,R.StageName
 	FROM [edaprod].[dbo].[Opportunity] R
 LEFT JOIN [edcuat].[dbo].[Contact] C
 ON R.contact__c = C.Legacy_Id__c
@@ -291,8 +290,6 @@ LEFT JOIN [edcuat].[dbo].[User_Lookup] OC
 ON R.coordinator__c = OC.Legacy_ID__c
 LEFT JOIN [edcuat].[dbo].[LearningProgram] LP
 ON LP.Name =R.Academic_Program__c
-WHERE R.StageName IN  ('Prospect','Application','Admitted','Missing Documents','Applied','Denied','Accepted','Declined','Fallout','Enrolled')
-AND NOT(R.Application_ID__c IS NULL
-AND R.Student_ID__c IS NULL
-AND R.Application_Slate_ID__c IS NULL
-AND R.StageName = 'Fallout')
+LEFT JOIN [edaprod].[dbo].[Recordtype] OPR
+ON OPR.ID = R.RecordTypeId
+WHERE OPR.DeveloperName = 'Retention_Opportunity'

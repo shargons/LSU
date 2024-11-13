@@ -79,10 +79,10 @@ END AS Closed_Reason__c
 ,O.Application_ID__c			AS Source_application_id__c
 ,LP.Id							AS Learning_Program_of_Interest__c
 FROM [edaprod].[dbo].[Opportunity] O
-LEFT JOIN [edcuat].[dbo].[User_Lookup] cr
-ON O.CreatedById = cr.Legacy_ID__c
-LEFT JOIN [edcuat].[dbo].[User_Lookup] OC
-ON O.OwnerId = OC.Legacy_ID__c
+LEFT JOIN [edcuat].[dbo].[User] cr
+ON O.CreatedById = cr.EDAUSERID__c
+LEFT JOIN [edcuat].[dbo].[User] OC
+ON O.OwnerId = OC.EDAUSERID__c
 LEFT JOIN [edcuat].[dbo].[Contact] C
 ON O.contactid = C.Legacy_ID__c
 LEFT JOIN [edcuat].[dbo].[Case] EA
