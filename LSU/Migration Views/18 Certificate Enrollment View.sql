@@ -19,6 +19,7 @@ SELECT
 	,coursescompleted__c								AS courses_completed__c
 	,coursesenrolled__c									AS courses_enrolled__c
 	,R.createddate										AS EDACREATEDDATE__c
+	,R.createddate	
 	,CR.ID											AS createdbyid
 	,credithourscompleted__c							AS credit_hours_completed__c
 	,flag__c					

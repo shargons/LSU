@@ -204,22 +204,8 @@ SELECT DISTINCT
 	,welcome_call_time_zone__c
 	,A.welcome_email_sent__c
 	,OD.Id										AS Related_Opportunity__c
-	,CASE WHEN ce_ce_status__c	= 'Completer'           THEN 'Completed'
-		  WHEN ce_ce_status__c	= 'Continuing Student'	THEN 'Enrolled'
-		  WHEN ce_ce_status__c	= 'Inactive'			THEN 'Dropped'
-		  WHEN A.pipeline_status__c = 'Degree Candidate'  THEN 'Enrolled'
-		  WHEN A.pipeline_status__c = 'Application'		THEN 'Awaiting Submission'
-		  WHEN A.pipeline_status__c = 'Prospect'			THEN 'Prospect'
-		  WHEN A.pipeline_status__c = 'Alumni'				THEN 'Completed'
-		  WHEN A.pipeline_status__c = 'Fallout'			THEN 'Completed'
-		  WHEN A.pipeline_status__c = 'Attempting'			THEN 'Attempting'
-		  WHEN A.pipeline_status__c = 'Term 1 / 2'			THEN 'Enrolled'
-		  WHEN A.pipeline_status__c = 'Continuing Student'	THEN 'Enrolled'
-		  WHEN A.pipeline_status__c = 'Inactive'			THEN 'Dropped'
-		  WHEN A.pipeline_status__c = 'Decision Released'	THEN 'Closed'
-		  WHEN A.pipeline_status__c = 'Onboarding'			THEN 'Enrolled'
-		  WHEN A.pipeline_status__c = 'Stop Out'			THEN  'Stop Out'
-	 END										AS [Status]
+	,O.[Stagename]									AS [Status]
+	,O.[Sub_Stage__c]									AS [Sub_Status__c]
 FROM [edaprod].[dbo].[hed__Affiliation__c]	A
 LEFT JOIN [edcuat].[dbo].[User] cr
 ON A.CreatedById = cr.EDAUSERID__c

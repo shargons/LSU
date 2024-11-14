@@ -1,4 +1,4 @@
-USE edcuat;
+ USE edcuat;
 
 --====================================================================
 --	INSERTING DATA TO THE LOAD TABLE FROM THE VIEW - InteractionSummary

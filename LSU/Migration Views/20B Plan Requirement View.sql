@@ -15,6 +15,7 @@ SELECT
 	 NULL												AS ID
 	,CR.ID											AS createdbyid
 	,R.createddate
+	,R.createddate										AS EDACreatedDate__c
 	,hed__course__c										AS Source_Learning_Course
 	,C.Id												AS Learning_Course__c
 	,hed__credits__c									AS Duration

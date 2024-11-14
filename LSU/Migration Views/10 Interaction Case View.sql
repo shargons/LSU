@@ -121,7 +121,7 @@ SELECT
 			WHEN Op.Sub_Stage__c = 'Not Interested' THEN 'Not Interested'
 			WHEN Op.Sub_Stage__c = 'Not Qualified'		 THEN 'Not Qualified'
 	END AS Disqualified_Reason__c
-	,I.Original_Created_Date__c					AS Original_Created_Date__c
+	,I.Original_Created_Date__c					AS 	EDACreatedDate__c
 	--,Op.StageName
 FROM [edaprod].[dbo].[Interaction__c]	I
 INNER JOIN [edcuat].[dbo].[Contact] C
@@ -135,7 +135,7 @@ ON R3.DeveloperName = 'RFI_CE'
 LEFT JOIN [edaprod].[dbo].[Opportunity] Op
 ON Op.Id = I.Opportunity__c
 LEFT JOIN [edcuat].[dbo].[User] O
-ON I.OwnerId = O.edauserid__c
+ON Op.OwnerId = O.edauserid__c
 INNER JOIN [edcuat].[dbo].[LearningProgram] LP
 ON LP.EDAACCOUNTID__c = I.affiliated_account__c
 WHERE I.Interaction_Source__c IN 

@@ -53,7 +53,7 @@ SELECT DISTINCT
 	,complete_final_college_transcript_flag__c
 	,complete_final_high_school_transcript_fl__c
 	,country_code__c
-	,A.createddate									AS EDACREATEDDATE__c
+	,A.createddate									
 	,decision_released_date__c						AS Decision_Release_Date__c
 	,dropped_from_application_file__c
 	,education_specialization__c
@@ -128,6 +128,7 @@ SELECT DISTINCT
 	END AS [Status]
 	,OC.ID AS ownerid
 	,CR.ID AS CreatedById
+	,A.Classic_Created_Date__c						AS EDACREATEDDATE__c
 FROM [edaprod].[dbo].[Application__c] A
 LEFT JOIN
 [edcuat].[dbo].[Contact] C

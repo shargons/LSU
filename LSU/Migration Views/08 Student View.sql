@@ -165,6 +165,8 @@ SELECT
 	 END										AS [Status]
 	 ,wphone__c
 	 ,zip__c
+	 ,S.CreatedDate as EDACREATEDDATE__c
+	 ,S.CreatedDate
 FROM [edaprod].[dbo].[student__c] S
 LEFT JOIN [edcuat].[dbo].[User_Lookup] cr
 ON S.CreatedById = cr.Legacy_ID__c

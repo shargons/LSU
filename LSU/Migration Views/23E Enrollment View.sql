@@ -23,7 +23,7 @@ SELECT
 	,R.ce_division__c
 	,ce_source_certificate_enrollment__c				AS Source_Certificate_Enrollment__c
 	,LP.ID												AS Certificate_Enrollment__c
-	,R.classic_created_date__c
+	,R.classic_created_date__c							AS EDACREATEDDATE__c
 	,competition_status_desc__c
 	,completion_status_code__c
 	,contact__c										AS Source_ParticipantContactId
@@ -31,7 +31,7 @@ SELECT
 	,coursebalance__c								AS course_balance__c
 	,coursedropdate__c								AS course_drop_date__c
 	,courseid__c
-	,R.createddate									AS EDACREATEDDATE__c
+	,R.createddate									
 	,CR.ID										AS createdbyid
 	--,credit_hours_for_course__c
 	,credithoursforcourse__c						AS credit_hours_for_course__c

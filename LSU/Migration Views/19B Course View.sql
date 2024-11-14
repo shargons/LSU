@@ -14,6 +14,7 @@ CREATE OR ALTER VIEW [dbo].[19B_EDA_Course] AS
 SELECT 
 	  NULL												AS ID
 	 ,R.createddate										AS EDACREATEDDATE__c
+	 ,R.createddate	
 	 ,cr.id												AS CreatedById
 	 ,hed__account__c									AS Source_ProviderId
 	 ,B.Id											    AS ProviderId

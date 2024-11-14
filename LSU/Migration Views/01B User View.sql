@@ -10,7 +10,7 @@ GO
 
 
 
---CREATE OR ALTER VIEW [dbo].[01_EDA_User] AS
+CREATE OR ALTER VIEW [dbo].[01_EDA_User] AS
 
 
 

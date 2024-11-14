@@ -51,6 +51,7 @@ SELECT
       ,[OwnerRole__c]
       ,T.[Power_of_One__c]
       ,[Priority]
+	  ,[Status]
       ,T.[Type]
       ,[WhoId]								AS Source_WhoId
 	  ,C.Id									AS WhoId

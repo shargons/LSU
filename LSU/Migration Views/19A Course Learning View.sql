@@ -14,6 +14,7 @@ CREATE OR ALTER VIEW [dbo].[19A_EDA_Course_Learning] AS
 SELECT
 		NULL								AS ID
 		,A.createddate
+		,A.createddate						AS EDACreatedDate__c
 		,'Professional Education'			AS AcademicLevel
 		,A.hed__extended_description__c		AS Description
 		,A.id								AS EDAACCOUNTID__c

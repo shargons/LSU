@@ -146,7 +146,7 @@ SELECT DISTINCT
 	,R.not_qualified__c
 	,not_scheduled_entry_date__c
 	,R.opportunity_key__c
-	,R.original_created_date__c
+	,R.original_created_date__c				AS EDACREATEDDATE__c
 	,O.Id									AS ownerid
 	,R.p_o_created__c
 	,R.paidforcurrentterm__c					AS Paid_for_current_Term__c
@@ -236,22 +236,31 @@ SELECT DISTINCT
 	,C.phone					AS ContactPhone
 	,LP.Id						AS Learning_Program_of_Interest__c
 	,CASE 
-		WHEN stagename = 'Prospect'				THEN  'Prospect'
-		WHEN stagename = 'Application'  		THEN  'Application In Progress'
+		WHEN stagename = 'Prospect' AND Sub_Stage__c not in ('Awaiting Payment','Awaiting Submission')	THEN  'Prospect'
+		WHEN stagename = 'Prospect' AND Sub_Stage__c in ('Awaiting Payment','Awaiting Submission')	THEN  'Application in Progress '
+		WHEN stagename = 'Attempting' AND Sub_Stage__c in ('Awaiting Payment','Awaiting Submission')	THEN  'Application in Progress '
+		WHEN stagename = 'Application' AND Sub_Stage__c not in ('Awaiting Payment','Awaiting Submission','Missing Documents','Awaiting Department','Withdrawn')  		THEN  'Applied'
+		WHEN stagename = 'Application' AND Sub_Stage__c in ('Awaiting Payment','Awaiting Submission')  		THEN  'Application In Progress'
+		WHEN stagename = 'Application' AND Sub_Stage__c in ('Missing Documents','Awaiting Department')  		THEN  'Application In Progress'
+		WHEN stagename = 'Application' AND Sub_Stage__c = 'Withdrawn'  		THEN  'Learner Decision'
 		WHEN stagename = 'Fallout'		AND R.Campus__c = 'CE'		THEN  'Enrollment Decision'
+		WHEN stagename = 'Enrolled'		AND R.Campus__c = 'CE'		THEN  'Enrollment Decision'
 		WHEN stagename = 'Denied'				THEN  'Application Denied'
 		WHEN stagename = 'Admitted'				THEN  'Application Admitted'
 		WHEN stagename = 'Declined'			THEN  'Learner Decision'
 		WHEN stagename = 'Accepted'			THEN  'Learner Decision'
 		WHEN stagename = 'Closed Lost'		THEN  'Enrollment Decision'
 		WHEN stagename = 'Fallout'			THEN  stagename
+		WHEN stagename = 'Enrolled'			THEN  'Learner Decision'
 		END AS [Status]
 	,CASE 
 		WHEN stagename = 'Fallout' 		AND R.Campus__c = 'CE'		THEN  stagename
+		WHEN stagename = 'Enrolled' 	AND R.Campus__c = 'CE'		THEN  stagename
 		WHEN stagename = 'Denied'		THEN  'Closed Lost'
 		WHEN stagename = 'Admitted'		THEN  NULL
 		WHEN stagename = 'Declined'		THEN  stagename
 		WHEN stagename = 'Accepted'		THEN  stagename
+		WHEN stagename = 'Enrolled'			THEN  'Accepted'
 		ELSE sub_stage__c
 	END AS Sub_Status__c
 	,CASE 
@@ -266,6 +275,7 @@ SELECT DISTINCT
 			ELSE stagename
 	 END										AS Stagename__c	
 	 ,R.StageName
+	 --,R.Campus__c
 	FROM [edaprod].[dbo].[Opportunity] R
 LEFT JOIN [edcuat].[dbo].[Contact] C
 ON R.contact__c = C.Legacy_Id__c
@@ -291,7 +301,7 @@ LEFT JOIN [edcuat].[dbo].[User_Lookup] OC
 ON R.coordinator__c = OC.Legacy_ID__c
 LEFT JOIN [edcuat].[dbo].[LearningProgram] LP
 ON LP.Name =R.Academic_Program__c
-WHERE R.StageName IN  ('Prospect','Application','Admitted','Missing Documents','Applied','Denied','Accepted','Declined','Fallout','Enrolled')
+WHERE R.StageName IN  ('Not Scheduled','Prospect','Application','Admitted','Missing Documents','Applied','Denied','Accepted','Declined','Fallout','Enrolled')
 AND NOT(R.Application_ID__c IS NULL
 AND R.Student_ID__c IS NULL
 AND R.Application_Slate_ID__c IS NULL

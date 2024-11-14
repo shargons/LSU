@@ -18,7 +18,7 @@ CREATE OR ALTER VIEW [dbo].[02_EDA_OrgAccount] AS
 SELECT
 		 null						as id
 		--,CR.ID AS createdbyid
-		,A.createddate
+		,A.createddate				AS EDACreatedDate__c
 		,A.id						as Legacy_Id__c
         ,A.name
 		,O.ID AS ownerid

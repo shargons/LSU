@@ -236,9 +236,15 @@ SELECT DISTINCT
 	,C.phone					AS ContactPhone
 	,LP.Id						AS Learning_Program_of_Interest__c
 	,CASE 
-		WHEN stagename = 'Prospect'				THEN  'Prospect'
-		WHEN stagename = 'Application'  		THEN  'Application In Progress'
+		WHEN stagename = 'Prospect' AND Sub_Stage__c not in ('Awaiting Payment','Awaiting Submission')	THEN  'Prospect'
+		WHEN stagename = 'Prospect' AND Sub_Stage__c in ('Awaiting Payment','Awaiting Submission')	THEN  'Application in Progress '
+		WHEN stagename = 'Attempting' AND Sub_Stage__c in ('Awaiting Payment','Awaiting Submission')	THEN  'Application in Progress '
+		WHEN stagename = 'Application' AND Sub_Stage__c not in ('Awaiting Payment','Awaiting Submission','Missing Documents','Awaiting Department','Withdrawn')  		THEN  'Applied'
+		WHEN stagename = 'Application' AND Sub_Stage__c in ('Awaiting Payment','Awaiting Submission')  		THEN  'Application In Progress'
+		WHEN stagename = 'Application' AND Sub_Stage__c in ('Missing Documents','Awaiting Department')  		THEN  'Application In Progress'
+		WHEN stagename = 'Application' AND Sub_Stage__c = 'Withdrawn'  		THEN  'Learner Decision'
 		WHEN stagename = 'Fallout'		AND R.Campus__c = 'CE'		THEN  'Enrollment Decision'
+		WHEN stagename = 'Enrolled' 	AND R.Campus__c = 'CE'		THEN  'Enrollment Decision'
 		WHEN stagename = 'Denied'				THEN  'Application Denied'
 		WHEN stagename = 'Admitted'				THEN  'Application Admitted'
 		WHEN stagename = 'Declined'			THEN  'Learner Decision'
@@ -248,6 +254,7 @@ SELECT DISTINCT
 		END AS [Status]
 	,CASE 
 		WHEN stagename = 'Fallout' 		AND R.Campus__c = 'CE'		THEN  stagename
+		WHEN stagename = 'Enrolled' 	AND R.Campus__c = 'CE'		THEN  stagename
 		WHEN stagename = 'Denied'		THEN  'Closed Lost'
 		WHEN stagename = 'Admitted'		THEN  NULL
 		WHEN stagename = 'Declined'		THEN  stagename
@@ -265,6 +272,7 @@ SELECT DISTINCT
 	,CASE WHEN stagename = 'Fallout'		THEN  'Closed Lost'
 			ELSE stagename
 	 END										AS Stagename__c	
+	,R.StageName
 	FROM [edaprod].[dbo].[Opportunity] R
 LEFT JOIN [edcuat].[dbo].[Contact] C
 ON R.contact__c = C.Legacy_Id__c

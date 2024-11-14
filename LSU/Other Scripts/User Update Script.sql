@@ -67,16 +67,21 @@ WHERE C.OwnerId IS NOT NULL
 EXEC SF_TableLoader 'Update:BULKAPI','EDCUAT','LearnerProgram_Owner_Update'
 
 
-
+--DROP TABLE Case_RFI_Owner_Update
 SELECT A.ID,C.OwnerId
 INTO [edcuat].dbo.Case_RFI_Owner_Update
 FROM [edcuat].[dbo].[10_EDA_Interactions] C
 INNER JOIN
 [Case] A
 ON A.Legacy_ID__c = C.Legacy_ID__c
-WHERE C.OwnerId IS NOT NULL
+WHERE C.OwnerId <> A.OwnerId
 
-EXEC SF_TableLoader 'Update:BULKAPI','EDCUAT','Case_RFI_Owner_Update'
+EXEC SF_TableLoader 'Update:BULKAPI','EDCUAT','Case_RFI_Owner_Update_2'
+
+select * 
+into Case_RFI_Owner_Update_2
+from Case_RFI_Owner_Update_Result
+where error <> 'Operation Successful.'
 
 
 SELECT A.ID,C.OwnerId,C.coordinator__c

@@ -78,6 +78,7 @@ END AS StageName
 END AS Closed_Reason__c
 ,O.Application_ID__c			AS Source_application_id__c
 ,LP.Id							AS Learning_Program_of_Interest__c
+,O.Original_Created_Date__c		AS EDACreatedDate__c
 FROM [edaprod].[dbo].[Opportunity] O
 LEFT JOIN [edcuat].[dbo].[User] cr
 ON O.CreatedById = cr.EDAUSERID__c

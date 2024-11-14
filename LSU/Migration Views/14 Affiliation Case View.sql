@@ -139,7 +139,7 @@ SELECT DISTINCT
 	,A.not_interested__c
 	,A.not_qualified__c
 	,opportunity_rollup__c
-	,A.original_created_date__c
+	,A.original_created_date__c						AS EDACreatedDate__c
 	,A.owner_signature__c
 	,Ou.ID AS ownerid
 	,A.p_o_created__c

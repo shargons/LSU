@@ -17,7 +17,7 @@ SELECT
 	,C.ID						AS ParentRecordId
 	,R.campus__c
 	,classic_contact_id__c 
-	,R.classic_created_date__c
+	,R.classic_created_date__c	AS EDACREATEDDATE__c
 	,CASE WHEN complete__c	= 1 THEN 'Accepted'
 			ELSE 'New' 
 	 END							AS Status
@@ -27,7 +27,7 @@ SELECT
 	,CR.ID AS createdbyid
 	,contact_office__c
 	,created_date_time__c			 
-	,R.createddate					AS EDACREATEDDATE__c
+	,R.createddate					
 	,document_code__c
 	,document_name__c
 	,dropped_from_the_file__c
