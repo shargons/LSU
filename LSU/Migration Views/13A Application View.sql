@@ -73,7 +73,7 @@ SELECT DISTINCT
 	,inactive_reason__c
 	,incomplete_flag__c
 	,institution_admitted_date__c
-	,institution_email__c
+	,A.institution_email__c
 	,intended_major_1__c
 	,intended_major_2__c
 	,intended_start_month__c
@@ -116,15 +116,17 @@ SELECT DISTINCT
 	,A.term_admitted__c
 	,A.term_enrolled__c
 	,visa_type__c
-	,'Education'									AS Category
-	,CASE WHEN Pipeline_Sub_Status__c = 'Awaiting on Department' THEN 'Processing'
+	,'Education' AS Category
+	,Pipeline_Sub_Status__c
+	,CASE WHEN Pipeline_Sub_Status__c = 'Awaiting on Department' THEN 'In Review'
 		  WHEN Pipeline_Sub_Status__c = 'Applied' THEN 'Processing'
 		  WHEN Pipeline_Sub_Status__c = 'Missing Documents' THEN 'Missing Documents'
 		  WHEN Pipeline_Sub_Status__c = 'Awaiting Payment' THEN 'Processing'
-		  WHEN Pipeline_Sub_Status__c = 'Denied' THEN 'Deny'
-		  WHEN Pipeline_Sub_Status__c = 'Admitted' THEN 'Admit'
+		  WHEN Pipeline_Sub_Status__c = 'Denied' THEN 'Application Decision - Denied'
+		  WHEN Pipeline_Sub_Status__c = 'Admitted' THEN 'Application Decision - Admitted'
 		  WHEN Pipeline_Sub_Status__c = 'Awaiting Submission' THEN 'Processing'
-		  WHEN Pipeline_Sub_Status__c = 'Withdrawn' THEN 'Cancelled'
+		  WHEN Pipeline_Sub_Status__c = 'Withdrawn' THEN 'Application Decision - Withdrawn'
+		  WHEN Pipeline_Sub_Status__c = 'Declined' THEN 'Application Decision - Declined'
 	END AS [Status]
 	,OC.ID AS ownerid
 	,CR.ID AS CreatedById

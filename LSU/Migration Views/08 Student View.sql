@@ -168,9 +168,9 @@ SELECT
 	 ,S.CreatedDate as EDACREATEDDATE__c
 	 ,S.CreatedDate
 FROM [edaprod].[dbo].[student__c] S
-LEFT JOIN [edcuat].[dbo].[User_Lookup] cr
-ON S.CreatedById = cr.Legacy_ID__c
-LEFT JOIN [edcuat].[dbo].[User_Lookup] O
-ON S.OwnerId = O.Legacy_ID__c
+LEFT JOIN [edcuat].[dbo].[User] cr
+ON S.CreatedById = cr.EDAUSERID__c
+LEFT JOIN [edcuat].[dbo].[User] O
+ON S.OwnerId = O.EDAUSERID__c
 LEFT JOIN [edaprod].[dbo].[hed__Affiliation__c] A
 ON A.Id = S.LSU_Affiliation__c

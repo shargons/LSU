@@ -204,8 +204,12 @@ SELECT DISTINCT
 	,welcome_call_time_zone__c
 	,A.welcome_email_sent__c
 	,OD.Id										AS Related_Opportunity__c
-	,O.[Stagename]									AS [Status]
-	,O.[Sub_Stage__c]									AS [Sub_Status__c]
+	,CASE WHEN O.[Stagename] = 'Enrolled' THEN A.pipeline_status__c
+	 ELSE O.StageName
+	 END AS [Status]
+	,CASE WHEN O.[Stagename] = 'Enrolled' THEN A.pipeline_status__c 
+	 ELSE O.[Sub_Stage__c]									
+	 END								AS		 [Sub_Status__c]
 FROM [edaprod].[dbo].[hed__Affiliation__c]	A
 LEFT JOIN [edcuat].[dbo].[User] cr
 ON A.CreatedById = cr.EDAUSERID__c

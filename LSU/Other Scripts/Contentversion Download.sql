@@ -16,8 +16,7 @@ SELECT ID
 FROM ContentVersion_All
 WHERE id_num <=100000
 
-
-
+EXEC SF_DownloadBlobs 'EDAPROD','ContentVersion_1_100000'
 
 CREATE TABLE ContentVersion_100001_200000
 (
@@ -28,6 +27,8 @@ INSERT INTO ContentVersion_100001_200000
 SELECT ID
 FROM ContentVersion_All
 WHERE id_num >=100001 and id_num <=200000
+
+EXEC SF_DownloadBlobs 'EDAPROD','ContentVersion_100001_200000'
 
 
 CREATE TABLE ContentVersion_200001_300000
@@ -41,6 +42,8 @@ SELECT ID
 FROM ContentVersion_All
 WHERE id_num >=200001 and id_num <=300000
 
+EXEC SF_DownloadBlobs 'EDAPROD','ContentVersion_200001_300000'
+
 
 CREATE TABLE ContentVersion_300001_400000
 (
@@ -52,6 +55,8 @@ SELECT ID
 FROM ContentVersion_All
 WHERE id_num >=300001 and id_num <=400000
 
+EXEC SF_DownloadBlobs 'EDAPROD','ContentVersion_300001_400000'
+
 CREATE TABLE ContentVersion_400001_500000
 (
 	ID NVARCHAR (18)
@@ -62,31 +67,67 @@ SELECT ID
 FROM ContentVersion_All
 WHERE id_num >=400001 and id_num <=500000
 
+EXEC SF_DownloadBlobs 'EDAPROD','ContentVersion_400001_500000'
+
 CREATE TABLE ContentVersion_500001_600000
 (
 	ID NVARCHAR (18)
 )
+
+INSERT INTO ContentVersion_500001_600000
+SELECT ID
+FROM ContentVersion_All
+WHERE id_num >=500001 and id_num <=600000
+
+EXEC SF_DownloadBlobs 'EDAPROD','ContentVersion_500001_600000'
+
 
 CREATE TABLE ContentVersion_600001_700000
 (
 	ID NVARCHAR (18)
 )
 
+INSERT INTO ContentVersion_600001_700000
+SELECT ID
+FROM ContentVersion_All
+WHERE id_num >=600001 and id_num <=700000
+
+EXEC SF_DownloadBlobs 'EDAPROD','ContentVersion_600001_700000'
+
 CREATE TABLE ContentVersion_700001_800000
 (
 	ID NVARCHAR (18)
 )
+
+INSERT INTO ContentVersion_700001_800000
+SELECT ID
+FROM ContentVersion_All
+WHERE id_num >=700001 and id_num <=800000
+
+EXEC SF_DownloadBlobs 'EDAPROD','ContentVersion_700001_800000'
 
 CREATE TABLE ContentVersion_800001_900000
 (
 	ID NVARCHAR (18)
 )
 
+INSERT INTO ContentVersion_800001_900000
+SELECT ID
+FROM ContentVersion_All
+WHERE id_num >=800001 and id_num <=900000
+
+EXEC SF_DownloadBlobs 'EDAPROD','ContentVersion_800001_900000'
+
 CREATE TABLE ContentVersion_900001_1000000
 (
 	ID NVARCHAR (18)
 )
+INSERT INTO ContentVersion_900001_1000000
+SELECT ID
+FROM ContentVersion_All
+WHERE id_num >=900001 and id_num <=1000000
 
+EXEC SF_DownloadBlobs 'EDAPROD','ContentVersion_900001_1000000'
 
 CREATE TABLE ContentVersion_1000001_1100000
 (

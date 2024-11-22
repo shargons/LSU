@@ -20,7 +20,7 @@ ALTER COLUMN ID NVARCHAR(18)
 
 SELECT * FROM Case_Ret_Opp_Ret_Case_LOAD
 
-EXEC SF_TableLoader 'Upsert:BULKAPI','edcuat','Case_Ret_Opp_Ret_Case_LOAD_2','Upsert_Key__c'
+EXEC SF_TableLoader 'Insert:BULKAPI','edcuat','Case_Ret_Opp_Ret_Case_LOAD_2'
 
 select * 
 --into Case_Ret_Opp_Ret_Case_LOAD_2

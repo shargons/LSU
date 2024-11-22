@@ -13,7 +13,7 @@ GO
 
 CREATE OR ALTER VIEW [dbo].[23F_AcademicTermEnrollments] AS
 
-SELECT * FROM
+SELECT DISTINCT * FROM
 (
 SELECT
 	 CP.Id								AS UpsertKey__c
@@ -24,7 +24,9 @@ SELECT
 	,CP.ParticipantAccountId			AS LearnerAccountId
 	,T.Id								AS AcademicTermId
 	,cp.Term__c
-	,LP.Status							AS Status
+	,TC.Campus_Term_Code_incoming_file_term_formats
+	,TC.Stand_Term_Code
+	,IIF(LP.[Status] = 'Inactive','Dropped',LP.[Status])						AS EnrollmentStatus
 	--,O.Learning_Program_of_Interest__c  AS 	Learning_Program__c
 	,ROW_NUMBER() OVER (PARTITION BY CP.ID ORDER BY LP.CREATEDDATE DESC ) as rownum
 FROM [edcuat].[dbo].[CourseOfferingParticipant] CP
@@ -33,11 +35,15 @@ ON CP.ParticipantContactId = LP.LearnerContactId
 AND CP.Campus__c = LP.Campus__c
 LEFT JOIN [edcuat].[dbo].[Opportunity] O
 ON O.Id = CP.Opportunity__c
-INNER JOIN [edcuat].[dbo].[AcademicTerm] T
-ON CP.Term__c = T.Term_ID__c
+LEFT JOIN [edaprod].[dbo].[SF_EDA_All_Campus_Term_Codes] TC
+ON CP.Term__c = TC.Campus_Term_Code_incoming_file_term_formats
+LEFT JOIN [edcuat].[dbo].[AcademicTerm] T
+ON TC.Campus_Term_Code_incoming_file_term_formats = T.Term_ID__c
 --WHERE cp.id = '0x6KT0000002NTNYA2'
 )X
-WHERE X.rownum = 1
+WHERE X.rownum = 1 and x.Term__c IS NOT NULL
+--AND X.LearnerAccountId = '001KT0000042TzyYAE'
+
 
 
 

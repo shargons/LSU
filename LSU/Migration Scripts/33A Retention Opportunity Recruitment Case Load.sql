@@ -20,11 +20,11 @@ ALTER COLUMN ID NVARCHAR(18)
 
 SELECT * FROM [edcuat].dbo.Case_Ret_Opp_Recr_Case_LOAD
 
-EXEC SF_TableLoader 'Upsert:BULKAPI','edcuat','Case_Ret_Opp_Recr_Case_LOAD','Upsert_Key__c'
+EXEC SF_TableLoader 'Insert:BULKAPI','edcuat','Case_Ret_Opp_Recr_Case_LOAD'
 
 select * 
 --into [edcuat].dbo.Case_Ret_Opp_Recr_Case_LOAD_2
-from [edcuat].dbo.Case_Ret_Opp_Recr_Case_LOAD_2_Result
+from [edcuat].dbo.Case_Ret_Opp_Recr_Case_LOAD_Result
 where Error <> 'Operation Successful.'
 
 --====================================================================

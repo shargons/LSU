@@ -11,6 +11,12 @@ EXEC SF_Replicate 'EDAPROD','Account','pkchunk,batchsize(50000)'
 
 EXEC SF_Replicate 'EDAPROD','Contact','pkchunk,batchsize(50000)'
 
+DROP TABLE edaprod.dbo.Contact
+SELECT * 
+INTO edaprod.dbo.Contact    --- SF_REPLICATE doesnt work with hed__course__c
+FROM EDAPROD.CData.Salesforce.Contact
+
+
 EXEC SF_Replicate 'EDAPROD','student__c','pkchunk,batchsize(50000)'
 
 EXEC SF_Replicate 'EDAPROD','hed__Affiliation__c','pkchunk,batchsize(50000)'

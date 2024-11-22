@@ -37,6 +37,7 @@ SELECT
 		  WHEN C.AccountId IS NULL AND O.id IS NOT NULL THEN O.Id
 		  WHEN C.Id IS NULL AND O.Id IS NULL AND Ci.Id IS NOT NULL THEN Ci.Id
 		  WHEN C.Id IS NULL AND O.Id IS NULL AND Ci.Id IS NULL AND CA.Id IS NOT NULL THEN CA.Id
+		  WHEN C.Id IS NULL AND O.Id IS NULL AND Ci.Id IS NULL AND CA.Id IS NULL THEN L.Id
 		END as RelatedToId
 	,E.[Status]  AS Source_Status
 	,5 as [Status]
@@ -44,12 +45,15 @@ SELECT
 	,TextBody
 	,ToAddress+'.invalid'				as ToAddress
 	,CR.ID										AS createdbyid
+	,E.CreatedDate									 AS EDACREATEDDATE__c
 FROM [edaprod].[dbo].[EmailMessage] E
 LEFT JOIN
 [edaprod].[dbo].[Account] A
 ON E.RelatedtoId = A.Id
 LEFT JOIN [edcuat].[dbo].[Contact] C
 ON A.hed__Primary_Contact__c = C.Legacy_Id__c
+LEFT JOIN [edcuat].[dbo].[Lead] L
+ON E.RelatedtoId = L.Legacy_Id__c
 LEFT JOIN [edcuat].[dbo].[User] cr
 ON E.CreatedById = cr.EDAUSERID__c
 LEFT JOIN [edcuat].[dbo].[Opportunity] O

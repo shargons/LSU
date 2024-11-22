@@ -56,7 +56,7 @@ SELECT
 		,suffix
 		,timezonesidkey
 		,title
-		,REPLACE(username,'eda','edc') as username
+		,SUBSTRING(USERNAME,1,PATINDEX('%@%',USERNAME))+'lsu.ec.edu' as username
 		--,'00EHu000004zh6DMAQ'				  as userroleid
 		,userroleid
 FROM [edaprod].[dbo].[User] A

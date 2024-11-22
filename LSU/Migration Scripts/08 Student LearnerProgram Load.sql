@@ -24,9 +24,9 @@ FROM edcuat.dbo.LearnerProgram_LOAD A
 INNER JOIN
 edaprod.dbo.hed__Affiliation__c B
 ON A.LSU_Affiliation__c = B.ID
-LEFT JOIN edcuat.dbo.Account_Program_Lookup C
-ON B.hed__Account__c = C.Legacy_ID__c
-LEFT JOIN edcuat.dbo.LearningProgramPlan_Lookup D
+LEFT JOIN edcuat.dbo.LearningProgram C
+ON B.hed__Account__c = C.EDAACCOUNTID__c
+LEFT JOIN edcuat.dbo.LearningProgramPlan D
 ON C.ID = D.LearningProgramId
 
 UPDATE A
@@ -37,7 +37,7 @@ edaprod.dbo.hed__Affiliation__c B
 ON A.LSU_Affiliation__c = B.ID
 LEFT JOIN [edcuat].dbo.LearningProgram C
 ON B.hed__Account__c = C.EDAACCOUNTID__c
-LEFT JOIN [edcuat].dbo.LearningProgramPlan_Lookup D
+LEFT JOIN [edcuat].dbo.LearningProgramPlan D
 ON C.ID = D.LearningProgramId
 LEFT JOIN
 [edcuat].dbo.[Contact] C1

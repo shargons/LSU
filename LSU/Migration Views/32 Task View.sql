@@ -25,20 +25,20 @@ SELECT
       ,[CompletedDateTime]
       ,[Created_Date_Time__c]
       ,CR.Id								AS [CreatedById]
-      ,T.[CreatedDate]
+      ,T.[CreatedDate]					AS EDACreatedDate__c
       ,T.[Description]					AS 	Description__c
-	  ,[Five9__Five9Agent__c]
-      ,[Five9__Five9AgentExtension__c]
-      ,[Five9__Five9AgentName__c]
-      ,[Five9__Five9ANI__c]
-      ,[Five9__Five9CallType__c]
-      ,[Five9__Five9Campaign__c]
-      ,[Five9__Five9DNIS__c]
-      ,[Five9__Five9HandleTime__c]
+	  ,[Five9__Five9Agent__c]			AS Five9Agent__c
+      ,[Five9__Five9AgentExtension__c]	AS Five9AgentExtension__c
+      ,[Five9__Five9AgentName__c]		AS Five9AgentName__c
+      ,[Five9__Five9ANI__c]				AS Five9ANI__c
+      ,[Five9__Five9CallType__c]		AS Five9CallType__c
+      ,[Five9__Five9Campaign__c]		AS Five9Campaign__c
+      ,[Five9__Five9DNIS__c]			AS Five9DNIS__c
+      ,[Five9__Five9HandleTime__c]		AS Five9HandleTime__c
       ,[Five9__Five9SessionId__c]
-      ,[Five9__Five9TalkAndHoldTimeInSeconds__c]
+      ,[Five9__Five9TalkAndHoldTimeInSeconds__c] AS Five9TalkAndHoldTimeInSeconds__c
       ,[Five9__Five9TaskType__c]
-      ,[Five9__Five9WrapTime__c]
+      ,[Five9__Five9WrapTime__c]		AS Five9WrapTime__c
       ,T.[Id]								AS Legacy_Id__c
       ,[IsArchived]
       ,[IsClosed]
@@ -54,15 +54,20 @@ SELECT
 	  ,[Status]
       ,T.[Type]
       ,[WhoId]								AS Source_WhoId
-	  ,C.Id									AS WhoId
+	  ,IIF(C.Id	IS NULL,L.Id,C.Id)								AS WhoId
 	  ,T.Subject
+	  ,T.TaskSubtype
   FROM [edaprod].[dbo].[Task] T
   LEFT JOIN
   [edcuat].[dbo].[Contact] C
   ON T.WhoId = C.Legacy_Id__c
+  LEFT JOIN
+  [edcuat].[dbo].[Lead] L
+  ON T.WhoId = L.Legacy_Id__c
    LEFT JOIN [edcuat].[dbo].[User] cr
 	ON T.CreatedById = cr.EDAUSERID__c
 	LEFT JOIN [edcuat].[dbo].[User] O
 	ON T.OwnerId = O.EDAUSERID__c
+
 
 

@@ -22,6 +22,7 @@ NULL								AS ID
 ,R.name
 	,O.ID											AS ownerid
 	,CR.ID										AS createdbyid
+,R.CreatedDate									AS EDACREATEDDATE__c
 FROM [edaprod].[dbo].[cfg_subscription__c] R
 LEFT JOIN [edcuat].[dbo].[User] cr
 ON R.CreatedById = cr.EDAUSERID__c

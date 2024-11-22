@@ -24,7 +24,8 @@ SELECT
 		IIF(Ca.Id IS NOT NULL,Ca.Id,
 			IIF(Op.Id IS NOT NULL,Op.Id,
 				IIF(Em.Id IS NOT NULL,Em.Id,
-				NULL)))))				AS FirstPublishLocationId
+					IIF(L.Id IS NOT NULL,L.Id,
+				NULL))))))				AS FirstPublishLocationId
 ,'P'										AS PublishStatus
 ,'C'										AS Origin
 ,'N'										AS SharingPrivacy
@@ -42,6 +43,9 @@ ON C.FirstPublishLocationId = Ca.Legacy_ID__c
 LEFT JOIN
 edcuat.dbo.[Opportunity] Op
 ON C.FirstPublishLocationId = Op.Legacy_ID__c
+LEFT JOIN
+edcuat.dbo.[Lead] L
+ON C.FirstPublishLocationId = L.Legacy_ID__c
 LEFT JOIN
 [edcuat].[dbo].[EmailMessage] Em
 ON C.FirstPublishLocationId = Em.EDAEMAILMSGID__c

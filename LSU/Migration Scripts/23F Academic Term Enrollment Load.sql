@@ -1,67 +1,24 @@
 
 USE edcuat;
 
---====================================================================
---	INSERTING ACADEMIC TERMS FROM ENROLLMENTS  - Academic Terms
---====================================================================
---DROP TABLE IF EXISTS [dbo].[AcademicTerm_Enr_Insert];
---GO
-
-SELECT DISTINCT 
-NULL AS ID
-,Term__c AS Name
-,Term__c AS Term_ID__c
-INTO AcademicTerm_Enr_Insert_2
-FROM [dbo].[23F_AcademicTermEnrollments]
-WHERE AcademicTermID IS NULL
-AND Term__c IS NOT NULL
---AND Term__c = '20251P'
-
-/******* Check Load table *********/
-SELECT * FROM [edcuat].dbo.AcademicTerm_Enr_Insert
-
-
---====================================================================
---INSERTING DATA USING DBAMP - Account
---====================================================================
-
-
-/******* Change ID Column to nvarchar(18) *********/
-ALTER TABLE AcademicTerm_Enr_Insert_2
-ALTER COLUMN ID NVARCHAR(18)
-
-
-EXEC SF_TableLoader 'Insert:BULKAPI','EDCUAT','AcademicTerm_Enr_Insert_2'
-
-
---====================================================================
---POPULATING LOOKUP TABLE - Academic Term
---====================================================================
-
--- Contact Lookup
---DROP TABLE IF EXISTS [dbo].[AcademicTerm_Enr_Lookup];
---GO
-INSERT INTO [edcuat].[dbo].[AcademicTerm_Enr_Lookup]
-SELECT
- ID
-,Name
---INTO [edcuat].[dbo].[AcademicTerm_Enr_Lookup]
-FROM AcademicTerm_Enr_Insert_2_Result
-WHERE Error = 'Operation Successful.'
-
-/***** Replicate AcademicTerm before running the view **********/
-EXEC SF_Replicate 'EDCUAT','AcademicTerm','pkchunk,batchsize(50000)'
-
-
+-- REPLICATE ATE for eliminating duplicates while migration
+EXEC SF_Replicate 'EDCUAT','AcademicTermEnrollment','pkchunk,batchsize(50000)'
 
 --====================================================================
 --	INSERTING DATA TO THE LOAD TABLE FROM THE VIEW - Academic Term Enrollment 
 --====================================================================
 --DROP TABLE IF EXISTS [dbo].[AcademicTermEnrollment_LOAD];
 --GO
-SELECT *
+SELECT A.*
 INTO [edcuat].[dbo].AcademicTermEnrollment_LOAD
-FROM [edcuat].[dbo].[23F_AcademicTermEnrollments] C
+FROM [edcuat].[dbo].[23F_AcademicTermEnrollments] A
+LEFT JOIN
+AcademicTermEnrollment B
+ON A.AcademicTermId = B.AcademicTermId
+AND A.LearnerAccountId = B.LearnerAccountId
+WHERE 
+B.ID IS NULL
+
 
 
 
@@ -110,18 +67,22 @@ FROM AcademicTermEnrollment_Delete_Result where Error <> 'Operation Successful.'
 
 --====================================================================
 --POPULATING LOOOKUP TABLES- AcademicTermEnrollment
---====================================================================
 
-/***** Replicate AcademicTerm before running the view **********/
-EXEC SF_Replicate 'EDCUAT','AcademicTermEnrollment','pkchunk,batchsize(50000)'
+INSERT INTO AcademicTermEnrollment_Lookup
 
-SELECT * FROM AcademicTermEnrollment
+SELECT ID,UpsertKey__c
+--INTO AcademicTermEnrollment_Lookup
+FROM AcademicTermEnrollment_Load_5_Result
+WHERE Error = 'Operation Successful.'
+
 
 --====================================================================
 --UPDATE CoursefferingParticipant- AcademicTermEnrollment Lookup
 --====================================================================
 --DROP TABLE CourseOfferingParticipant_ATE_Update
-SELECT DISTINCT A.UpsertKey__c as ID,B.ID AS AcademicTermEnrollmentID,Status as ParticipationStatus
+SELECT DISTINCT A.UpsertKey__c as ID,
+B.ID AS AcademicTermEnrollmentID,
+IIF(A.EnrollmentStatus = 'Active' OR A.EnrollmentStatus = 'Registered','Enrolled',A.EnrollmentStatus)  as ParticipationStatus
 INTO CourseOfferingParticipant_ATE_Update
 FROM [dbo].[23F_AcademicTermEnrollments] A
 INNER JOIN

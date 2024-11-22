@@ -40,6 +40,7 @@ NULL									AS ID
 ,Co.FirstName							AS First_Name__c
 ,Co.LastName								AS Last_Name__c
 ,Co.Email								AS Email__c
+,C.CreatedDate							AS EDACreatedDate__c															
 FROM [edaprod].[dbo].[Case] C
 LEFT JOIN
 [edcuat].[dbo].[LearningProgram] LP

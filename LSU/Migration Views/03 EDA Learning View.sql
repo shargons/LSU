@@ -30,8 +30,8 @@ SELECT
 		,A.Program_ID__c
 		FROM  [EDAPROD].[dbo].[Account] A
 	JOIN [EDAPROD].[dbo].Recordtype R ON A.RecordTypeId = R.Id
-	LEFT JOIN [edcuat].[dbo].[User_Lookup] CR
-	ON A.CreatedById = CR.Legacy_ID__c
-	LEFT JOIN [edcuat].[dbo].[User_Lookup] O
-	ON A.OwnerId = O.Legacy_ID__c
+	LEFT JOIN [edcuat].[dbo].[User] CR
+	ON A.CreatedById = CR.EDAUSERID__c
+	LEFT JOIN [edcuat].[dbo].[User] O
+	ON A.OwnerId = O.EDAUSERID__c
 	WHERE R.DeveloperName IN ('Academic_Program')

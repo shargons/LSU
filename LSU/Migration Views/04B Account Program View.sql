@@ -51,8 +51,8 @@ SELECT
 		FROM [edaprod].[dbo].[Account] A
 LEFT JOIN [edaprod].[dbo].[Recordtype] R_EDA
 ON A.RecordtypeId = R_EDA.ID
---LEFT JOIN [edcuat].[dbo].[User_Lookup] CR
---ON A.CreatedById = CR.Legacy_ID__c
---LEFT JOIN [edcuat].[dbo].[User_Lookup] O
---ON A.OwnerId = O.Legacy_ID__c
+LEFT JOIN [edcuat].[dbo].[User] CR
+ON A.CreatedById = CR.EDAUSERID__c
+LEFT JOIN [edcuat].[dbo].[User] O
+ON A.OwnerId = O.EDAUSERID__c
 WHERE R_EDA.DeveloperName IN ('Academic_Program')

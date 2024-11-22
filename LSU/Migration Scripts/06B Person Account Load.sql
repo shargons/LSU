@@ -58,6 +58,8 @@ EXECUTE	SF_TableLoader
 --POPULATING LOOOKUP TABLES- Account
 --====================================================================
 
+
+
 -- Contact Lookup
 --DROP TABLE IF EXISTS [dbo].[Account_Person_Lookup];
 --GO
@@ -76,6 +78,8 @@ WHERE Error = 'Operation Successful.'
 --====================================================================
 --UPDATE LOOKUPS 
 --====================================================================
+
+EXEC SF_Replicate 'EDCUAT','User','pkchunk,batchsize(50000)'
 
 -- Primary Academic Program Lookup(Learning Program)
 
@@ -139,7 +143,7 @@ WHERE A.ext_classic_lead_id__pc IS NOT NULL
 EXEC SF_TableLoader 'Update:BULKAPI','EDCUAT','Account_extlead_Update'
 
 -- ce_enrollment_coach__pc 	Lookup(User)
---DROP TABLE Account_Ecoach_Update
+-- DROP TABLE Account_Ecoach_Update
 SELECT P.ID,UL.ID AS ce_enrollment_coach__pc
 INTO Account_Ecoach_Update
 FROM [edcuat].[dbo].[06_EDA_PersonAccount] A
@@ -147,8 +151,8 @@ LEFT JOIN
 [Account_Person_Lookup] P
 ON A.Legacy_Id__pc = P.Legacy_Id__pc
 LEFT JOIN
-User_Lookup UL
-ON UL.Legacy_ID__c = A.Source_ce_enrollment_coach__pc
+[User] UL
+ON UL.EDAUSERID__c = A.Source_ce_enrollment_coach__pc
 WHERE UL.ID IS NOT NULL
 
 EXEC SF_TableLoader 'Update:BULKAPI','EDCUAT','Account_Ecoach_Update'
@@ -162,8 +166,8 @@ LEFT JOIN
 [Account_Person_Lookup] P
 ON A.Legacy_Id__pc = P.Legacy_Id__pc
 LEFT JOIN
-User_Lookup UL
-ON UL.Legacy_ID__c = A.Source_ce_enrollment_coordinator__pc
+[User] UL
+ON UL.EDAUSERID__c = A.Source_ce_enrollment_coordinator__pc
 WHERE UL.ID IS NOT NULL
 
 EXEC SF_TableLoader 'Update:BULKAPI','EDCUAT','Account_ceenr_Update'
@@ -177,8 +181,8 @@ LEFT JOIN
 [Account_Person_Lookup] P
 ON A.Legacy_Id__pc = P.Legacy_Id__pc
 LEFT JOIN
-User_Lookup UL
-ON UL.Legacy_ID__c = A.Source_ce_student_success_coach__pc
+[User] UL
+ON UL.EDAUSERID__c = A.Source_ce_student_success_coach__pc
 WHERE UL.ID IS NOT NULL
 
 EXEC SF_TableLoader 'Update:BULKAPI','EDCUAT','Account_cecoach_Update'
@@ -193,8 +197,8 @@ LEFT JOIN
 [Account_Person_Lookup] P
 ON A.Legacy_Id__pc = P.Legacy_Id__pc
 LEFT JOIN
-User_Lookup UL
-ON UL.Legacy_ID__c = A.Source_learner_concierge__pc
+[User] UL
+ON UL.EDAUSERID__c = A.Source_learner_concierge__pc
 WHERE UL.ID IS NOT NULL
 
 EXEC SF_TableLoader 'Update:BULKAPI','EDCUAT','Account_learncoach_Update'

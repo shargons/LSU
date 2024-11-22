@@ -20,7 +20,8 @@ SELECT
       ,E.[Id]				AS Legacy_Id__c
       ,[RelationAddress]	 
 	  ,E.[RelationId]		AS [Source_RelationId]
-      ,IIF(E.[RelationObjectType] = 'User',U.Id,C.Id)	AS [RelationId]
+      --,IIF(E.[RelationObjectType] = 'User',U.Id,IIF(C.Id IS NULL,L.Id,C.AccountId))	AS [RelationId]
+	  ,IIF(E.[RelationObjectType] = 'User',U.Id,C.Id)	AS [RelationId]
       ,[RelationObjectType]
       ,[RelationType]
 FROM [edaprod].[dbo].[EmailMessageRelation] E
@@ -32,4 +33,6 @@ FROM [edaprod].[dbo].[EmailMessageRelation] E
 	ON E.[RelationId] = U.EDAUSERID__c
 	LEFT JOIN  [edcuat].[dbo].[Contact] C
 	ON E.[RelationId] = C.Legacy_Id__c
+	--LEFT JOIN  [edcuat].[dbo].[Lead] L
+	--ON E.[RelationId] = L.Legacy_Id__c
 	WHERE [RelationObjectType] IN ('User','Contact')

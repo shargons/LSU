@@ -11,12 +11,14 @@ GO
 
 CREATE OR ALTER VIEW [dbo].[13B_EDA_PTAT] AS
 
+SELECT DISTINCT X.*,T2.Id as AcademicTermId
+FROM (
 SELECT
 	 NULL					as ID
 	,B.hed__Account__c		as Source_LearningProgram
 	,AL.Id					as LearningProgramId
 	,IIF(A.Term_Applied__c IS NULL,A.Term_Admitted__c,A.Term_Applied__c)		AS SourceAcademicTerm
-	,IIF(T2.Id IS NULL,T3.Id,T2.Id)				as AcademicTermId
+	--,IIF(T2.Id IS NULL,T3.Id,T2.Id)				as AcademicTermId
 	,A.Id					as UpsertKey__c
 FROM [edaprod].[dbo].[Application__c] A
 LEFT JOIN 
@@ -25,9 +27,10 @@ ON A.LSU_Affiliation__c = B.Id
 LEFT JOIN
 [edcuat].[dbo].[LearningProgram] AL
 ON AL.EDAACCOUNTID__c = B.hed__Account__c
+)X
+LEFT JOIN [edaprod].[dbo].[SF_EDA_All_Campus_Term_Codes] TC
+ON X.SourceAcademicTerm = TC.Campus_Term_Code_incoming_file_term_formats
 LEFT JOIN [edcuat].[dbo].[AcademicTerm] T2
-ON T2.Term_Id__c = A.Term_Applied__c
-LEFT JOIN [edcuat].[dbo].[AcademicTerm] T3
-ON T3.Term_Id__c = A.Term_Admitted__c
-
-
+ON T2.Term_Id__c = TC.Campus_Term_Code_incoming_file_term_formats
+WHERE X.SourceAcademicTerm IS NOT NULL AND X.Source_LearningProgram IS NOT NULL
+AND T2.ID IS NOT NULL

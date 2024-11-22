@@ -17,10 +17,10 @@ SELECT
 	,awardyear__c				AS award_year__c
 	,R.campus__c
 	,classic_contact_id__c
-	,R.classic_created_date__c
+	,R.classic_created_date__c	
 	,contact__c					AS Source_Contact
 	,C.ID						AS Contact__c
-	,CR.ID					AS createdbyid
+	,CR.ID						AS createdbyid
 	,R.createddate
 	,disbursementterm__c		AS 	Disbursement_Term__c
 	,documentdate__c			AS Document_Date__c
