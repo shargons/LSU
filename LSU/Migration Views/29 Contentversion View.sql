@@ -1,4 +1,4 @@
-USE [edcuat];
+USE [EDUCPROD];
 GO
 
 /****** Object:  View [dbo].[29_EDA_ContentVersion]    Script Date: 5/8/2024 2:20:57 PM ******/
@@ -16,8 +16,8 @@ SELECT
  C.ID
 ,C.Id											AS Legacy_Id__c
 ,C.Title
-,'C:\DBAmp\Blob\'+C.ID+'_versiondata.File'	AS PathOnClient
-,'C:\DBAmp\Blob\'+C.ID+'_versiondata.File'	AS VersionData
+,'C:\DBAmpBlob\Blob\'+C.ID+'_versiondata.File'	AS PathOnClient
+,'C:\DBAmpBlob\Blob\'+C.ID+'_versiondata.File'	AS VersionData
 ,FirstPublishLocationId						AS Source_FirstPublishLocationId 
 ,IIF(Co.Id IS NOT NULL,Co.Id,
 	IIF(U.Id IS NOT NULL,U.Id,
@@ -32,22 +32,22 @@ SELECT
 ,'A'										AS SharingOption
 FROM [edaprod].[dbo].[ContentVersion] C
 LEFT JOIN
-edcuat.dbo.Contact Co
+EDUCPROD.dbo.Contact Co
 ON C.FirstPublishLocationId = Co.Legacy_ID__c
 LEFT JOIN
-edcuat.dbo.User_Lookup U
+EDUCPROD.dbo.User_Lookup U
 ON C.FirstPublishLocationId = U.Legacy_ID__c
 LEFT JOIN
-edcuat.dbo.[Case] Ca
+EDUCPROD.dbo.[Case] Ca
 ON C.FirstPublishLocationId = Ca.Legacy_ID__c
 LEFT JOIN
-edcuat.dbo.[Opportunity] Op
+EDUCPROD.dbo.[Opportunity] Op
 ON C.FirstPublishLocationId = Op.Legacy_ID__c
 LEFT JOIN
-edcuat.dbo.[Lead] L
+EDUCPROD.dbo.[Lead] L
 ON C.FirstPublishLocationId = L.Legacy_ID__c
 LEFT JOIN
-[edcuat].[dbo].[EmailMessage] Em
+[EDUCPROD].[dbo].[EmailMessage] Em
 ON C.FirstPublishLocationId = Em.EDAEMAILMSGID__c
 INNER JOIN
 [edaprod].[dbo].[ContentVersion_1600001_2556037] B

@@ -1,5 +1,5 @@
 
-USE edcuat;
+USE EDUCPROD;
 
 --====================================================================
 --	INSERTING DATA TO THE LOAD TABLE FROM THE VIEW - ContactProfile
@@ -9,8 +9,8 @@ USE edcuat;
 --DROP TABLE IF EXISTS [dbo].[ContactProfile_LOAD];
 --GO
 SELECT *
-INTO [edcuat].[dbo].[ContactProfile_LOAD]
-FROM [edcuat].[dbo].[06_ContactProfile]  C
+INTO [EDUCPROD].[dbo].[ContactProfile_LOAD]
+FROM [EDUCPROD].[dbo].[06_ContactProfile]  C
 
 
 SELECT * FROM [ContactProfile_LOAD]
@@ -25,7 +25,7 @@ ALTER COLUMN ID NVARCHAR(18)
 
 SELECT * FROM [ContactProfile_LOAD]
 
-Exec SF_TableLoader 'Insert:BULKAPI','edcuat','ContactProfile_LOAD'
+Exec SF_TableLoader 'Insert:BULKAPI','EDUCPROD','ContactProfile_LOAD'
 
 SELECT * 
 --INTO ContactProfile_LOAD
@@ -77,23 +77,23 @@ select * from ContactProfile_Lookup
 --INSERTING DATA USING DBAMP - ContentDocumentLink
 --====================================================================
 
-EXEC SF_Replicate 'edcuat','ContentVersion','pkchunk,batchsize(50000)'
+EXEC SF_Replicate 'EDUCPROD','ContentVersion','pkchunk,batchsize(50000)'
 
 
 SELECT NULL AS Id,U.Id as LinkedEntityId,CV.ContentDocumentId,'V' AS ShareType,'AllUsers' as Visibility
 INTO ContentDocumentLink_Insert
 FROM [edaprod].[dbo].[ContentVersion] C
 LEFT JOIN
-edcuat.dbo.User_Lookup U
+EDUCPROD.dbo.User_Lookup U
 ON C.FirstPublishLocationId = U.Legacy_ID__c
 LEFT JOIN 
-[edcuat].[dbo].[ContentVersion] CV
+[EDUCPROD].[dbo].[ContentVersion] CV
 ON C.Id = CV.Legacy_Id__c
 
 ALTER TABLE ContentDocumentLink_Insert
 ALTER COLUMN ID NVARCHAR(18)
 
 
-Exec SF_TableLoader 'Insert','edcuat','ContentDocumentLink_Insert'
+Exec SF_TableLoader 'Insert','EDUCPROD','ContentDocumentLink_Insert'
 
 SELECT * FROM ContentDocumentLink_Insert_RESULT

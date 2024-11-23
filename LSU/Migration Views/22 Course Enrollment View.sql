@@ -1,4 +1,4 @@
-USE [edcuat];
+USE [EDUCPROD];
 GO
 
 /****** Object:  View [dbo].[22_EDA_CourseEnrollment]    Script Date: 4/9/2024 2:20:57 PM ******/
@@ -60,17 +60,17 @@ SELECT
 	,E.CompletionDateMF__c					AS CompletionDate__c
 	,DueDate_ws__c							AS DueDate__c
 FROM  [edaprod].[dbo].[hed__course_enrollment__c] E
-LEFT JOIN [edcuat].[dbo].[User] O
+LEFT JOIN [EDUCPROD].[dbo].[User] O
 ON E.OwnerId = O.EDAUSERID__c
-LEFT JOIN [edcuat].[dbo].[User] cr
+LEFT JOIN [EDUCPROD].[dbo].[User] cr
 ON E.CreatedById = cr.EDAUSERID__c
-LEFT JOIN [edcuat].[dbo].[LearnerProgram] LP
+LEFT JOIN [EDUCPROD].[dbo].[LearnerProgram] LP
 ON LP.EDACERTENROLLID__c = E.certificateenrollment__c
-LEFT JOIN [edcuat].[dbo].[Case] C
+LEFT JOIN [EDUCPROD].[dbo].[Case] C
 ON C.Legacy_ID__c = E.hed__affiliation__c
-LEFT JOIN [edcuat].[dbo].[Contact] CO
+LEFT JOIN [EDUCPROD].[dbo].[Contact] CO
 ON CO.Legacy_ID__c = E.hed__contact__c
-LEFT JOIN [edcuat].[dbo].[CourseOffering] COF
+LEFT JOIN [EDUCPROD].[dbo].[CourseOffering] COF
 ON COF.EDACROFRNGID__c = E.hed__course_offering__c
 LEFT JOIN [edaprod].[dbo].[hed__Affiliation__c] AF
 ON E.hed__Affiliation__c = AF.Id

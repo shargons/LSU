@@ -1,5 +1,5 @@
 
-USE [edcuat];
+USE [EDUCPROD];
 GO
 
 /****** Object:  View [dbo].[10_EDA_Opportunity]    Script Date: 5/8/2024 2:20:57 PM ******/
@@ -12,7 +12,7 @@ GO
 
 CREATE OR ALTER VIEW [dbo].[12_EDA_Opportunity] AS
 
-SELECT 
+SELECT DISTINCT
 	 NULL						AS ID
 	,amount
 	,closedate
@@ -80,19 +80,19 @@ END AS Closed_Reason__c
 ,LP.Id							AS Learning_Program_of_Interest__c
 ,O.Original_Created_Date__c		AS EDACreatedDate__c
 FROM [edaprod].[dbo].[Opportunity] O
-LEFT JOIN [edcuat].[dbo].[User] cr
+LEFT JOIN [EDUCPROD].[dbo].[User] cr
 ON O.CreatedById = cr.EDAUSERID__c
-LEFT JOIN [edcuat].[dbo].[User] OC
+LEFT JOIN [EDUCPROD].[dbo].[User] OC
 ON O.OwnerId = OC.EDAUSERID__c
-LEFT JOIN [edcuat].[dbo].[Contact] C
+LEFT JOIN [EDUCPROD].[dbo].[Contact] C
 ON O.contactid = C.Legacy_ID__c
-LEFT JOIN [edcuat].[dbo].[Case] EA
-ON O.Enrolled_Affiliation__c = EA.legacy_ID__c
-LEFT JOIN [edcuat].[dbo].[Recordtype] R2
+--LEFT JOIN [EDUCPROD].[dbo].[Case] EA
+--ON O.Enrolled_Affiliation__c = EA.legacy_ID__c
+LEFT JOIN [EDUCPROD].[dbo].[Recordtype] R2
 ON R2.DeveloperName = 'OE'
-LEFT JOIN [edcuat].[dbo].[Recordtype] R3
+LEFT JOIN [EDUCPROD].[dbo].[Recordtype] R3
 ON R3.DeveloperName = 'CE'
-LEFT JOIN [edcuat].[dbo].[LearningProgram] LP
+LEFT JOIN [EDUCPROD].[dbo].[LearningProgram] LP
 ON LP.Name =O.Academic_Program__c
 
 

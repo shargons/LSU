@@ -1,5 +1,5 @@
 
-USE edcuat;
+USE EDUCPROD;
 
 --====================================================================
 --	INSERTING DATA TO THE LOAD TABLE FROM THE VIEW - Case
@@ -9,8 +9,8 @@ USE edcuat;
 --DROP TABLE IF EXISTS [dbo].[Case_LOAD];
 --GO
 SELECT *
-INTO [edcuat].[dbo].[Case_LOAD]
-FROM [edcuat].[dbo].[27_EDA_Case] C
+INTO [EDUCPROD].[dbo].[Case_LOAD]
+FROM [EDUCPROD].[dbo].[27_EDA_Case] C
 ORDER BY ContactId
 
 SELECT * FROM Case_LOAD
@@ -25,7 +25,7 @@ ALTER COLUMN ID NVARCHAR(18)
 
 SELECT * FROM Case_LOAD
 
-EXEC SF_TableLoader 'Insert:BULKAPI','edcuat','Case_LOAD_3'
+EXEC SF_TableLoader 'Insert:BULKAPI','EDUCPROD','Case_LOAD_3'
 
 --DROP TABLE Case_LOAD_3
 SELECT * 
@@ -61,7 +61,7 @@ EXECUTE	SF_TableLoader
 -- Contact Lookup
 --DROP TABLE IF EXISTS [dbo].[Case_Case_Lookup];
 --GO
-INSERT INTO [edcuat].[dbo].[Case_Case_Lookup]
+INSERT INTO [EDUCPROD].[dbo].[Case_Case_Lookup]
 SELECT
  ID
 ,legacy_ID__c

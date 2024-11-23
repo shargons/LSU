@@ -1,4 +1,4 @@
-USE [edcuat];
+USE [EDUCPROD];
 GO
 
 /****** Object:  View [dbo].[02_EDA_OrgAccount]    Script Date: 5/8/2024 2:20:57 PM ******/
@@ -36,6 +36,6 @@ SELECT
 	END AS ApplicationDecision
 	,I.ID										AS ApplicationId
 FROM  [edaprod].[dbo].[Application__c] A
-LEFT JOIN [edcuat].[dbo].[IndividualApplication_Lookup] I
+LEFT JOIN [EDUCPROD].[dbo].[IndividualApplication_Lookup] I
 ON I.legacy_ID__c = A.Id
 WHERE Pipeline_Status__c = 'Decision Released'

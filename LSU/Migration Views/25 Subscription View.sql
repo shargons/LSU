@@ -1,4 +1,4 @@
-USE [edcuat];
+USE [EDUCPROD];
 GO
 
 /****** Object:  View [dbo].[25_EDA_Subscription]    Script Date: 5/8/2024 2:20:57 PM ******/
@@ -24,7 +24,7 @@ NULL								AS ID
 	,CR.ID										AS createdbyid
 ,R.CreatedDate									AS EDACREATEDDATE__c
 FROM [edaprod].[dbo].[cfg_subscription__c] R
-LEFT JOIN [edcuat].[dbo].[User] cr
+LEFT JOIN [EDUCPROD].[dbo].[User] cr
 ON R.CreatedById = cr.EDAUSERID__c
-LEFT JOIN [edcuat].[dbo].[User] O
+LEFT JOIN [EDUCPROD].[dbo].[User] O
 ON R.OwnerId = O.EDAUSERID__c

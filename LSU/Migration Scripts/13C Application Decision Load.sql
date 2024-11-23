@@ -1,5 +1,5 @@
 
-USE edcuat;
+USE EDUCPROD;
 
 --====================================================================
 --	INSERTING DATA TO THE LOAD TABLE FROM THE VIEW - Application Decision
@@ -9,8 +9,8 @@ USE edcuat;
 --DROP TABLE IF EXISTS [dbo].[ApplicationDecision_LOAD];
 --GO
 SELECT *
-INTO [edcuat].dbo.ApplicationDecision_LOAD
-FROM [edcuat].[dbo].[13C_ApplicationDecision] C
+INTO [EDUCPROD].dbo.ApplicationDecision_LOAD
+FROM [EDUCPROD].[dbo].[13C_ApplicationDecision] C
 
 
 
@@ -24,7 +24,7 @@ ALTER COLUMN ID NVARCHAR(18)
 
 SELECT * FROM ApplicationDecision_LOAD
 
-EXEC SF_TableLoader 'Insert:BULKAPI','edcuat','ApplicationDecision_LOAD'
+EXEC SF_TableLoader 'Insert:BULKAPI','EDUCPROD','ApplicationDecision_LOAD'
 
 
 
@@ -62,7 +62,7 @@ EXECUTE	SF_TableLoader
 SELECT
  ID
 ,UpsertKey__c AS legacy_ID__c
-INTO [edcuat].[dbo].[ApplicationDecision_Lookup]
+INTO [EDUCPROD].[dbo].[ApplicationDecision_Lookup]
 FROM ApplicationDecision_LOAD_Result
 WHERE Error = 'Operation Successful.'
 

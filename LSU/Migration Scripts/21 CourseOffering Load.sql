@@ -1,4 +1,4 @@
-USE edcuat;
+USE EDUCPROD;
 
 --====================================================================
 --	INSERTING DATA TO THE LOAD TABLE FROM THE VIEW -  Enrollment
@@ -8,8 +8,8 @@ USE edcuat;
 --DROP TABLE IF EXISTS [dbo].[CourseOffering_LOAD];
 --GO
 SELECT *
-INTO [edcuat].dbo.CourseOffering_LOAD
-FROM [edcuat].[dbo].[21_EDA_CourseOffering] C
+INTO [EDUCPROD].dbo.CourseOffering_LOAD
+FROM [EDUCPROD].[dbo].[21_EDA_CourseOffering] C
 ORDER BY LearningCourseId
 
 
@@ -27,7 +27,7 @@ SELECT * FROM CourseOffering_LOAD
 --INSERTING DATA USING DBAMP -   Enrollment
 --====================================================================
 
-EXEC SF_TableLoader 'Upsert:BULKAPI','edcuat','CourseOffering_LOAD','one_Destiny_One_ID__c'
+EXEC SF_TableLoader 'Upsert:BULKAPI','EDUCPROD','CourseOffering_LOAD','one_Destiny_One_ID__c'
 
 SELECT *
 --INTO CourseOfferingParticipant_Enr_LOAD_2

@@ -5,7 +5,7 @@ LEFT JOIN
 Case_Lookup B
 ON A.Legacy_ID__c = b.legacy_ID__c
 
-EXEC SF_TableLoader 'Update:BULKAPI','edcuat','Case_LearningProgram_Update'
+EXEC SF_TableLoader 'Update:BULKAPI','EDUCPROD','Case_LearningProgram_Update'
 
 
 SELECT B.Id,A.ContactId
@@ -15,6 +15,6 @@ LEFT JOIN
 Case_Lookup B
 ON A.Legacy_ID__c = b.legacy_ID__c
 
-EXEC SF_TableLoader 'Update:BULKAPI','edcuat','Case_ContactId_Update'
+EXEC SF_TableLoader 'Update:BULKAPI','EDUCPROD','Case_ContactId_Update'
 
 SELECT * FROM Case_ContactId_Update

@@ -1,4 +1,4 @@
- USE edcuat;
+ USE EDUCPROD;
 
 --====================================================================
 --	INSERTING DATA TO THE LOAD TABLE FROM THE VIEW - InteractionSummary
@@ -8,8 +8,8 @@
 --DROP TABLE IF EXISTS [dbo].[InteractionSummary_LOAD];
 --GO
 SELECT *
-INTO [edcuat].[dbo].[InteractionSummary_LOAD]
-FROM [edcuat].[dbo].[31_EDA_ContentNotes] C
+INTO [EDUCPROD].[dbo].[InteractionSummary_LOAD]
+FROM [EDUCPROD].[dbo].[31_EDA_ContentNotes] C
 
 
 SELECT COUNT(*),legacy_Id__c FROM [InteractionSummary_LOAD] GROUP BY legacy_Id__c HAVING COUNT(*) > 1
@@ -27,7 +27,7 @@ ALTER COLUMN ID NVARCHAR(18)
 
 SELECT * FROM [InteractionSummary_LOAD]
 
-Exec SF_TableLoader 'Insert:bulkapi','edcuat','InteractionSummary_LOAD'
+Exec SF_TableLoader 'Insert:bulkapi','EDUCPROD','InteractionSummary_LOAD'
 
 SELECT * 
 --INTO InteractionSummary_LOAD_2
@@ -50,7 +50,7 @@ DROP TABLE InteractionSummary_DELETE
 DECLARE @_table_server	nvarchar(255)	=	DB_NAME()
 EXECUTE sf_generate 'Delete',@_table_server, 'InteractionSummary_DELETE'
 
-EXEC SF_Replicate 'edcuat','InteractionSummary','pkchunk,batchsize(50000)'
+EXEC SF_Replicate 'EDUCPROD','InteractionSummary','pkchunk,batchsize(50000)'
 
 INSERT INTO InteractionSummary_DELETE(Id) SELECT Id FROM InteractionSummary_LOAD_Result where Error = 'Operation Successful.'
 

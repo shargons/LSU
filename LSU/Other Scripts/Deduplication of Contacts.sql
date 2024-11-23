@@ -28,7 +28,7 @@ from Account A
 INNER JOIN Contact_Delete_6 B
 ON A.PersonContactId = B.Id
 
-EXEC SF_TableLoader 'Delete:BULKAPI','EDCUAT','Account_Person_Delete_6'
+EXEC SF_TableLoader 'Delete:BULKAPI','EDUCPROD','Account_Person_Delete_6'
 
 SELECT * FROM Account_Person_Delete_6_Result
 WHERE Error <> 'Operation Successful.'
@@ -56,7 +56,7 @@ INNER JOIN
 Surviving_Accounts_6 C
 ON B.Legacy_Id__pc = C.Legacy_Id__pc
 
-EXEC SF_TableLoader 'Update:BULKAPI','EDCUAT','Case_Update_6'
+EXEC SF_TableLoader 'Update:BULKAPI','EDUCPROD','Case_Update_6'
 
 
 
@@ -71,7 +71,7 @@ INNER JOIN
 Surviving_Contacts_6 C
 ON B.Legacy_Id__c = C.Legacy_Id__c
 
-EXEC SF_TableLoader 'Update:BULKAPI','EDCUAT','Case_ContactId_Update_6'
+EXEC SF_TableLoader 'Update:BULKAPI','EDUCPROD','Case_ContactId_Update_6'
 
 
 SELECT A.ID,C.Id as AccountId
@@ -84,7 +84,7 @@ INNER JOIN
 Surviving_Accounts_6 C
 ON B.Legacy_Id__pc = C.Legacy_Id__pc
 
-EXEC SF_TableLoader 'Update:BULKAPI','EDCUAT','Opportunity_Update_6'
+EXEC SF_TableLoader 'Update:BULKAPI','EDUCPROD','Opportunity_Update_6'
 
 SELECT * FROM Account_Person_Delete_Legacy_Id_6
 WHERE ID IN ('001D100000qvAnmIAE','001D100000qutqgIAA','001D100000quQsUIAU')

@@ -7,7 +7,7 @@ INNER JOIN
 [Account] C
 ON A.Legacy_ID__c = C.Legacy_ID__c
 
-EXEC SF_TableLoader 'Update:BULKAPI','edcuat','Account_ECD_Update'
+EXEC SF_TableLoader 'Update:BULKAPI','EDUCPROD','Account_ECD_Update'
 
 
 SELECT C.Id,A.[EDACreatedDate__c]
@@ -17,7 +17,7 @@ INNER JOIN
 [LearnerProgram] C
 ON A.EDACERTENROLLID__c = C.EDACERTENROLLID__c
 
-EXEC SF_TableLoader 'Update:BULKAPI','edcuat','LearnerPRogram_ECD_Update'
+EXEC SF_TableLoader 'Update:BULKAPI','EDUCPROD','LearnerPRogram_ECD_Update'
 
 
 SELECT C.Id,A.[EDACreatedDate__c]
@@ -27,7 +27,7 @@ INNER JOIN
 [Case] C
 ON A.Legacy_Id__c = C.Legacy_Id__c
 
-EXEC SF_TableLoader 'Update:BULKAPI','edcuat','Case_Int_ECD_Update_2'
+EXEC SF_TableLoader 'Update:BULKAPI','EDUCPROD','Case_Int_ECD_Update_2'
 
 select * 
 INTO Case_Int_ECD_Update_2
@@ -42,7 +42,7 @@ INNER JOIN
 [Case] C
 ON A.Legacy_Id__c = C.Legacy_Id__c
 
-EXEC SF_TableLoader 'Update:BULKAPI','edcuat','Case_OppRec_ECD_Update'
+EXEC SF_TableLoader 'Update:BULKAPI','EDUCPROD','Case_OppRec_ECD_Update'
 
 
 SELECT C.Id,A.[EDACreatedDate__c]
@@ -52,7 +52,7 @@ INNER JOIN
 [Opportunity] C
 ON A.Legacy_Id__c = C.Legacy_Id__c
 
-EXEC SF_TableLoader 'Update:BULKAPI','edcuat','Opportunity_ECD_Update'
+EXEC SF_TableLoader 'Update:BULKAPI','EDUCPROD','Opportunity_ECD_Update'
 
 
 
@@ -63,7 +63,7 @@ INNER JOIN
 [IndividualApplication] C
 ON A.Legacy_Id__c = C.Legacy_Id__c
 
-EXEC SF_TableLoader 'Update:BULKAPI','edcuat','IndividualApplication_ECD_Update'
+EXEC SF_TableLoader 'Update:BULKAPI','EDUCPROD','IndividualApplication_ECD_Update'
 
 
 
@@ -74,7 +74,7 @@ INNER JOIN
 [Case] C
 ON A.Legacy_Id__c = C.Legacy_Id__c
 
-EXEC SF_TableLoader 'Update:BULKAPI','edcuat','Case_AffRet_ECD_Update_2'
+EXEC SF_TableLoader 'Update:BULKAPI','EDUCPROD','Case_AffRet_ECD_Update_2'
 
 select * 
 into Case_AffRet_ECD_Update_2
@@ -89,7 +89,7 @@ INNER JOIN
 [DocumentChecklistItem] C
 ON A.EDAREQDOCID__c = C.EDAREQDOCID__c
 
-EXEC SF_TableLoader 'Update:BULKAPI','edcuat','DocumentChecklistItem_ECD_Update'
+EXEC SF_TableLoader 'Update:BULKAPI','EDUCPROD','DocumentChecklistItem_ECD_Update'
 
 
 SELECT C.Id,A.[EDACreatedDate__c]
@@ -99,7 +99,7 @@ INNER JOIN
 [Learning] C
 ON A.EDAACCOUNTID__c = C.EDAACCOUNTID__c
 
-EXEC SF_TableLoader 'Update:BULKAPI','edcuat','Learning_ECD_Update'
+EXEC SF_TableLoader 'Update:BULKAPI','EDUCPROD','Learning_ECD_Update'
 
 SELECT C.Id,A.[EDACreatedDate__c]
 INTO LearningProgramPlanRqmt_ECD_Update
@@ -108,7 +108,7 @@ INNER JOIN
 [LearningProgramPlanRqmt] C
 ON A.Legacy_Id__c = C.Legacy_Id__c
 
-EXEC SF_TableLoader 'Update:BULKAPI','edcuat','LearningProgramPlanRqmt_ECD_Update'
+EXEC SF_TableLoader 'Update:BULKAPI','EDUCPROD','LearningProgramPlanRqmt_ECD_Update'
 
 
 SELECT C.Id,A.[EDACreatedDate__c]
@@ -118,4 +118,4 @@ INNER JOIN
 [CourseOfferingParticipant] C
 ON A.Legacy_Id__c = C.Legacy_Id__c
 
-EXEC SF_TableLoader 'Update:BULKAPI','edcuat','CourseOfferingParticipant_ECD_Update'
+EXEC SF_TableLoader 'Update:BULKAPI','EDUCPROD','CourseOfferingParticipant_ECD_Update'

@@ -1,4 +1,4 @@
-USE edcuat;
+USE EDUCPROD;
 
 --====================================================================
 --	INSERTING DATA TO THE LOAD TABLE FROM THE VIEW - Plan Requirements
@@ -8,8 +8,8 @@ USE edcuat;
 --DROP TABLE IF EXISTS [dbo].[LearningAchievement_LOAD];
 --GO
 SELECT *
-INTO [edcuat].dbo.LearningAchievement_LOAD
-FROM [edcuat].[dbo].[20A_EDA_Achievement_ProgramPlan] C
+INTO [EDUCPROD].dbo.LearningAchievement_LOAD
+FROM [EDUCPROD].[dbo].[20A_EDA_Achievement_ProgramPlan] C
 
 
 
@@ -25,7 +25,7 @@ SELECT * FROM LearningAchievement_LOAD
 --====================================================================
 
 
-EXEC SF_TableLoader 'Insert:BULKAPI','edcuat','LearningAchievement_LOAD'
+EXEC SF_TableLoader 'Insert:BULKAPI','EDUCPROD','LearningAchievement_LOAD'
 
 SELECT *
 --INTO LearningProgramPlanRqmt_LOAD_2
@@ -61,7 +61,7 @@ EXECUTE	SF_TableLoader
 SELECT
  ID
 ,ExternalKey__c as Legacy_ID__c
-INTO edcuat.dbo.LearningAchievement_Lookup
+INTO EDUCPROD.dbo.LearningAchievement_Lookup
 FROM dbo.LearningAchievement_LOAD_Result
 WHERE Error = 'Operation Successful.'
 

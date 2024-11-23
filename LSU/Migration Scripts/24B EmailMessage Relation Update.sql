@@ -1,4 +1,4 @@
-USE edcuat;
+USE EDUCPROD;
 
 --====================================================================
 --	INSERTING DATA TO THE LOAD TABLE FROM THE VIEW -  EmailMessageRelation
@@ -21,7 +21,7 @@ AND A.RelationAddress = B.RelationAddress
 --INSERTING DATA USING DBAMP -   EmailMessageRelation
 --====================================================================
 
-EXEC SF_TableLoader 'Update:BULKAPI','edcuat','EmailMessageRelation_Update'
+EXEC SF_TableLoader 'Update:BULKAPI','EDUCPROD','EmailMessageRelation_Update'
 
 --DROP TABLE EmailMessageRelation_Load_2
 SELECT *

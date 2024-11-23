@@ -1,5 +1,5 @@
 
-USE edcuat;
+USE EDUCPROD;
 
 --====================================================================
 --	INSERTING DATA TO THE LOAD TABLE FROM THE VIEW - Account
@@ -7,14 +7,14 @@ USE edcuat;
 --DROP TABLE IF EXISTS [dbo].[LearningProgram_LOAD];
 --GO
 SELECT C.*,L.ID AS LearningId
-INTO [edcuat].dbo.LearningProgram_LOAD
-FROM [edcuat].[dbo].[04_EDA_AccountProgram] C
-LEFT JOIN [edcuat].[dbo].[Learning] L
+INTO [EDUCPROD].dbo.LearningProgram_LOAD
+FROM [EDUCPROD].[dbo].[04_EDA_AccountProgram] C
+LEFT JOIN [EDUCPROD].[dbo].[Learning] L
 ON C.EDAACCOUNTID__c = L.EDAACCOUNTID__c
 
 
 /******* Check Load table *********/
-SELECT * FROM [edcuat].dbo.LearningProgram_LOAD
+SELECT * FROM [EDUCPROD].dbo.LearningProgram_LOAD
 
 
 --====================================================================
@@ -27,7 +27,7 @@ ALTER TABLE LearningProgram_LOAD
 ALTER COLUMN ID NVARCHAR(18)
 
 
-EXEC SF_TableLoader 'Insert:BULKAPI','EDCUAT','LearningProgram_LOAD_3'
+EXEC SF_TableLoader 'Insert:BULKAPI','EDUCPROD','LearningProgram_LOAD_3'
 
 --DROP TABLE LearningProgram_LOAD_2
 SELECT * 
@@ -66,11 +66,11 @@ EXECUTE	SF_TableLoader
 -- Contact Lookup
 DROP TABLE IF EXISTS [dbo].[Account_Program_Lookup];
 GO
-INSERT INTO [edcuat].[dbo].[Account_Program_Lookup]
+INSERT INTO [EDUCPROD].[dbo].[Account_Program_Lookup]
 SELECT
  ID
 ,EDAACCOUNTID__c as Legacy_ID__c
---INTO [edcuat].[dbo].[Account_Program_Lookup]
+--INTO [EDUCPROD].[dbo].[Account_Program_Lookup]
 FROM LearningProgram_LOAD_3_Result
 WHERE Error = 'Operation Successful.'
 

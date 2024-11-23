@@ -1,10 +1,10 @@
 
-USE edcuat;
+USE EDUCPROD;
 
 
 
 /***** Replicate AcademicTerm before running the view **********/
-EXEC SF_Replicate 'EDCUAT','AcademicTerm','pkchunk,batchsize(50000)'
+EXEC SF_Replicate 'EDUCPROD','AcademicTerm','pkchunk,batchsize(50000)'
 
 
 --====================================================================
@@ -15,8 +15,8 @@ EXEC SF_Replicate 'EDCUAT','AcademicTerm','pkchunk,batchsize(50000)'
 --DROP TABLE IF EXISTS [dbo].[ProgramTermApplnTimeline_LOAD];
 --GO
 SELECT *
-INTO [edcuat].dbo.ProgramTermApplnTimeline_LOAD
-FROM [edcuat].[dbo].[13B_EDA_PTAT] C
+INTO [EDUCPROD].dbo.ProgramTermApplnTimeline_LOAD
+FROM [EDUCPROD].[dbo].[13B_EDA_PTAT] C
 ORDER BY LearningProgramId
 
 
@@ -30,7 +30,7 @@ ALTER COLUMN ID NVARCHAR(18)
 
 SELECT * FROM ProgramTermApplnTimeline_LOAD
 
-EXEC SF_TableLoader 'Insert:BULKAPI','edcuat','ProgramTermApplnTimeline_LOAD_3'
+EXEC SF_TableLoader 'Insert:BULKAPI','EDUCPROD','ProgramTermApplnTimeline_LOAD_3'
 
 SELECT * 
 INTO ProgramTermApplnTimeline_LOAD_3
@@ -62,11 +62,11 @@ EXECUTE	SF_TableLoader
 --DROP TABLE IF EXISTS [dbo].[ProgramTermApplnTimeline_Lookup];
 --GO
 
-INSERT INTO [edcuat].[dbo].[ProgramTermApplnTimeline_Lookup]
+INSERT INTO [EDUCPROD].[dbo].[ProgramTermApplnTimeline_Lookup]
 SELECT
  ID
 ,UpsertKey__c AS legacy_ID__c
---INTO [edcuat].[dbo].[ProgramTermApplnTimeline_Lookup]
+--INTO [EDUCPROD].[dbo].[ProgramTermApplnTimeline_Lookup]
 FROM ProgramTermApplnTimeline_LOAD_3_Result
 WHERE Error = 'Operation Successful.'
 
@@ -85,7 +85,7 @@ INNER JOIN
 IndividualApplication_Lookup B
 ON A.legacy_ID__c = B.legacy_ID__c
 
-EXEC SF_TableLoader 'Update:BULKAPI','edcuat','IndividualApplication_PTAT_Update'
+EXEC SF_TableLoader 'Update:BULKAPI','EDUCPROD','IndividualApplication_PTAT_Update'
 
 SELECT *
 FROM IndividualApplication_PTAT_Update_Result 

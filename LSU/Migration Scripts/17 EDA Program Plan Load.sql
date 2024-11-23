@@ -1,4 +1,4 @@
-USE edcuat;
+USE EDUCPROD;
 
 --====================================================================
 --	INSERTING DATA TO THE LOAD TABLE FROM THE VIEW - Program Plan
@@ -8,8 +8,8 @@ USE edcuat;
 --DROP TABLE IF EXISTS [dbo].[LearningProgramPlan_ProgPlan_LOAD];
 --GO
 SELECT *
---INTO [edcuat].dbo.LearningProgramPlan_ProgPlan_LOAD
-FROM [edcuat].[dbo].[17_EDA_ProgramPlan] C
+--INTO [EDUCPROD].dbo.LearningProgramPlan_ProgPlan_LOAD
+FROM [EDUCPROD].[dbo].[17_EDA_ProgramPlan] C
 ORDER BY LearningProgramId
 
 
@@ -24,7 +24,7 @@ ALTER COLUMN ID NVARCHAR(18)
 SELECT * FROM LearningProgramPlan_ProgPlan_LOAD
 where LearningProgramiD = '0uFHu000000wxvmMAA'
 
-EXEC SF_TableLoader 'Insert:BULKAPI','edcuat','LearningProgramPlan_ProgPlan_LOAD_2'
+EXEC SF_TableLoader 'Insert:BULKAPI','EDUCPROD','LearningProgramPlan_ProgPlan_LOAD_2'
 
 SELECT *
 --INTO LearningProgramPlan_ProgPlan_LOAD_2

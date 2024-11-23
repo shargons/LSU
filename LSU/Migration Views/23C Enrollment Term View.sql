@@ -1,4 +1,4 @@
-USE [edcuat];
+USE [EDUCPROD];
 GO
 
 /****** Object:  View [dbo].[23C_Enr_AcademicTerm]    Script Date: 5/8/2024 2:20:57 PM ******/
@@ -23,11 +23,11 @@ SELECT DISTINCT
 	,CR.ID AS createdbyid
 	,O.ID AS ownerid
 FROM [edaprod].[dbo].[enrollment__c] A
-LEFT JOIN [edcuat].[dbo].[User] cr
+LEFT JOIN [EDUCPROD].[dbo].[User] cr
 ON A.CreatedById = cr.EDAUSERID__c
-LEFT JOIN [edcuat].[dbo].[User] O
+LEFT JOIN [EDUCPROD].[dbo].[User] O
 ON A.OwnerId = O.EDAUSERID__c
-LEFT JOIN [edcuat].dbo.Account AC
+LEFT JOIN [EDUCPROD].dbo.Account AC
 ON A.Campus__c = AC.Name
 AND AC.CreatedById = '005D1000004gVpBIAU'
 WHERE A.Online_Term__c IS NOT NULL

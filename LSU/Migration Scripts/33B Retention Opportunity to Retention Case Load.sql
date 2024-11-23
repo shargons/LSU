@@ -1,5 +1,5 @@
 
-USE edcuat;
+USE EDUCPROD;
 
 --====================================================================
 --	INSERTING DATA TO THE LOAD TABLE FROM THE VIEW - Case
@@ -9,8 +9,8 @@ USE edcuat;
 --DROP TABLE IF EXISTS [dbo].[Case_Ret_Opp_Ret_Case_LOAD];
 
 SELECT *
-INTO [edcuat].dbo.Case_Ret_Opp_Ret_Case_LOAD
-FROM [edcuat].[dbo].[34B_EDA_Ret_Opportunity] C
+INTO [EDUCPROD].dbo.Case_Ret_Opp_Ret_Case_LOAD
+FROM [EDUCPROD].[dbo].[34B_EDA_Ret_Opportunity] C
 ORDER BY ContactId
 
 
@@ -20,7 +20,7 @@ ALTER COLUMN ID NVARCHAR(18)
 
 SELECT * FROM Case_Ret_Opp_Ret_Case_LOAD
 
-EXEC SF_TableLoader 'Insert:BULKAPI','edcuat','Case_Ret_Opp_Ret_Case_LOAD_2'
+EXEC SF_TableLoader 'Insert:BULKAPI','EDUCPROD','Case_Ret_Opp_Ret_Case_LOAD_2'
 
 select * 
 --into Case_Ret_Opp_Ret_Case_LOAD_2
@@ -44,7 +44,7 @@ select * from Case_Ret_Opp_Ret_Case_Lookup
 
 -- Recruitment Case source_RFI Update
 
-EXEC SF_TableLoader 'Update:BULKAPI','edcuat','Case_Rec_RFI_Link_Update'
+EXEC SF_TableLoader 'Update:BULKAPI','EDUCPROD','Case_Rec_RFI_Link_Update'
 
 select * from Case_Rec_RFI_Link_Update
 
@@ -64,12 +64,12 @@ LEFT JOIN
 [Case] C
 ON Aff.Id = C.Legacy_ID__c
 
-EXEC SF_TableLoader 'Update:BULKAPI','edcuat','Case_RFI_Ret_Link_Update'
+EXEC SF_TableLoader 'Update:BULKAPI','EDUCPROD','Case_RFI_Ret_Link_Update'
 
 
 
 
-EXEC SF_TableLoader 'Update:BULKAPI','edcuat','Case_Ret_Opp_Link_Update'
+EXEC SF_TableLoader 'Update:BULKAPI','EDUCPROD','Case_Ret_Opp_Link_Update'
 
 -- Retention Case Related Recruitment Case Load
 

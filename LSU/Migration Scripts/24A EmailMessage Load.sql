@@ -1,4 +1,4 @@
-USE edcuat;
+USE EDUCPROD;
 
 --====================================================================
 --	INSERTING DATA TO THE LOAD TABLE FROM THE VIEW -  EmailMessage
@@ -8,8 +8,8 @@ USE edcuat;
 --DROP TABLE IF EXISTS [dbo].[EmailMessage_Load];
 --GO
 SELECT *
-INTO [edcuat].dbo.EmailMessage_Load
-FROM [edcuat].[dbo].[24_EDA_EmailMessages] C
+INTO [EDUCPROD].dbo.EmailMessage_Load
+FROM [EDUCPROD].[dbo].[24_EDA_EmailMessages] C
 ORDER BY RelatedtoId
 
 
@@ -27,7 +27,7 @@ SELECT * FROM EmailMessage_Load
 --INSERTING DATA USING DBAMP -   EmailMessage
 --====================================================================
 
-EXEC SF_TableLoader 'Insert:BULKAPI','edcuat','EmailMessage_Load'
+EXEC SF_TableLoader 'Insert:BULKAPI','EDUCPROD','EmailMessage_Load'
 
 --DROP TABLE EmailMessage_Load_2
 SELECT *

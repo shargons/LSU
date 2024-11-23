@@ -1,4 +1,4 @@
-USE [edcuat];
+USE [EDUCPROD];
 GO
 
 /****** Object:  View [dbo].[06_ContactProfile]    Script Date: 5/8/2024 2:20:57 PM ******/
@@ -46,5 +46,5 @@ SELECT
 	 END							AS HighestEducationLevel
 FROM [edaprod].[dbo].[Contact] C
 LEFT JOIN
-[edcuat].[dbo].[Contact] Co
+[EDUCPROD].[dbo].[Contact] Co
 ON C.Id = Co.Legacy_Id__c

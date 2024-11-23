@@ -1,4 +1,4 @@
-USE edcuat;
+USE EDUCPROD;
 
 --====================================================================
 --	INSERTING DATA TO THE LOAD TABLE FROM THE VIEW - Task
@@ -8,8 +8,8 @@ USE edcuat;
 --DROP TABLE IF EXISTS [dbo].[Task_Email_LOAD];
 --GO
 SELECT *
-INTO [edcuat].[dbo].[Task_Email_LOAD]
-FROM [edcuat].[dbo].[32_EDA_Tasks] C
+INTO [EDUCPROD].[dbo].[Task_Email_LOAD]
+FROM [EDUCPROD].[dbo].[32_EDA_Tasks] C
 
 
 SELECT * FROM [Task_Email_LOAD]
@@ -24,7 +24,7 @@ ALTER COLUMN ID NVARCHAR(18)
 
 SELECT * FROM [Task_LOAD]
 
-Exec SF_TableLoader 'Insert:BULKAPI','edcuat','Task_Email_LOAD_5'
+Exec SF_TableLoader 'Insert:BULKAPI','EDUCPROD','Task_Email_LOAD_5'
 
 
 SELECT * 
@@ -48,7 +48,7 @@ DROP TABLE Task_DELETE
 DECLARE @_table_server	nvarchar(255)	=	DB_NAME()
 EXECUTE sf_generate 'Delete',@_table_server, 'Task_DELETE'
 
-EXEC SF_Replicate 'edcuat','Task','pkchunk,batchsize(50000)'
+EXEC SF_Replicate 'EDUCPROD','Task','pkchunk,batchsize(50000)'
 
 INSERT INTO Task_DELETE(Id) SELECT Id FROM Task_LOAD_Result where Error = 'Operation Successful.'
 

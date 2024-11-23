@@ -68,6 +68,8 @@ SELECT DISTINCT
 	,LEFT(I.zip_postal_code__c,10) AS zip_postal_code__c
 	,CASE 
 		WHEN Op.StageName NOT IN ('New','Prospect','Attempting','Qualified','Nurture','Disqualified','Duplicate','Scheduled','Not Scheduled') THEN 'Closed'
+		WHEN Op.StageName IN ('New','Prospect','Attempting','Qualified','Nurture','Disqualified','Duplicate','Scheduled','Not Scheduled') AND Op.RecordtypeId = '0122E000000lVgkQAE' THEN 'Closed'
+		WHEN Op.StageName IN ('New','Prospect','Attempting','Qualified','Nurture','Disqualified','Duplicate','Scheduled','Not Scheduled') AND Op.RecordtypeId = '0122E000000lVgjQAE' THEN 'Closed'
 		ELSE Op.StageName
 		END							AS Status
 	,CASE  

@@ -1,4 +1,4 @@
-USE [edcuat];
+USE [EDUCPROD];
 GO
 
 /****** Object:  View [dbo].[23E_EDA_Enrollments]    Script Date: 5/8/2024 2:20:57 PM ******/
@@ -80,18 +80,18 @@ SELECT
 	,waivertypecode__c
 	,CO.Id											AS CourseOfferingId
 FROM [edaprod].[dbo].[enrollment__c] R
-LEFT JOIN [edcuat].[dbo].[User] cr
+LEFT JOIN [EDUCPROD].[dbo].[User] cr
 ON R.CreatedById = cr.EDAUSERID__c
-LEFT JOIN [edcuat].[dbo].[User] O
+LEFT JOIN [EDUCPROD].[dbo].[User] O
 ON R.OwnerId = O.EDAUSERID__c
-LEFT JOIN [edcuat].[dbo].[Contact] C
+LEFT JOIN [EDUCPROD].[dbo].[Contact] C
 ON R.contact__c = C.Legacy_ID__c
-LEFT JOIN [edcuat].[dbo].[LearnerProgram] LP
+LEFT JOIN [EDUCPROD].[dbo].[LearnerProgram] LP
 ON R.ce_source_certificate_enrollment__c = LP.EDACERTENROLLID__c
-LEFT JOIN [edcuat].[dbo].[Case] CL
+LEFT JOIN [EDUCPROD].[dbo].[Case] CL
 ON R.lsu_affiliation__c = CL.Legacy_ID__c
-LEFT JOIN [edcuat].[dbo].[Opportunity] OL
+LEFT JOIN [EDUCPROD].[dbo].[Opportunity] OL
 ON R.opportunity__c = OL.Legacy_ID__c
-LEFT JOIN [edcuat].[dbo].[CourseOffering] CO
+LEFT JOIN [EDUCPROD].[dbo].[CourseOffering] CO
 ON R.Id = CO.EDACROFRNGID__c
 WHERE CO.Id IS NOT NULL

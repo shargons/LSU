@@ -8,4 +8,4 @@ WHERE Ext_Key__c IS NOT NULL
 WHERE x.rownum >1
 
 
-EXEC SF_TableLoader 'Delete:BULKAPI','EDCUAT','LearnerProgram_Dupe_Delete'
+EXEC SF_TableLoader 'Delete:BULKAPI','EDUCPROD','LearnerProgram_Dupe_Delete'

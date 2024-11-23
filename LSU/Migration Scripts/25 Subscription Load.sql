@@ -1,4 +1,4 @@
-USE edcuat;
+USE EDUCPROD;
 
 --====================================================================
 --	INSERTING DATA TO THE LOAD TABLE FROM THE VIEW -  Subscriptions
@@ -8,8 +8,8 @@ USE edcuat;
 --DROP TABLE IF EXISTS [dbo].[cfg_Subscription__c_Load];
 --GO
 SELECT *
-INTO [edcuat].dbo.cfg_Subscription__c_Load
-FROM [edcuat].[dbo].[25_EDA_Subscription] C
+INTO [EDUCPROD].dbo.cfg_Subscription__c_Load
+FROM [EDUCPROD].[dbo].[25_EDA_Subscription] C
 
 
 /******* Change ID Column to nvarchar(18) *********/
@@ -25,7 +25,7 @@ SELECT * FROM cfg_Subscription__c_Load
 --INSERTING DATA USING DBAMP -   Subscriptions
 --====================================================================
 
-EXEC SF_TableLoader 'Upsert:BULKAPI','edcuat','cfg_Subscription__c_Load','Legacy_ID__c'
+EXEC SF_TableLoader 'Upsert:BULKAPI','EDUCPROD','cfg_Subscription__c_Load','Legacy_ID__c'
 
 SELECT *
 --INTO cfg_Subscription__c_Load_2

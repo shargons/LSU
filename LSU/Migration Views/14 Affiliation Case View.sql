@@ -1,4 +1,4 @@
-USE [edcuat];
+USE [EDUCPROD];
 GO
 
 /****** Object:  View [dbo].[02_EDA_OrgAccount]    Script Date: 5/8/2024 2:20:57 PM ******/
@@ -221,31 +221,31 @@ SELECT DISTINCT
 		  WHEN A.pipeline_status__c = 'Stop Out'			THEN  'Stop Out'
 	 END										AS [Status]
 FROM [edaprod].[dbo].[hed__Affiliation__c]	A
-LEFT JOIN [edcuat].[dbo].[User] cr
+LEFT JOIN [EDUCPROD].[dbo].[User] cr
 ON A.CreatedById = cr.EDAUSERID__c
-LEFT JOIN [edcuat].[dbo].[User] Ou
+LEFT JOIN [EDUCPROD].[dbo].[User] Ou
 ON A.OwnerId = Ou.EDAUSERID__c
---LEFT JOIN [edcuat].[dbo].[User_Lookup] U
+--LEFT JOIN [EDUCPROD].[dbo].[User_Lookup] U
 --ON A.user__c = U.Legacy_ID__c
-LEFT JOIN [edcuat].[dbo].[Contact] C
+LEFT JOIN [EDUCPROD].[dbo].[Contact] C
 ON A.hed__Contact__c = C.Legacy_ID__c
-LEFT JOIN [edcuat].[dbo].[Contact] C2
+LEFT JOIN [EDUCPROD].[dbo].[Contact] C2
 ON A.contact_retention__c = C2.Legacy_ID__c
 LEFT JOIN [edaprod].[dbo].[Recordtype] R_EDA
 ON A.RecordTypeId = R_EDA.Id
 LEFT JOIN [edaprod].[dbo].[Opportunity] O
 ON O.Affiliation__c = A.Id
-LEFT JOIN [edcuat].[dbo].[Recordtype] R2
+LEFT JOIN [EDUCPROD].[dbo].[Recordtype] R2
 ON R2.DeveloperName = 'Retention_OE'
-LEFT JOIN [edcuat].[dbo].[Recordtype] R3
+LEFT JOIN [EDUCPROD].[dbo].[Recordtype] R3
 ON R3.DeveloperName = 'Retention_CE'
-LEFT JOIN [edcuat].[dbo].[LearningProgramPlan] L
+LEFT JOIN [EDUCPROD].[dbo].[LearningProgramPlan] L
 ON L.Name = A.Academic_Program__c
-LEFT JOIN [edcuat].[dbo].[LearningProgram] L2
+LEFT JOIN [EDUCPROD].[dbo].[LearningProgram] L2
 ON L2.name = A.Academic_Program__c
 AND L2.program_id__c = A.Program_ID__c
-LEFT JOIN [edcuat].[dbo].[Opportunity] OD
+LEFT JOIN [EDUCPROD].[dbo].[Opportunity] OD
 ON O.Id = OD.Legacy_ID__c
-LEFT JOIN [edcuat].[dbo].[IndividualApplication] IA
+LEFT JOIN [EDUCPROD].[dbo].[IndividualApplication] IA
 ON IA.Legacy_Id__c = A.application_id__c
 WHERE O.StageName = 'Enrolled'

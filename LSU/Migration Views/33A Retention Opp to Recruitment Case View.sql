@@ -1,4 +1,4 @@
-USE [edcuat];
+USE [EDUCPROD];
 GO
 
 /****** Object:  View [dbo].[13_EDA_ReqDocuments]    Script Date: 5/8/2024 2:20:57 PM ******/
@@ -274,29 +274,29 @@ SELECT DISTINCT
 	 END										AS Stagename__c	
 	,R.StageName
 	FROM [edaprod].[dbo].[Opportunity] R
-LEFT JOIN [edcuat].[dbo].[Contact] C
+LEFT JOIN [EDUCPROD].[dbo].[Contact] C
 ON R.contact__c = C.Legacy_Id__c
 --LEFT JOIN [edaprod].[dbo].Interaction__c I
 --ON I.Opportunity__c = R.Id AND I.Interaction_Source__c = 'Student'
---LEFT JOIN [edcuat].[dbo].[Case] CA
+--LEFT JOIN [EDUCPROD].[dbo].[Case] CA
 --ON 'I-'+I.Id = CA.Legacy_ID__c
-LEFT JOIN [edcuat].[dbo].[AcademicTerm] T1
+LEFT JOIN [EDUCPROD].[dbo].[AcademicTerm] T1
 ON R.termadmittedlookup__c = T1.EDATERMID__c
-LEFT JOIN [edcuat].[dbo].[AcademicTerm] T2
+LEFT JOIN [EDUCPROD].[dbo].[AcademicTerm] T2
 ON R.termappliedlookup__c = T2.EDATERMID__c
-LEFT JOIN [edcuat].[dbo].[AcademicTerm] F
+LEFT JOIN [EDUCPROD].[dbo].[AcademicTerm] F
 ON R.future_interest_term__c = F.EDATERMID__c
-LEFT JOIN [edcuat].[dbo].[Recordtype] R2
+LEFT JOIN [EDUCPROD].[dbo].[Recordtype] R2
 ON R2.DeveloperName = 'Recruitment_OE'
-LEFT JOIN [edcuat].[dbo].[Recordtype] R3
+LEFT JOIN [EDUCPROD].[dbo].[Recordtype] R3
 ON R3.DeveloperName = 'Recruitment_CE'
-LEFT JOIN [edcuat].[dbo].[User_Lookup] cr
+LEFT JOIN [EDUCPROD].[dbo].[User_Lookup] cr
 ON R.CreatedById = cr.Legacy_ID__c
-LEFT JOIN [edcuat].[dbo].[User_Lookup] O
+LEFT JOIN [EDUCPROD].[dbo].[User_Lookup] O
 ON R.OwnerId = O.Legacy_ID__c
-LEFT JOIN [edcuat].[dbo].[User_Lookup] OC
+LEFT JOIN [EDUCPROD].[dbo].[User_Lookup] OC
 ON R.coordinator__c = OC.Legacy_ID__c
-LEFT JOIN [edcuat].[dbo].[LearningProgram] LP
+LEFT JOIN [EDUCPROD].[dbo].[LearningProgram] LP
 ON LP.Name =R.Academic_Program__c
 LEFT JOIN [edaprod].[dbo].[Recordtype] OPR
 ON OPR.ID = R.RecordTypeId

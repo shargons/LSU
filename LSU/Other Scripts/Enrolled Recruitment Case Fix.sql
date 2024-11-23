@@ -1,4 +1,4 @@
-USE [edcuat];
+USE [EDUCPROD];
 GO
 
 /****** Object:  View [dbo].[13_EDA_ReqDocuments]    Script Date: 5/8/2024 2:20:57 PM ******/
@@ -235,31 +235,31 @@ SELECT DISTINCT
 	 END										AS Stagename__c	
 INTO Case_Enrolled_Opportunity_Insert
 	FROM [edaprod].[dbo].[Opportunity] R
-LEFT JOIN [edcuat].[dbo].[Contact] C
+LEFT JOIN [EDUCPROD].[dbo].[Contact] C
 ON R.contact__c = C.Legacy_Id__c
 --LEFT JOIN [edaprod].[dbo].Interaction__c I
 --ON I.Opportunity__c = R.Id AND I.Interaction_Source__c = 'Student'
---LEFT JOIN [edcuat].[dbo].[Case] CA
+--LEFT JOIN [EDUCPROD].[dbo].[Case] CA
 --ON 'I-'+I.Id = CA.Legacy_ID__c
-LEFT JOIN [edcuat].[dbo].[AcademicTerm] T1
+LEFT JOIN [EDUCPROD].[dbo].[AcademicTerm] T1
 ON R.termadmittedlookup__c = T1.EDATERMID__c
-LEFT JOIN [edcuat].[dbo].[AcademicTerm] T2
+LEFT JOIN [EDUCPROD].[dbo].[AcademicTerm] T2
 ON R.termappliedlookup__c = T2.EDATERMID__c
-LEFT JOIN [edcuat].[dbo].[AcademicTerm] F
+LEFT JOIN [EDUCPROD].[dbo].[AcademicTerm] F
 ON R.future_interest_term__c = F.EDATERMID__c
-LEFT JOIN [edcuat].[dbo].[Recordtype] R2
+LEFT JOIN [EDUCPROD].[dbo].[Recordtype] R2
 ON R2.DeveloperName = 'Recruitment_OE'
-LEFT JOIN [edcuat].[dbo].[Recordtype] R3
+LEFT JOIN [EDUCPROD].[dbo].[Recordtype] R3
 ON R3.DeveloperName = 'Recruitment_CE'
---LEFT JOIN [edcuat].[dbo].[User_Lookup] cr
+--LEFT JOIN [EDUCPROD].[dbo].[User_Lookup] cr
 --ON R.CreatedById = cr.Legacy_ID__c
---LEFT JOIN [edcuat].[dbo].[User_Lookup] O
+--LEFT JOIN [EDUCPROD].[dbo].[User_Lookup] O
 --ON R.OwnerId = O.Legacy_ID__c
---LEFT JOIN [edcuat].[dbo].[User_Lookup] OC
+--LEFT JOIN [EDUCPROD].[dbo].[User_Lookup] OC
 --ON R.coordinator__c = OC.Legacy_ID__c
 LEFT JOIN [edaprod].[dbo].[hed__Affiliation__c] A
 ON R.Affiliation__c = A.Id
-LEFT JOIN [edcuat].[dbo].[LearningProgram] LP
+LEFT JOIN [EDUCPROD].[dbo].[LearningProgram] LP
 ON LP.EDAACCOUNTID__c = A.hed__Account__c
 WHERE R.StageName = 'Enrolled'
 AND NOT(R.Application_ID__c IS NULL
@@ -270,7 +270,7 @@ AND R.StageName = 'Fallout')
 ALTER TABLE Case_Enrolled_Opportunity_Insert
 ALTER COLUMN ID NVARCHAR(18)
 
-EXEC SF_TableLoader 'Insert:BULKAPI','edcuat','Case_Enrolled_Opportunity_Insert_3'
+EXEC SF_TableLoader 'Insert:BULKAPI','EDUCPROD','Case_Enrolled_Opportunity_Insert_3'
 
 SELECT * 
 INTO Case_Enrolled_Opportunity_Insert_3
@@ -295,7 +295,7 @@ WHERE C.ID IS NOT NULL
 
 select * from Case_Recr_Enr_Lookup_Update
 
-EXEC SF_TableLoader 'Update:BULKAPI','edcuat','Case_Recr_Enr_Lookup_Update'
+EXEC SF_TableLoader 'Update:BULKAPI','EDUCPROD','Case_Recr_Enr_Lookup_Update'
 
 select * from Case_Recr_Enr_Lookup_Update_Result
 where error <> 'Operation Successful.'
@@ -320,7 +320,7 @@ INNER JOIN [edaprod].[dbo].Interaction__c I
 ON 'I-'+I.Id = A.Legacy_ID__c
 LEFT JOIN [edaprod].[dbo].[Opportunity] O
 ON I.Opportunity__c = O.Id
-LEFT JOIN [edcuat].[dbo].[Opportunity] Op
+LEFT JOIN [EDUCPROD].[dbo].[Opportunity] Op
 ON Op.Legacy_ID__c = O.Id
 WHERE O.ID IS NOT NULL
 
@@ -341,6 +341,6 @@ LEFT JOIN [Case_Enrolled_Opportunity_Lookup] C
 ON O.Id = C.Legacy_ID__c
 WHERE C.ID IS NOT NULL
 
-EXEC SF_TableLoader 'Update:BULKAPI','edcuat','Case_Enr_Recruitment_Lookup_Update'
+EXEC SF_TableLoader 'Update:BULKAPI','EDUCPROD','Case_Enr_Recruitment_Lookup_Update'
 
 SELECT * FROM [Case_Enrolled_Opportunity_Lookup]

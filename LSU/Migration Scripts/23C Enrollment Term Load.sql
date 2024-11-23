@@ -1,5 +1,5 @@
 
-USE edcuat;
+USE EDUCPROD;
 
 --====================================================================
 --	INSERTING DATA TO THE LOAD TABLE FROM THE VIEW - Term
@@ -9,8 +9,8 @@ USE edcuat;
 --DROP TABLE IF EXISTS [dbo].[AcademicTerm_Enr_LOAD];
 --GO
 SELECT *
-INTO [edcuat].dbo.AcademicTerm_Enr_LOAD
-FROM [edcuat].[dbo].[23C_Enr_AcademicTerm] C
+INTO [EDUCPROD].dbo.AcademicTerm_Enr_LOAD
+FROM [EDUCPROD].[dbo].[23C_Enr_AcademicTerm] C
 
 SELECT * FROM AcademicTerm_Enr_LOAD
 
@@ -25,7 +25,7 @@ ALTER COLUMN ID NVARCHAR(18)
 --====================================================================
 
 
-EXEC SF_TableLoader 'Insert:BULKAPI','edcuat','AcademicTerm_Enr_LOAD'
+EXEC SF_TableLoader 'Insert:BULKAPI','EDUCPROD','AcademicTerm_Enr_LOAD'
 
 SELECT * 
 --INTO LearnerProgram_LOAD_2
@@ -59,11 +59,11 @@ EXECUTE	SF_TableLoader
 
 SELECT * FROM [AcademicTerm_Term_Lookup]
 
-INSERT INTO [edcuat].[dbo].[AcademicTerm_Term_Lookup]
+INSERT INTO [EDUCPROD].[dbo].[AcademicTerm_Term_Lookup]
 SELECT
  ID
 ,EDATERMID__c
---INTO [edcuat].[dbo].[AcademicTerm_Term_Lookup]
+--INTO [EDUCPROD].[dbo].[AcademicTerm_Term_Lookup]
 FROM AcademicTerm_Enr_LOAD_Result
 WHERE Error = 'Operation Successful.'
 

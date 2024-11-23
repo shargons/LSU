@@ -1,5 +1,5 @@
 
-USE edcuat;
+USE EDUCPROD;
 
 --====================================================================
 --	INSERTING DATA TO THE LOAD TABLE FROM THE VIEW - Case
@@ -9,8 +9,8 @@ USE edcuat;
 --DROP TABLE IF EXISTS [dbo].[Case_Affiliation_LOAD];
 --GO
 SELECT *
-INTO [edcuat].dbo.Case_Affiliation_LOAD
-FROM [edcuat].[dbo].[14_EDA_Affiliations] C
+INTO [EDUCPROD].dbo.Case_Affiliation_LOAD
+FROM [EDUCPROD].[dbo].[14_EDA_Affiliations] C
 ORDER BY ContactId
 
 
@@ -27,7 +27,7 @@ ALTER COLUMN ID NVARCHAR(18)
 SELECT * FROM Case_Affiliation_LOAD
 
 
-EXEC SF_TableLoader 'Insert:BULKAPI','edcuat','Case_Affiliation_LOAD_7'
+EXEC SF_TableLoader 'Insert:BULKAPI','EDUCPROD','Case_Affiliation_LOAD_7'
 
 DROP TABLE Case_Affiliation_LOAD_7
 SELECT * 
@@ -64,15 +64,15 @@ EXECUTE	SF_TableLoader
 -- Contact Lookup
 --DROP TABLE IF EXISTS [dbo].[Case_Aff_Lookup];
 --GO
-INSERT INTO [edcuat].[dbo].[Case_Aff_Lookup]
+INSERT INTO [EDUCPROD].[dbo].[Case_Aff_Lookup]
 SELECT
  ID
 ,legacy_ID__c
---INTO [edcuat].[dbo].[Case_Aff_Lookup]
+--INTO [EDUCPROD].[dbo].[Case_Aff_Lookup]
 FROM Case_Affiliation_LOAD_7_Result
 WHERE Error = 'Operation Successful.'
 
-SELECT * FROM [edcuat].[dbo].[Case_Aff_Lookup]
+SELECT * FROM [EDUCPROD].[dbo].[Case_Aff_Lookup]
 
 
 
@@ -84,15 +84,15 @@ SELECT * FROM [edcuat].[dbo].[Case_Aff_Lookup]
 --DROP TABLE Case_Field_Update
 SELECT A.ID,B.application_Id__c,B.application_status__c,B.Application_Slate_ID__c,B.application_status_code__c,B.PLA_status__c
 INTO Case_Field_Update
-FROM [edcuat].[dbo].[Case] A
-INNER JOIN [edcuat].[dbo].[14_EDA_Affiliations] B
+FROM [EDUCPROD].[dbo].[Case] A
+INNER JOIN [EDUCPROD].[dbo].[14_EDA_Affiliations] B
 ON A.legacy_ID__c = B.legacy_ID__c
 --where B.Related_Opportunity__c is not null
 
 SELECT * FROM Case_Field_Update_Result
 where application_id__c is not null
 
-EXEC SF_TableLoader 'Update:BULKAPI','edcuat','Case_Field_Update'
+EXEC SF_TableLoader 'Update:BULKAPI','EDUCPROD','Case_Field_Update'
 
 select * from Case_Field_Update_Result
 where eRROR <> 'Operation Successful.'
@@ -102,27 +102,27 @@ where eRROR <> 'Operation Successful.'
 --DROP TABLE Case_UT_Update
 SELECT A.ID,AL.ID AS lsuam_upcoming_term__c
 INTO Case_UT_Update
-FROM [edcuat].[dbo].[Case] A
-LEFT JOIN [edcuat].[dbo].[14_EDA_Affiliations] B
+FROM [EDUCPROD].[dbo].[Case] A
+LEFT JOIN [EDUCPROD].[dbo].[14_EDA_Affiliations] B
 ON A.legacy_ID__c = B.legacy_ID__c
-LEFT JOIN [edcuat].[dbo].[AcademicTerm] AL
+LEFT JOIN [EDUCPROD].[dbo].[AcademicTerm] AL
 ON AL.EDATERMID__c = B.Source_lsuam_upcoming_term__c  
 WHERE B.Source_lsuam_upcoming_term__c IS NOT NULL
 
-EXEC SF_TableLoader 'Update:BULKAPI','edcuat','Case_UT_Update'
+EXEC SF_TableLoader 'Update:BULKAPI','EDUCPROD','Case_UT_Update'
 
 -- Source_lsuam_current_term__c
 DROP TABLE Case_CT_Update
 SELECT A.ID,AL.ID AS lsuam_current_term__c
 INTO Case_CT_Update
-FROM [edcuat].[dbo].[Case] A
-INNER JOIN [edcuat].[dbo].[14_EDA_Affiliations] B
+FROM [EDUCPROD].[dbo].[Case] A
+INNER JOIN [EDUCPROD].[dbo].[14_EDA_Affiliations] B
 ON A.legacy_ID__c = B.legacy_ID__c
-LEFT JOIN [edcuat].[dbo].[AcademicTerm] AL
+LEFT JOIN [EDUCPROD].[dbo].[AcademicTerm] AL
 ON AL.EDATERMID__c = B.Source_lsuam_current_term__c  
 WHERE B.Source_lsuam_current_term__c IS NOT NULL
 
-EXEC SF_TableLoader 'Update:BULKAPI','edcuat','Case_CT_Update'
+EXEC SF_TableLoader 'Update:BULKAPI','EDUCPROD','Case_CT_Update'
 
 
 -- Source_RFI Case Update
@@ -141,7 +141,7 @@ WHERE C.ID IS NOT NULL
 
 select * from Case_RFI_Lookup_Update
 
-EXEC SF_TableLoader 'Update:BULKAPI','edcuat','Case_RFI_Lookup_Update'
+EXEC SF_TableLoader 'Update:BULKAPI','EDUCPROD','Case_RFI_Lookup_Update'
 
 select * from Case_RFI_Lookup_Update_Result
 where error = 'Operation Successful.'
@@ -162,7 +162,7 @@ WHERE C.ID IS NOT NULL
 
 SELECT * FROM Case_RelatedRetention_Lookup_Update
 
-EXEC SF_TableLoader 'Update:BULKAPI','edcuat','Case_RelatedRetention_Lookup_Update'
+EXEC SF_TableLoader 'Update:BULKAPI','EDUCPROD','Case_RelatedRetention_Lookup_Update'
 
 
 -- Related Recruitment Case
@@ -179,7 +179,7 @@ LEFT JOIN [Case] C
 ON O.Id = C.Legacy_ID__c
 WHERE C.ID IS NOT NULL
 
-EXEC SF_TableLoader 'Update:BULKAPI','edcuat','Case_Aff_Recruitment_Lookup_Update'
+EXEC SF_TableLoader 'Update:BULKAPI','EDUCPROD','Case_Aff_Recruitment_Lookup_Update'
 
 select * from Case_Aff_Recruitment_Lookup_Update_Result
 where error = 'Operation Successful.'

@@ -11,4 +11,4 @@ select * from hed__Term__c
 where TermId__c = '20252D'
 
 
-EXEC SF_TableLoader 'Update:BULKAPI','edcuat','AcademicTerm_TermID_Update'
+EXEC SF_TableLoader 'Update:BULKAPI','EDUCPROD','AcademicTerm_TermID_Update'

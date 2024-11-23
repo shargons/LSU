@@ -1,4 +1,4 @@
-USE [edcuat];
+USE [EDUCPROD];
 GO
 
 /****** Object:  View [dbo].[02_EDA_OrgAccount]    Script Date: 5/8/2024 2:20:57 PM ******/
@@ -24,5 +24,5 @@ SELECT
 		,A.hed__Account__c					AS Source_ProviderID
 		,B.ID								AS ProviderId
 FROM  [EDAPROD].[dbo].[hed__course__c] A
-LEFT JOIN [edcuat].dbo.Account B
+LEFT JOIN [EDUCPROD].dbo.Account B
 ON A.hed__Account__c = B.Legacy_Id__c

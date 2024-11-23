@@ -1,4 +1,4 @@
-USE [edcuat];
+USE [EDUCPROD];
 GO
 
 /****** Object:  View [dbo].[17_EDA_ProgramPlan]    Script Date: 5/8/2024 2:20:57 PM ******/
@@ -20,7 +20,7 @@ SELECT
 	,O.ID												AS ownerid
 	,r.CreatedById										AS CreatedById
 FROM [edaprod].[dbo].[hed__program_plan__c] R
-LEFT JOIN edcuat.dbo.[User] cr
+LEFT JOIN EDUCPROD.dbo.[User] cr
 ON R.CreatedById = cr.EDAUSERID__c
-LEFT JOIN [edcuat].[dbo].[User] O
+LEFT JOIN [EDUCPROD].[dbo].[User] O
 ON R.OwnerId = o.EDAUSERID__c

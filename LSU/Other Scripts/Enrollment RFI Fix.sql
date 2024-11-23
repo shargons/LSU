@@ -1,5 +1,5 @@
 
-USE edcuat;
+USE EDUCPROD;
 
 --====================================================================
 --	INSERTING DATA TO THE LOAD TABLE FROM THE VIEW - Case
@@ -9,8 +9,8 @@ USE edcuat;
 --DROP TABLE IF EXISTS [dbo].[Case_RFI_Enrollment_LOAD];
 
 SELECT *
-INTO [edcuat].dbo.Case_RFI_Enrollment_LOAD
-FROM [edcuat].[dbo].[dbo].[30_Case_Enrollment_RFI] C
+INTO [EDUCPROD].dbo.Case_RFI_Enrollment_LOAD
+FROM [EDUCPROD].[dbo].[dbo].[30_Case_Enrollment_RFI] C
 ORDER BY ContactId
 
 
@@ -20,7 +20,7 @@ ALTER COLUMN ID NVARCHAR(18)
 
 SELECT * FROM Case_RFI_Enrollment_LOAD
 
-EXEC SF_TableLoader 'Insert:BULKAPI','edcuat','Case_RFI_Enrollment_LOAD'
+EXEC SF_TableLoader 'Insert:BULKAPI','EDUCPROD','Case_RFI_Enrollment_LOAD'
 
 select * 
 --into Case_RFI_Enrollment_2
@@ -51,7 +51,7 @@ INNER JOIN
 Case_RFI_Enrollment_Lookup B
 ON A.Legacy_Id__c = B.Legacy_Id__c
 
-EXEC SF_TableLoader 'Update:BULKAPI','edcuat','Case_Rec_RFI_Link_Update'
+EXEC SF_TableLoader 'Update:BULKAPI','EDUCPROD','Case_Rec_RFI_Link_Update'
 
 select * from Case_Rec_RFI_Link_Update
 
@@ -71,4 +71,4 @@ LEFT JOIN
 [Case] C
 ON Aff.Id = C.Legacy_ID__c
 
-EXEC SF_TableLoader 'Update:BULKAPI','edcuat','Case_RFI_Ret_Link_Update'
+EXEC SF_TableLoader 'Update:BULKAPI','EDUCPROD','Case_RFI_Ret_Link_Update'

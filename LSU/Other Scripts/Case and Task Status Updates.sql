@@ -7,7 +7,7 @@ ON A.Legacy_ID__c = C.Legacy_ID__c
 WHERE A.[Status] <> C.[Status]
 
 
-EXEC SF_TableLoader 'Update:BULKAPI','edcuat','Case_Requested_Status_Update_3'
+EXEC SF_TableLoader 'Update:BULKAPI','EDUCPROD','Case_Requested_Status_Update_3'
 
 --DROP TABLE Case_Requested_Status_Update_3
 SELECT *
@@ -24,7 +24,7 @@ INNER JOIN
 ON A.Legacy_ID__c = C.Legacy_ID__c
 WHERE A.[Status] <> C.[status]
 
-EXEC SF_TableLoader 'Update:BULKAPI','edcuat','Case_Requested_Status_Update_4'
+EXEC SF_TableLoader 'Update:BULKAPI','EDUCPROD','Case_Requested_Status_Update_4'
 
 
 SELECT C.Id,A.[Status],A.Sub_Status__c
@@ -35,7 +35,7 @@ INNER JOIN
 ON A.Legacy_ID__c = C.Legacy_ID__c
 WHERE A.[Status] <> C.[status]
 
-EXEC SF_TableLoader 'Update:BULKAPI','edcuat','Case_Ret_Status_Update_2'
+EXEC SF_TableLoader 'Update:BULKAPI','EDUCPROD','Case_Ret_Status_Update_2'
 
 select * 
 into Case_Ret_Status_Update_2
@@ -51,7 +51,7 @@ INNER JOIN
 ON A.Legacy_ID__c = C.Legacy_ID__c
 WHERE A.[Status] <> C.[status]
 
-EXEC SF_TableLoader 'Update:BULKAPI','edcuat','Task_Status_Update_3'
+EXEC SF_TableLoader 'Update:BULKAPI','EDUCPROD','Task_Status_Update_3'
 
 select * 
 --into Task_Status_Update_3

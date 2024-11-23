@@ -1,4 +1,4 @@
-USE edcuat;
+USE EDUCPROD;
 
 --====================================================================
 --	INSERTING DATA TO THE LOAD TABLE FROM THE VIEW - Plan Requirements
@@ -8,8 +8,8 @@ USE edcuat;
 --DROP TABLE IF EXISTS [dbo].[LearningProgramPlanRqmt_LOAD];
 --GO
 SELECT *
-INTO [edcuat].dbo.LearningProgramPlanRqmt_LOAD
-FROM [edcuat].[dbo].[20B_EDA_Plan_Requirements] C
+INTO [EDUCPROD].dbo.LearningProgramPlanRqmt_LOAD
+FROM [EDUCPROD].[dbo].[20B_EDA_Plan_Requirements] C
 ORDER BY LearningProgramPlanId
 
 
@@ -25,7 +25,7 @@ SELECT * FROM LearningProgramPlanRqmt_LOAD
 --====================================================================
 
 
-EXEC SF_TableLoader 'Insert:BULKAPI','edcuat','LearningProgramPlanRqmt_LOAD'
+EXEC SF_TableLoader 'Insert:BULKAPI','EDUCPROD','LearningProgramPlanRqmt_LOAD'
 
 SELECT *
 --INTO LearningProgramPlanRqmt_LOAD_2

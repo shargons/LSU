@@ -1,5 +1,5 @@
 
-USE edcuat;
+USE EDUCPROD;
 
 --====================================================================
 --	INSERTING DATA TO THE LOAD TABLE FROM THE VIEW - Case
@@ -9,30 +9,28 @@ USE edcuat;
 --DROP TABLE IF EXISTS [dbo].[Opportunity_LOAD];
 --GO
 SELECT *
-INTO edcuat.[dbo].[Opportunity_LOAD]
-FROM edcuat.[dbo].[12_EDA_Opportunity] C
+INTO EDUCPROD.[dbo].[Opportunity_LOAD]
+FROM EDUCPROD.[dbo].[12_EDA_Opportunity] C
 ORDER BY AccountId
 
 
-SELECT count(*),RecordtypeId FROM edcuat.[dbo].[Opportunity_LOAD]
+SELECT count(*),RecordtypeId FROM EDUCPROD.[dbo].[Opportunity_LOAD]
 GROUP BY RecordtypeId
 
-SELECT *
-from Recordtype
-where SobjectType = 'Opportunity'
+
 
 
 /******* Change ID Column to nvarchar(18) *********/
-ALTER TABLE edcuat.[dbo].[Opportunity_LOAD]
+ALTER TABLE EDUCPROD.[dbo].[Opportunity_LOAD]
 ALTER COLUMN ID NVARCHAR(18)
 
 --====================================================================
 --INSERTING DATA USING DBAMP - Case
 --====================================================================
 
-SELECT * FROM edcuat.[dbo].[Opportunity_LOAD]
+SELECT * FROM EDUCPROD.[dbo].[Opportunity_LOAD]
 
-EXEC SF_TableLoader 'Insert:BULKAPI','edcuat','Opportunity_LOAD_2'
+EXEC SF_TableLoader 'Insert:BULKAPI','EDUCPROD','Opportunity_LOAD_2'
 
 --DROP TABLE Opportunity_LOAD_2
 SELECT * 
@@ -68,11 +66,11 @@ EXECUTE	SF_TableLoader
 --DROP TABLE IF EXISTS [dbo].[Opportunity_Lookup];
 --GO
 
-INSERT INTO edcuat.[dbo].[Opportunity_Lookup]
+INSERT INTO EDUCPROD.[dbo].[Opportunity_Lookup]
 SELECT
  ID
 ,Legacy_ID__c
---INTO edcuat.[dbo].[Opportunity_Lookup]
+--INTO EDUCPROD.[dbo].[Opportunity_Lookup]
 FROM Opportunity_LOAD_2_Result
 WHERE Error = 'Operation Successful.'
 
@@ -93,7 +91,7 @@ LEFT JOIN
 ON I.Opportunity__c = A.Legacy_ID__c
 WHERE C.Related_Opportunity__c IS NULL
 
-EXEC SF_TableLoader 'Update:BULKAPI','edcuat','Case_Opportunity_Lookup_Update_2'
+EXEC SF_TableLoader 'Update:BULKAPI','EDUCPROD','Case_Opportunity_Lookup_Update_2'
 
 SELECT * 
 --INTO Case_Opportunity_Lookup_Update_2

@@ -1,5 +1,5 @@
 
-USE edcuat;
+USE EDUCPROD;
 
 --====================================================================
 --	INSERTING DATA TO THE LOAD TABLE FROM THE VIEW - Chat Transcript
@@ -9,8 +9,8 @@ USE edcuat;
 --DROP TABLE IF EXISTS [dbo].[Chat_Transcript__c_LOAD];
 --GO
 SELECT *
-INTO [edcuat].[dbo].[Chat_Transcript__c_LOAD]
-FROM [edcuat].[dbo].[28_EDA_ChatTranscripts] C
+INTO [EDUCPROD].[dbo].[Chat_Transcript__c_LOAD]
+FROM [EDUCPROD].[dbo].[28_EDA_ChatTranscripts] C
 ORDER BY Contact__c
 
 SELECT * FROM [Chat_Transcript__c_LOAD]
@@ -25,7 +25,7 @@ ALTER COLUMN ID NVARCHAR(18)
 
 SELECT * FROM [Chat_Transcript__c_LOAD]
 
-EXEC SF_TableLoader 'Insert:BULKAPI','edcuat','Chat_Transcript__c_LOAD_2'
+EXEC SF_TableLoader 'Insert:BULKAPI','EDUCPROD','Chat_Transcript__c_LOAD_2'
 
 SELECT * 
 INTO Chat_Transcript__c_LOAD_2

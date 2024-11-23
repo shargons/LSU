@@ -1,4 +1,4 @@
-USE [edcuat];
+USE [EDUCPROD];
 GO
 
 /****** Object:  View [dbo].[02_EDA_OrgAccount]    Script Date: 5/8/2024 2:20:57 PM ******/
@@ -25,12 +25,12 @@ LEFT JOIN
  [edaprod].[dbo].[hed__Affiliation__c] B
 ON A.LSU_Affiliation__c = B.Id
 LEFT JOIN
-[edcuat].[dbo].[LearningProgram] AL
+[EDUCPROD].[dbo].[LearningProgram] AL
 ON AL.EDAACCOUNTID__c = B.hed__Account__c
 )X
 LEFT JOIN [edaprod].[dbo].[SF_EDA_All_Campus_Term_Codes] TC
 ON X.SourceAcademicTerm = TC.Campus_Term_Code_incoming_file_term_formats
-LEFT JOIN [edcuat].[dbo].[AcademicTerm] T2
+LEFT JOIN [EDUCPROD].[dbo].[AcademicTerm] T2
 ON T2.Term_Id__c = TC.Campus_Term_Code_incoming_file_term_formats
 WHERE X.SourceAcademicTerm IS NOT NULL AND X.Source_LearningProgram IS NOT NULL
 AND T2.ID IS NOT NULL

@@ -1,4 +1,4 @@
-USE [edcuat];
+USE [EDUCPROD];
 GO
 
 /****** Object:  View [dbo].[23B_Enr_Course]    Script Date: 5/8/2024 2:20:57 PM ******/
@@ -24,12 +24,12 @@ SELECT DISTINCT
 FROM [edaprod].[dbo].[enrollment__c] R
 LEFT JOIN [edaprod].[dbo].[hed__Affiliation__c] AF
 ON R.LSU_Affiliation__c = AF.Id
-LEFT JOIN [edcuat].[dbo].[User] cr
+LEFT JOIN [EDUCPROD].[dbo].[User] cr
 ON R.CreatedById = cr.EDAUSERID__c
-LEFT JOIN [edcuat].[dbo].[User] O
+LEFT JOIN [EDUCPROD].[dbo].[User] O
 ON R.OwnerId = O.EDAUSERID__c
-LEFT JOIN [edcuat].[dbo].[LearningProgram] A
+LEFT JOIN [EDUCPROD].[dbo].[LearningProgram] A
 	ON A.EDAACCOUNTID__c = AF.hed__Account__c
-LEFT JOIN [edcuat].[dbo].[Learning] L
+LEFT JOIN [EDUCPROD].[dbo].[Learning] L
 	ON L.EDAACCOUNTID__c = R.Id
 WHERE R.Offering_Code__c IS NOT NULL

@@ -1,8 +1,8 @@
 
-USE edcuat;
+USE EDUCPROD;
 
 -- REPLICATE ATE for eliminating duplicates while migration
-EXEC SF_Replicate 'EDCUAT','AcademicTermEnrollment','pkchunk,batchsize(50000)'
+EXEC SF_Replicate 'EDUCPROD','AcademicTermEnrollment','pkchunk,batchsize(50000)'
 
 --====================================================================
 --	INSERTING DATA TO THE LOAD TABLE FROM THE VIEW - Academic Term Enrollment 
@@ -10,8 +10,8 @@ EXEC SF_Replicate 'EDCUAT','AcademicTermEnrollment','pkchunk,batchsize(50000)'
 --DROP TABLE IF EXISTS [dbo].[AcademicTermEnrollment_LOAD];
 --GO
 SELECT A.*
-INTO [edcuat].[dbo].AcademicTermEnrollment_LOAD
-FROM [edcuat].[dbo].[23F_AcademicTermEnrollments] A
+INTO [EDUCPROD].[dbo].AcademicTermEnrollment_LOAD
+FROM [EDUCPROD].[dbo].[23F_AcademicTermEnrollments] A
 LEFT JOIN
 AcademicTermEnrollment B
 ON A.AcademicTermId = B.AcademicTermId
@@ -23,7 +23,7 @@ B.ID IS NULL
 
 
 /******* Check Load table *********/
-SELECT * FROM [edcuat].dbo.AcademicTermEnrollment_LOAD
+SELECT * FROM [EDUCPROD].dbo.AcademicTermEnrollment_LOAD
 
 --====================================================================
 --INSERTING DATA USING DBAMP - AcademicTermEnrollment
@@ -35,7 +35,7 @@ ALTER TABLE AcademicTermEnrollment_LOAD
 ALTER COLUMN ID NVARCHAR(18)
 
 
-EXEC SF_TableLoader 'Insert:BULKAPI','EDCUAT','AcademicTermEnrollment_LOAD_13'
+EXEC SF_TableLoader 'Insert:BULKAPI','EDUCPROD','AcademicTermEnrollment_LOAD_13'
 
 --DROP TABLE AcademicTermEnrollment_Load_14
 SELECT * 
@@ -91,7 +91,7 @@ ON A.UpsertKey__c = B.UpsertKey__c
 
 
 
-EXEC SF_TableLoader 'Update:BULKAPI','EDCUAT','CourseOfferingParticipant_ATE_Update_2'
+EXEC SF_TableLoader 'Update:BULKAPI','EDUCPROD','CourseOfferingParticipant_ATE_Update_2'
 
 select * from CourseOfferingParticipant_ATE_Update_Result
 WHERE Error <> 'Operation Successful.'

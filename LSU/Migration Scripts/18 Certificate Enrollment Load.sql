@@ -1,4 +1,4 @@
-USE edcuat;
+USE EDUCPROD;
 
 --====================================================================
 --	INSERTING DATA TO THE LOAD TABLE FROM THE VIEW - Certificate Enrollment
@@ -8,11 +8,11 @@ USE edcuat;
 --DROP TABLE IF EXISTS [dbo].[LearnerProgram_CertEnrol_LOAD];
 --GO
 SELECT *
-INTO [edcuat].dbo.LearnerProgram_CertEnrol_LOAD
-FROM [edcuat].[dbo].[18_EDA_CertificateEnrollments] C
+INTO [EDUCPROD].dbo.LearnerProgram_CertEnrol_LOAD
+FROM [EDUCPROD].[dbo].[18_EDA_CertificateEnrollments] C
 ORDER BY Case__c,one_Student_Id__c
 
-SELECT * FROM [edcuat].dbo.LearnerProgram_CertEnrol_LOAD
+SELECT * FROM [EDUCPROD].dbo.LearnerProgram_CertEnrol_LOAD
 
 /******* Change ID Column to nvarchar(18) *********/
 ALTER TABLE LearnerProgram_CertEnrol_LOAD
@@ -24,7 +24,7 @@ ALTER COLUMN ID NVARCHAR(18)
 
 SELECT * FROM LearnerProgram_CertEnrol_LOAD
 
-EXEC SF_TableLoader 'Insert:BULKAPI','edcuat','LearnerProgram_CertEnrol_LOAD'
+EXEC SF_TableLoader 'Insert:BULKAPI','EDUCPROD','LearnerProgram_CertEnrol_LOAD'
 
 SELECT *
 --INTO LearnerProgram_CertEnrol_LOAD_2
@@ -74,4 +74,4 @@ SELECT Id,ParentLearnerProgramId,OpportunityId
 --INTO LearnerProgram_CertEnrol_Update
 FROM LearnerProgram_CertEnrol_LOAD_Result
 
-EXEC SF_TableLoader 'Update:BULKAPI2','edcuat','LearnerProgram_CertEnrol_Update'
+EXEC SF_TableLoader 'Update:BULKAPI2','EDUCPROD','LearnerProgram_CertEnrol_Update'

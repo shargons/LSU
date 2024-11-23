@@ -1,4 +1,4 @@
-USE [edcuat];
+USE [EDUCPROD];
 GO
 
 /****** Object:  View [dbo].[23A_Enr_Learning]    Script Date: 5/8/2024 2:20:57 PM ******/
@@ -24,7 +24,7 @@ SELECT DISTINCT
 		,B.CreatedById
 		,B.OwnerId
 FROM  [edaprod].[dbo].[enrollment__c] A
-LEFT JOIN [edcuat].dbo.Account B
+LEFT JOIN [EDUCPROD].dbo.Account B
 ON A.Campus__c = B.Name
 AND B.CreatedById = '005KT000000poMtYAI'
 and B.Legacy_Id__c is not null

@@ -1,4 +1,4 @@
-USE [edcuat];
+USE [EDUCPROD];
 GO
 
 /****** Object:  View [dbo].[31_EDA_ContentNotes]    Script Date: 5/8/2024 2:20:57 PM ******/
@@ -25,14 +25,14 @@ SELECT
       ,[RelationObjectType]
       ,[RelationType]
 FROM [edaprod].[dbo].[EmailMessageRelation] E
-   LEFT JOIN [edcuat].[dbo].[User] cr
+   LEFT JOIN [EDUCPROD].[dbo].[User] cr
 	ON E.CreatedById = cr.EDAUSERID__c
-	LEFT JOIN [edcuat].[dbo].[EmailMessage] EM
+	LEFT JOIN [EDUCPROD].[dbo].[EmailMessage] EM
 	ON E.[EmailMessageId] = EM.EDAEMAILMSGID__c
-	LEFT JOIN [edcuat].[dbo].[User] U
+	LEFT JOIN [EDUCPROD].[dbo].[User] U
 	ON E.[RelationId] = U.EDAUSERID__c
-	LEFT JOIN  [edcuat].[dbo].[Contact] C
+	LEFT JOIN  [EDUCPROD].[dbo].[Contact] C
 	ON E.[RelationId] = C.Legacy_Id__c
-	--LEFT JOIN  [edcuat].[dbo].[Lead] L
-	--ON E.[RelationId] = L.Legacy_Id__c
+	LEFT JOIN  [EDUCPROD].[dbo].[Lead] L
+	ON E.[RelationId] = L.Legacy_Id__c
 	WHERE [RelationObjectType] IN ('User','Contact')

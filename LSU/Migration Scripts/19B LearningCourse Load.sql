@@ -1,4 +1,4 @@
-USE edcuat;
+USE EDUCPROD;
 
 --====================================================================
 --	INSERTING DATA TO THE LOAD TABLE FROM THE VIEW - Certificate Enrollment
@@ -6,17 +6,17 @@ USE edcuat;
 
 
 -- Replicate Learning for the LearningIds inserted in 19A
-EXEC SF_Replicate 'EDCUAT','Learning','pkchunk,batchsize(50000)'
+EXEC SF_Replicate 'EDUCPROD','Learning','pkchunk,batchsize(50000)'
 
 --DROP TABLE IF EXISTS [dbo].[LearningCourse_LOAD];
 --GO
 SELECT *
-INTO [edcuat].dbo.LearningCourse_LOAD
-FROM [edcuat].[dbo].[19B_EDA_Course] C
+INTO [EDUCPROD].dbo.LearningCourse_LOAD
+FROM [EDUCPROD].[dbo].[19B_EDA_Course] C
 ORDER BY ProviderId,LearningId
 
 
-SELECT * FROM [edcuat].dbo.LearningCourse_LOAD
+SELECT * FROM [EDUCPROD].dbo.LearningCourse_LOAD
 
 /******* Change ID Column to nvarchar(18) *********/
 ALTER TABLE LearningCourse_LOAD
@@ -26,7 +26,7 @@ ALTER COLUMN ID NVARCHAR(18)
 --INSERTING DATA USING DBAMP -  Certificate Enrollment
 --====================================================================
 
-EXEC SF_TableLoader 'Upsert:BULKAPI','edcuat','LearningCourse_LOAD_2','one_course_id__c'
+EXEC SF_TableLoader 'Upsert:BULKAPI','EDUCPROD','LearningCourse_LOAD_2','one_course_id__c'
 
 DROP TABLE LearningCourse_LOAD_2
 SELECT *

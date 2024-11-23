@@ -1,4 +1,4 @@
-USE [edcuat];
+USE [EDUCPROD];
 GO
 
 /****** Object:  View [dbo].[31_EDA_ContentNotes]    Script Date: 5/8/2024 2:20:57 PM ******/
@@ -59,14 +59,14 @@ SELECT
 	  ,T.TaskSubtype
   FROM [edaprod].[dbo].[Task] T
   LEFT JOIN
-  [edcuat].[dbo].[Contact] C
+  [EDUCPROD].[dbo].[Contact] C
   ON T.WhoId = C.Legacy_Id__c
   LEFT JOIN
-  [edcuat].[dbo].[Lead] L
+  [EDUCPROD].[dbo].[Lead] L
   ON T.WhoId = L.Legacy_Id__c
-   LEFT JOIN [edcuat].[dbo].[User] cr
+   LEFT JOIN [EDUCPROD].[dbo].[User] cr
 	ON T.CreatedById = cr.EDAUSERID__c
-	LEFT JOIN [edcuat].[dbo].[User] O
+	LEFT JOIN [EDUCPROD].[dbo].[User] O
 	ON T.OwnerId = O.EDAUSERID__c
 
 

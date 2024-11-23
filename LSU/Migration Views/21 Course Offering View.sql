@@ -1,4 +1,4 @@
-USE [edcuat];
+USE [EDUCPROD];
 GO
 
 /****** Object:  View [dbo].[21_EDA_CourseOffering]    Script Date: 4/9/2024 2:20:57 PM ******/
@@ -37,10 +37,10 @@ SELECT
 	,IIF(SectionStartDatews__c IS NULL,DATEADD(HOUR,12,hed__Start_Date__c),DATEADD(HOUR,12,SectionStartDatews__c))					AS StartDate		
 	,CR.ID									AS CreatedById
 FROM  [edaprod].[dbo].[hed__course_offering__c] C
-LEFT JOIN [edcuat].[dbo].[LearningCourse] LC
+LEFT JOIN [EDUCPROD].[dbo].[LearningCourse] LC
 	ON C.hed__course__c = LC.EDACOURSEID__c
-LEFT JOIN [edcuat].[dbo].[AcademicTerm] T
+LEFT JOIN [EDUCPROD].[dbo].[AcademicTerm] T
 	ON C.hed__term__c = T.EDATERMID__c
-LEFT JOIN [edcuat].[dbo].[User] cr
+LEFT JOIN [EDUCPROD].[dbo].[User] cr
 ON C.CreatedById = cr.EDAUSERID__c
 --WHERE C.Name = '2013-14 OLLI Mem - 006'

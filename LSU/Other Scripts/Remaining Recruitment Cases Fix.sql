@@ -16,7 +16,7 @@ ALTER COLUMN ID NVARCHAR(18)
 
 SELECT * FROM [Case_Recruitment_Rem_Lookup]
 
-EXEC SF_TableLoader 'Upsert:BULKAPI','edcuat','Case_Recruitment_Rem_Load_3','Legacy_Id__c'
+EXEC SF_TableLoader 'Upsert:BULKAPI','EDUCPROD','Case_Recruitment_Rem_Load_3','Legacy_Id__c'
 
 SELECT * 
 INTO Case_Recruitment_Rem_Load_3
@@ -48,7 +48,7 @@ LEFT JOIN
 [Opportunity] O
 ON O.Legacy_ID__c = I.Id
 
-EXEC SF_TableLoader 'Update:BULKAPI','edcuat','Case_Rec_Opp_Link_Update_2'
+EXEC SF_TableLoader 'Update:BULKAPI','EDUCPROD','Case_Rec_Opp_Link_Update_2'
 
 
 -- Retention Related Recruitment Case Lookup
@@ -65,7 +65,7 @@ on O.Id = Rec.Legacy_ID__c
 WHERE A.Related_Recruitment_Case__c IS NULL
 
 
-EXEC SF_TableLoader 'Update:BULKAPI','edcuat','Case_Ret_RecCase_Link_Update'
+EXEC SF_TableLoader 'Update:BULKAPI','EDUCPROD','Case_Ret_RecCase_Link_Update'
 
 SELECT * FROM Case_Ret_RecCase_Link_Update_Result
 WHERE Error <> 'Operation Successful.'
@@ -86,7 +86,7 @@ WHERE Rec.Source_RFI_Case__c IS NULL
 and Rfi.Id is not null
 
 
-EXEC SF_TableLoader 'Update:BULKAPI','edcuat','Case_Rec_SourceRFI_Link_Update'
+EXEC SF_TableLoader 'Update:BULKAPI','EDUCPROD','Case_Rec_SourceRFI_Link_Update'
 
 select * from Case_Rec_SourceRFI_Link_Update_Result where Error <> 'Operation Successful.'
 
@@ -107,5 +107,5 @@ WHERE Ret.Source_RFI_Case__c IS NULL
 and Rfi.Id is NOT null
 
 
-EXEC SF_TableLoader 'Update:BULKAPI','edcuat','Case_Ret_SourceRFI_Link_Update'
+EXEC SF_TableLoader 'Update:BULKAPI','EDUCPROD','Case_Ret_SourceRFI_Link_Update'
 

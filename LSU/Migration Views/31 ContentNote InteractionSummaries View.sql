@@ -1,4 +1,4 @@
-USE [edcuat];
+USE [EDUCPROD];
 GO
 
 /****** Object:  View [dbo].[31_EDA_ContentNotes]    Script Date: 5/8/2024 2:20:57 PM ******/
@@ -33,20 +33,20 @@ SELECT DISTINCT
   [edaprod].[dbo].[ContentDocumentLink] DL
   ON C.ContentDocumentId = DL.ContentDocumentId
   LEFT JOIN
-  [edcuat].[dbo].[Contact] CO
+  [EDUCPROD].[dbo].[Contact] CO
   ON DL.LinkedEntityId = CO.Legacy_Id__c
   LEFT JOIN
-  [edcuat].[dbo].[Opportunity] O
+  [EDUCPROD].[dbo].[Opportunity] O
   ON DL.LinkedEntityId = O.Legacy_Id__c
   LEFT JOIN
-  [edcuat].[dbo].[Case] Ca
+  [EDUCPROD].[dbo].[Case] Ca
   ON DL.LinkedEntityId = Ca.Legacy_Id__c
   LEFT JOIN
-  [edcuat].[dbo].[Lead] L
+  [EDUCPROD].[dbo].[Lead] L
   ON DL.LinkedEntityId = L.Legacy_Id__c
-  LEFT JOIN [edcuat].[dbo].[User] cr
+  LEFT JOIN [EDUCPROD].[dbo].[User] cr
   ON C.CreatedById = cr.EDAUSERID__c
-  LEFT JOIN [edcuat].[dbo].[User] O
+  LEFT JOIN [EDUCPROD].[dbo].[User] O
   ON C.OwnerId = O.EDAUSERID__c
   WHERE 
   FileType = 'Snote'

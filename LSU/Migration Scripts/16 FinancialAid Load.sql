@@ -1,4 +1,4 @@
-USE edcuat;
+USE EDUCPROD;
 
 --====================================================================
 --	INSERTING DATA TO THE LOAD TABLE FROM THE VIEW - Financial_Aid
@@ -8,8 +8,8 @@ USE edcuat;
 --DROP TABLE IF EXISTS [dbo].[Financial_Aid__c_LOAD];
 --GO
 SELECT *
-INTO [edcuat].dbo.Financial_Aid__c_LOAD
-FROM [edcuat].[dbo].[16_EDA_Financial_Aid_Record] C
+INTO [EDUCPROD].dbo.Financial_Aid__c_LOAD
+FROM [EDUCPROD].[dbo].[16_EDA_Financial_Aid_Record] C
 ORDER BY Contact__c
 
 
@@ -23,7 +23,7 @@ ALTER COLUMN ID NVARCHAR(18)
 
 SELECT * FROM Financial_Aid__c_LOAD
 
-EXEC SF_TableLoader 'Insert:BULKAPI','edcuat','Financial_Aid__c_LOAD'
+EXEC SF_TableLoader 'Insert:BULKAPI','EDUCPROD','Financial_Aid__c_LOAD'
 
 SELECT *
 --INTO Financial_Aid__c_LOAD_2
@@ -58,6 +58,6 @@ EXECUTE	SF_TableLoader
 SELECT
  ID
 ,Legacy_ID__c
-INTO [edcuat].[dbo].[Financial_Aid_Lookup]
+INTO [EDUCPROD].[dbo].[Financial_Aid_Lookup]
 FROM Financial_Aid__c_LOAD_Result
 WHERE Error = 'Operation Successful.'

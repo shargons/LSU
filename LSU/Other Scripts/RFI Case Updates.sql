@@ -5,4 +5,4 @@ INNER JOIN
 [Case] C
 ON A.ID = C.ID
 
-EXEC SF_TableLoader 'Update:BULKAPI','edcuat','Case_Update'
+EXEC SF_TableLoader 'Update:BULKAPI','EDUCPROD','Case_Update'

@@ -1,4 +1,4 @@
-USE [edcuat];
+USE [EDUCPROD];
 GO
 
 /****** Object:  View [dbo].[17_EDA_ProgramPlan]    Script Date: 5/8/2024 2:20:57 PM ******/
@@ -31,5 +31,5 @@ LEFT JOIN [edcdatadev].[dbo].[User_Lookup] cr
 ON R.CreatedById = cr.Legacy_ID__c
 LEFT JOIN [edcdatadev].[dbo].[User_Lookup] O
 ON R.OwnerId = O.Legacy_ID__c
-LEFT JOIN [edcuat].[dbo].[LearningProgram] A
+LEFT JOIN [EDUCPROD].[dbo].[LearningProgram] A
 ON R.hed__account__c = A.EDAACCOUNTID__c

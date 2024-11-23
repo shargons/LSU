@@ -1,49 +1,49 @@
 USE [master]
 GO
 
-/****** Object:  LinkedServer [EDCUAT]    Script Date: 6/10/2024 3:59:28 PM ******/
-EXEC master.dbo.sp_addlinkedserver @server = N'EDCUAT', @srvproduct=N'', @provider=N'SQLNCLI', @datasrc=N'localhost,1435', @provstr=N'App=https://test.salesforce.com'
+/****** Object:  LinkedServer [EDUCPROD]    Script Date: 6/10/2024 3:59:28 PM ******/
+EXEC master.dbo.sp_addlinkedserver @server = N'EDUCPROD', @srvproduct=N'', @provider=N'SQLNCLI', @datasrc=N'localhost,1435', @provstr=N'App=https://test.salesforce.com'
  /* For security reasons the linked server remote logins password is changed with ######## */
-EXEC master.dbo.sp_addlinkedsrvlogin @rmtsrvname=N'EDCUAT',@useself=N'False',@locallogin=NULL,@rmtuser=N'lsu_migrationuser@cloud4good.com.uat',@rmtpassword='e4PAqhEdR5dyohMG2YgBmDqDwypsuVbnEIR8EAgIr'
+EXEC master.dbo.sp_addlinkedsrvlogin @rmtsrvname=N'EDUCPROD',@useself=N'False',@locallogin=NULL,@rmtuser=N'lsu_migrationuser@cloud4good.com.uat',@rmtpassword='e4PAqhEdR5dyohMG2YgBmDqDwypsuVbnEIR8EAgIr'
 GO
 
-EXEC master.dbo.sp_serveroption @server=N'EDCUAT', @optname=N'collation compatible', @optvalue=N'true'
+EXEC master.dbo.sp_serveroption @server=N'EDUCPROD', @optname=N'collation compatible', @optvalue=N'true'
 GO
 
-EXEC master.dbo.sp_serveroption @server=N'EDCUAT', @optname=N'data access', @optvalue=N'true'
+EXEC master.dbo.sp_serveroption @server=N'EDUCPROD', @optname=N'data access', @optvalue=N'true'
 GO
 
-EXEC master.dbo.sp_serveroption @server=N'EDCUAT', @optname=N'dist', @optvalue=N'false'
+EXEC master.dbo.sp_serveroption @server=N'EDUCPROD', @optname=N'dist', @optvalue=N'false'
 GO
 
-EXEC master.dbo.sp_serveroption @server=N'EDCUAT', @optname=N'pub', @optvalue=N'false'
+EXEC master.dbo.sp_serveroption @server=N'EDUCPROD', @optname=N'pub', @optvalue=N'false'
 GO
 
-EXEC master.dbo.sp_serveroption @server=N'EDCUAT', @optname=N'rpc', @optvalue=N'true'
+EXEC master.dbo.sp_serveroption @server=N'EDUCPROD', @optname=N'rpc', @optvalue=N'true'
 GO
 
-EXEC master.dbo.sp_serveroption @server=N'EDCUAT', @optname=N'rpc out', @optvalue=N'true'
+EXEC master.dbo.sp_serveroption @server=N'EDUCPROD', @optname=N'rpc out', @optvalue=N'true'
 GO
 
-EXEC master.dbo.sp_serveroption @server=N'EDCUAT', @optname=N'sub', @optvalue=N'false'
+EXEC master.dbo.sp_serveroption @server=N'EDUCPROD', @optname=N'sub', @optvalue=N'false'
 GO
 
-EXEC master.dbo.sp_serveroption @server=N'EDCUAT', @optname=N'connect timeout', @optvalue=N'0'
+EXEC master.dbo.sp_serveroption @server=N'EDUCPROD', @optname=N'connect timeout', @optvalue=N'0'
 GO
 
-EXEC master.dbo.sp_serveroption @server=N'EDCUAT', @optname=N'collation name', @optvalue=null
+EXEC master.dbo.sp_serveroption @server=N'EDUCPROD', @optname=N'collation name', @optvalue=null
 GO
 
-EXEC master.dbo.sp_serveroption @server=N'EDCUAT', @optname=N'lazy schema validation', @optvalue=N'false'
+EXEC master.dbo.sp_serveroption @server=N'EDUCPROD', @optname=N'lazy schema validation', @optvalue=N'false'
 GO
 
-EXEC master.dbo.sp_serveroption @server=N'EDCUAT', @optname=N'query timeout', @optvalue=N'0'
+EXEC master.dbo.sp_serveroption @server=N'EDUCPROD', @optname=N'query timeout', @optvalue=N'0'
 GO
 
-EXEC master.dbo.sp_serveroption @server=N'EDCUAT', @optname=N'use remote collation', @optvalue=N'true'
+EXEC master.dbo.sp_serveroption @server=N'EDUCPROD', @optname=N'use remote collation', @optvalue=N'true'
 GO
 
-EXEC master.dbo.sp_serveroption @server=N'EDCUAT', @optname=N'remote proc transaction promotion', @optvalue=N'true'
+EXEC master.dbo.sp_serveroption @server=N'EDUCPROD', @optname=N'remote proc transaction promotion', @optvalue=N'true'
 GO
 
 

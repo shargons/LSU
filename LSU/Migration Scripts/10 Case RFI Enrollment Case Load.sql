@@ -1,5 +1,5 @@
 
-USE edcuat;
+USE EDUCPROD;
 
 --====================================================================
 --	INSERTING DATA TO THE LOAD TABLE FROM THE VIEW - Case
@@ -9,8 +9,9 @@ USE edcuat;
 --DROP TABLE IF EXISTS [dbo].[Case_RFI_Enrollment_LOAD];
 
 SELECT *
-INTO [edcuat].dbo.Case_RFI_Enrollment_LOAD
-FROM [edcuat].[dbo].[30_Case_Enrollment_RFI] C
+INTO [EDUCPROD].dbo.Case_RFI_Enrollment_LOAD
+FROM [EDUCPROD].[dbo].[30_Case_Enrollment_RFI] C
+WHERE Source_Contact IS NOT NULL
 ORDER BY ContactId
 
 
@@ -20,11 +21,12 @@ ALTER COLUMN ID NVARCHAR(18)
 
 SELECT * FROM Case_RFI_Enrollment_LOAD
 
-EXEC SF_TableLoader 'Insert:BULKAPI','edcuat','Case_RFI_Enrollment_LOAD'
+EXEC SF_TableLoader 'Insert:BULKAPI','EDUCPROD','Case_RFI_Enrollment_LOAD_4'
 
+--DROP TABLE Case_RFI_Enrollment_2
 select * 
---into Case_RFI_Enrollment_2
-from Case_RFI_Enrollment_LOAD_Result
+into Case_RFI_Enrollment_LOAD_4
+from Case_RFI_Enrollment_LOAD_3_Result
 where Error <> 'Operation Successful.'
 
 --====================================================================
@@ -34,7 +36,8 @@ where Error <> 'Operation Successful.'
 
 INSERT INTO Case_RFI_Enrollment_Lookup
 SELECT Id,Legacy_Id__c
-FROM Case_RFI_Enrollment_LOAD_Result
+--INTO Case_RFI_Enrollment_Lookup
+FROM Case_RFI_Enrollment_LOAD_4_Result
 WHERE Error = 'Operation Successful.'
 
 select * from Case_RFI_Enrollment_Lookup
@@ -51,7 +54,7 @@ INNER JOIN
 Case_RFI_Enrollment_Lookup B
 ON A.Legacy_Id__c = B.Legacy_Id__c
 
-EXEC SF_TableLoader 'Update:BULKAPI','edcuat','Case_Rec_RFI_Link_Update'
+EXEC SF_TableLoader 'Update:BULKAPI','EDUCPROD','Case_Rec_RFI_Link_Update'
 
 select * from Case_Rec_RFI_Link_Update
 
@@ -71,7 +74,7 @@ LEFT JOIN
 [Case] C
 ON Aff.Id = C.Legacy_ID__c
 
-EXEC SF_TableLoader 'Update:BULKAPI','edcuat','Case_RFI_Ret_Link_Update'
+EXEC SF_TableLoader 'Update:BULKAPI','EDUCPROD','Case_RFI_Ret_Link_Update'
 
 -- Related Opportunity Update
 SELECT A.Id,O.Id as Related_Opportunity__c
@@ -86,4 +89,4 @@ LEFT JOIN
 [Opportunity] O
 ON O.Legacy_ID__c = Op.Id
 
-EXEC SF_TableLoader 'Update:BULKAPI','edcuat','Case_RFI_Ret_Link_Update'
+EXEC SF_TableLoader 'Update:BULKAPI','EDUCPROD','Case_RFI_Ret_Link_Update'

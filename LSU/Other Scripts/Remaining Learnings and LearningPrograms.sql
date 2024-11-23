@@ -1,7 +1,7 @@
 
 --DROP TABLE Learning_LOAD_rem
 SELECT *
-INTO [edcuat].dbo.Learning_LOAD_rem_2
+INTO [EDUCPROD].dbo.Learning_LOAD_rem_2
 FROM [dbo].[03_EDA_Learning] A
 WHERE A.EDAACCOUNTID__c IN (
 '001Kj00002Sa3krIAB',
@@ -15,15 +15,15 @@ ALTER COLUMN ID NVARCHAR(18)
 
 select * from Learning_LOAD_rem_2
 
-EXEC SF_TableLoader 'Insert:BULKAPI','EDCUAT','Learning_LOAD_rem_2'
+EXEC SF_TableLoader 'Insert:BULKAPI','EDUCPROD','Learning_LOAD_rem_2'
 
 SELECT
 *
---INTO [edcuat].[dbo].[Account_Program_Lookup]
+--INTO [EDUCPROD].[dbo].[Account_Program_Lookup]
 FROM Learning_LOAD_rem_Result
 WHERE Error <> 'Operation Successful.'
 
-INSERT INTO [edcuat].[dbo].[Learning_Lookup]
+INSERT INTO [EDUCPROD].[dbo].[Learning_Lookup]
 SELECT
  ID
 ,EDAACCOUNTID__c as Legacy_ID__c
@@ -34,9 +34,9 @@ WHERE Error = 'Operation Successful.'
 -- Learning Progran
 DROP TABLE LearningProgram_LOAD_rem
 SELECT C.*,L.ID AS LearningId
-INTO [edcuat].dbo.LearningProgram_LOAD_rem_2
-FROM [edcuat].[dbo].[04_EDA_AccountProgram] C
-LEFT JOIN [edcuat].[dbo].[Learning] L
+INTO [EDUCPROD].dbo.LearningProgram_LOAD_rem_2
+FROM [EDUCPROD].[dbo].[04_EDA_AccountProgram] C
+LEFT JOIN [EDUCPROD].[dbo].[Learning] L
 ON C.EDAACCOUNTID__c = L.EDAACCOUNTID__c
 WHERE C.EDAACCOUNTID__c IN  (
 '001Kj00002Sa3krIAB',
@@ -53,16 +53,16 @@ SELECT * FROM LearningProgram_LOAD_rem_2
 
 
 
-EXEC SF_TableLoader 'Insert:BULKAPI','EDCUAT','LearningProgram_LOAD_rem_2'
+EXEC SF_TableLoader 'Insert:BULKAPI','EDUCPROD','LearningProgram_LOAD_rem_2'
 
 
 SELECT
 *
---INTO [edcuat].[dbo].[Account_Program_Lookup]
+--INTO [EDUCPROD].[dbo].[Account_Program_Lookup]
 FROM LearningProgram_LOAD_rem_Result
 WHERE Error <> 'Operation Successful.'
 
-INSERT INTO [edcuat].[dbo].[Account_Program_Lookup]
+INSERT INTO [EDUCPROD].[dbo].[Account_Program_Lookup]
 SELECT
  ID
 ,EDAACCOUNTID__c as Legacy_ID__c
@@ -73,7 +73,7 @@ WHERE Error = 'Operation Successful.'
 -- Learning Program Plan
 DROP TABLE LearningProgramPlan_LOAD_3
 SELECT *
-INTO [edcuat].dbo.LearningProgramPlan_LOAD_3
+INTO [EDUCPROD].dbo.LearningProgramPlan_LOAD_3
 FROM [dbo].[07_EDA_LearningProgramPlan]
 WHERE Legacy_Id__c IN (
 '001Kj00002Sa3krIAB',
@@ -87,13 +87,13 @@ SELECT * FROM LearningProgramPlan_LOAD_3
 ALTER TABLE LearningProgramPlan_LOAD_3
 ALTER COLUMN ID NVARCHAR(18)
 
-EXEC SF_TableLoader 'Upsert:BULKAPI','EDCUAT','LearningProgramPlan_LOAD_3','Legacy_Id__c'
+EXEC SF_TableLoader 'Upsert:BULKAPI','EDUCPROD','LearningProgramPlan_LOAD_3','Legacy_Id__c'
 
 SELECT * FROM LearningProgramPlan_LOAD_3_result
 WHERE Error <> 'Operation Successful.'
 
 
-INSERT INTO [edcuat].[dbo].[LearningProgramPlan_Lookup]
+INSERT INTO [EDUCPROD].[dbo].[LearningProgramPlan_Lookup]
 SELECT
  ID
 ,Name as Legacy_ID__c

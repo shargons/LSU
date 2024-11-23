@@ -1,4 +1,4 @@
-USE [edcuat];
+USE [EDUCPROD];
 GO
 
 /****** Object:  View [dbo].[12_EDA_Interactions]    Script Date: 5/8/2024 2:20:57 PM ******/
@@ -50,11 +50,11 @@ NULL									AS ID
 ,O.ID											AS ownerid
 ,CR.ID										AS createdbyid
 FROM  [edaprod].[dbo].[livechattranscript] T
-LEFT JOIN [edcuat].[dbo].[Contact] C
+LEFT JOIN [EDUCPROD].[dbo].[Contact] C
 ON C.Legacy_ID__c = T.contactid
-LEFT JOIN [edcuat].[dbo].[Case_Case_Lookup] Ca
+LEFT JOIN [EDUCPROD].[dbo].[Case_Case_Lookup] Ca
 ON Ca.Legacy_ID__c = T.caseid
-LEFT JOIN [edcuat].[dbo].[User] cr
+LEFT JOIN [EDUCPROD].[dbo].[User] cr
 ON T.CreatedById = cr.EDAUSERID__c
-LEFT JOIN [edcuat].[dbo].[User] O
+LEFT JOIN [EDUCPROD].[dbo].[User] O
 ON T.OwnerId = O.EDAUSERID__c

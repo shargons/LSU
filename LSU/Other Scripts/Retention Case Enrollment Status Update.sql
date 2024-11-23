@@ -22,4 +22,4 @@ INNER JOIN
 ON C.Legacy_Id__c = A.Legacy_Id__c
 WHERE C.[Status] <> A.[Status]
 
-EXEC SF_TableLoader 'Update:BULKAPI','EDCUAT','Case_Enr_Status_Update_2'
+EXEC SF_TableLoader 'Update:BULKAPI','EDUCPROD','Case_Enr_Status_Update_2'

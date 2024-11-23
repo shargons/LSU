@@ -1,5 +1,5 @@
 
-USE edcuat;
+USE EDUCPROD;
 
 --====================================================================
 --	INSERTING DATA TO THE LOAD TABLE FROM THE VIEW - Account
@@ -7,12 +7,12 @@ USE edcuat;
 --DROP TABLE IF EXISTS [dbo].[Learning_Course_LOAD];
 --GO
 SELECT *
-INTO [edcuat].dbo.Learning_Course_LOAD
-FROM [edcuat].[dbo].[19A_EDA_Course_Learning] C
+INTO [EDUCPROD].dbo.Learning_Course_LOAD
+FROM [EDUCPROD].[dbo].[19A_EDA_Course_Learning] C
 
 
 /******* Check Load table *********/
-SELECT * FROM [edcuat].dbo.Learning_Course_LOAD
+SELECT * FROM [EDUCPROD].dbo.Learning_Course_LOAD
 
 --====================================================================
 --INSERTING DATA USING DBAMP - Account
@@ -24,7 +24,7 @@ ALTER TABLE Learning_Course_LOAD
 ALTER COLUMN ID NVARCHAR(18)
 
 
-EXEC SF_TableLoader 'Insert:BULKAPI','edcuat','Learning_Course_LOAD'
+EXEC SF_TableLoader 'Insert:BULKAPI','EDUCPROD','Learning_Course_LOAD'
 
 SELECT * FROM Learning_Course_LOAD_Result where Error <> 'Operation Successful.'
 
@@ -54,7 +54,7 @@ EXECUTE	SF_TableLoader
 DROP TABLE IF EXISTS [dbo].[Learning_Lookup];
 GO
 
-INSERT INTO [edcuat].[dbo].[Learning_Lookup]
+INSERT INTO [EDUCPROD].[dbo].[Learning_Lookup]
 SELECT
  ID
 ,EDAACCOUNTID__c as Legacy_ID__c

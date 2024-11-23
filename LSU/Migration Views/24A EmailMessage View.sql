@@ -1,4 +1,4 @@
-USE [edcuat];
+USE [EDUCPROD];
 GO
 
 /****** Object:  View [dbo].[13_EDA_ReqDocuments]    Script Date: 5/8/2024 2:20:57 PM ******/
@@ -50,16 +50,16 @@ FROM [edaprod].[dbo].[EmailMessage] E
 LEFT JOIN
 [edaprod].[dbo].[Account] A
 ON E.RelatedtoId = A.Id
-LEFT JOIN [edcuat].[dbo].[Contact] C
+LEFT JOIN [EDUCPROD].[dbo].[Contact] C
 ON A.hed__Primary_Contact__c = C.Legacy_Id__c
-LEFT JOIN [edcuat].[dbo].[Lead] L
+LEFT JOIN [EDUCPROD].[dbo].[Lead] L
 ON E.RelatedtoId = L.Legacy_Id__c
-LEFT JOIN [edcuat].[dbo].[User] cr
+LEFT JOIN [EDUCPROD].[dbo].[User] cr
 ON E.CreatedById = cr.EDAUSERID__c
-LEFT JOIN [edcuat].[dbo].[Opportunity] O
+LEFT JOIN [EDUCPROD].[dbo].[Opportunity] O
 ON E.RelatedtoId = O.Legacy_ID__c
-LEFT JOIN [edcuat].[dbo].[Case] Ci
+LEFT JOIN [EDUCPROD].[dbo].[Case] Ci
 ON 'I-'+E.RelatedtoId = Ci.Legacy_ID__c
-LEFT JOIN [edcuat].[dbo].[Case] CA
+LEFT JOIN [EDUCPROD].[dbo].[Case] CA
 ON E.RelatedtoId = CA.Legacy_ID__c
 --WHERE E.RelatedtoId IS NULL

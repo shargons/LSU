@@ -1,4 +1,4 @@
-USE edcuat;
+USE EDUCPROD;
 
 --====================================================================
 --	INSERTING DATA TO THE LOAD TABLE FROM THE VIEW - Document Checklist Item
@@ -8,8 +8,8 @@ USE edcuat;
 --DROP TABLE IF EXISTS [dbo].[DocumentChecklistItem_LOAD];
 --GO
 SELECT *
-INTO [edcuat].dbo.DocumentChecklistItem_LOAD
-FROM [edcuat].[dbo].[15_EDA_ReqDocuments] C
+INTO [EDUCPROD].dbo.DocumentChecklistItem_LOAD
+FROM [EDUCPROD].[dbo].[15_EDA_ReqDocuments] C
 ORDER BY ParentRecordId
 
 
@@ -23,9 +23,9 @@ ALTER COLUMN ID NVARCHAR(18)
 
 SELECT * FROM DocumentChecklistItem_LOAD
 
-EXEC SF_TableLoader 'Insert:BULKAPI','edcuat','DocumentChecklistItem_LOAD'
+EXEC SF_TableLoader 'Insert:BULKAPI','EDUCPROD','DocumentChecklistItem_LOAD'
 
-EXEC SF_TableLoader 'Upsert:BULKAPI','edcuat','DocumentChecklistItem_LOAD','EDAREQDOCID__c'
+EXEC SF_TableLoader 'Upsert:BULKAPI','EDUCPROD','DocumentChecklistItem_LOAD','EDAREQDOCID__c'
 
 SELECT *
 --INTO DocumentChecklistItem_LOAD_2
@@ -58,11 +58,11 @@ EXECUTE	SF_TableLoader
 -- Contact Lookup
 --DROP TABLE IF EXISTS [dbo].[DocumentChecklistItem_Lookup];
 --GO
-INSERT INTO [edcuat].[dbo].[DocumentChecklistItem_Lookup]
+INSERT INTO [EDUCPROD].[dbo].[DocumentChecklistItem_Lookup]
 SELECT
  ID
 ,EDAREQDOCID__c as legacy_ID__c
-INTO [edcuat].[dbo].[DocumentChecklistItem_Lookup]
+INTO [EDUCPROD].[dbo].[DocumentChecklistItem_Lookup]
 FROM DocumentChecklistItem_LOAD_Result
 WHERE Error = 'Operation Successful.'
 
