@@ -1,5 +1,5 @@
 
-USE EDCUAT;
+USE EDUCPROD;
 
 --====================================================================
 --	INSERTING DATA TO THE LOAD TABLE FROM THE VIEW - UserRole
@@ -7,12 +7,12 @@ USE EDCUAT;
 --DROP TABLE IF EXISTS [dbo].[UserRole_LOAD];
 --GO
 SELECT *
-INTO [EDCUAT].dbo.UserRole_LOAD
-FROM [edcuat].[dbo].[01A_EDA_UserRole] C
+INTO [EDUCPROD].dbo.UserRole_LOAD
+FROM [EDUCPROD].[dbo].[01A_EDA_UserRole] C
 
 
 /******* Check Load table *********/
-SELECT * FROM [EDCUAT].dbo.UserRole_LOAD
+SELECT * FROM [EDUCPROD].dbo.UserRole_LOAD
 
 --====================================================================
 --INSERTING DATA USING DBAMP - UserRole
@@ -24,7 +24,7 @@ ALTER TABLE UserRole_LOAD
 ALTER COLUMN ID NVARCHAR(18)
 
 
-EXEC SF_TableLoader 'Insert:BULKAPI','EDCUAT','UserRole_LOAD'
+EXEC SF_TableLoader 'Insert:BULKAPI','EDUCPROD','UserRole_LOAD'
 
 DROP TABLE UserRole_LOAD_2
 SELECT * 
@@ -63,7 +63,7 @@ GO
 SELECT
  ID
 ,Legacy_ID__c
-INTO [EDCUAT].[dbo].[UserRole_Lookup]
+INTO [EDUCPROD].[dbo].[UserRole_Lookup]
 FROM UserRole_LOAD_Result
 WHERE Error = 'Operation Successful.'
 
@@ -76,5 +76,5 @@ FROM UserRole_LOAD_Result A
 INNER JOIN UserRole_Lookup B
 ON A.Source_Parent_Role = B.Legacy_Id__c
 
-EXEC SF_TableLoader 'Update:BULKAPI','EDCUAT','UserRole_Update'
+EXEC SF_TableLoader 'Update:BULKAPI','EDUCPROD','UserRole_Update'
 
