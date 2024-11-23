@@ -1,4 +1,4 @@
-USE [edcuat];
+USE [EDUCPROD];
 GO
 
 /****** Object:  View [dbo].[12_EDA_Interactions]    Script Date: 5/8/2024 2:20:57 PM ******/
@@ -11,7 +11,7 @@ GO
 
 CREATE OR ALTER VIEW [dbo].[10_EDA_Interactions] AS
 
-SELECT 
+SELECT DISTINCT
 	NULL						AS ID
 	,I.academic_interest__c		AS Source_Program_of_Interest__c   -- Lookup(Plan)
 	--,LP.Id						AS Program_of_Interest__c
@@ -19,17 +19,18 @@ SELECT
 	,LP.Id						AS Learning_Program_of_Interest__c
 	,I.contact__c				AS Source_Contact
 	,C.Id						AS ContactId
+	,NULL						AS Lead__c
 	,C.FirstName				AS First_Name__c
 	,C.LastName					AS Last_Name__c
 	,C.AccountId				AS AccountId
 	,I.University_Email__c		AS University_Email__c
 	,CASE WHEN C.preferred_email__c	IS NULL
-	      THEN C.alternateemail__c+'.invalid' 
-		  ELSE C.preferred_email__c+'.invalid'
+	      THEN C.alternateemail__c 
+		  ELSE C.preferred_email__c
 	 END						AS ContactEmail
 	 ,CASE WHEN C.preferred_email__c	IS NULL
-	      THEN C.alternateemail__c+'.invalid' 
-		  ELSE C.preferred_email__c+'.invalid'
+	      THEN C.alternateemail__c 
+		  ELSE C.preferred_email__c
 	 END						AS Email__c
 	,C.phone					AS ContactPhone
 	,C.phone					AS Phone__c
@@ -124,19 +125,21 @@ SELECT
 	,I.Original_Created_Date__c					AS 	EDACreatedDate__c
 	--,Op.StageName
 FROM [edaprod].[dbo].[Interaction__c]	I
-INNER JOIN [edcuat].[dbo].[Contact] C
+LEFT JOIN [EDUCPROD].[dbo].[Contact] C
 ON I.contact__c = C.Legacy_ID__c
-LEFT JOIN [edcuat].[dbo].[User] cr
+--LEFT JOIN [EDUCPROD].[dbo].[Lead] L
+--ON I.Lead__c = C.Legacy_ID__c
+LEFT JOIN [EDUCPROD].[dbo].[User] cr
 ON I.CreatedById = cr.edauserid__c
-LEFT JOIN [edcuat].[dbo].[Recordtype] R2
+LEFT JOIN [EDUCPROD].[dbo].[Recordtype] R2
 ON R2.DeveloperName = 'RFI_OE'
-LEFT JOIN [edcuat].[dbo].[Recordtype] R3
+LEFT JOIN [EDUCPROD].[dbo].[Recordtype] R3
 ON R3.DeveloperName = 'RFI_CE'
 LEFT JOIN [edaprod].[dbo].[Opportunity] Op
 ON Op.Id = I.Opportunity__c
-LEFT JOIN [edcuat].[dbo].[User] O
+LEFT JOIN [EDUCPROD].[dbo].[User] O
 ON Op.OwnerId = O.edauserid__c
-INNER JOIN [edcuat].[dbo].[LearningProgram] LP
+LEFT JOIN [EDUCPROD].[dbo].[LearningProgram] LP
 ON LP.EDAACCOUNTID__c = I.affiliated_account__c
 WHERE I.Interaction_Source__c IN 
 ('Manual Entry','Appointment','Referral','Webform','Webchat','Bulk_Upload','Website Referral','Scheduler','Zoom Webinar','Completer Referral','Classic','Student','Application')

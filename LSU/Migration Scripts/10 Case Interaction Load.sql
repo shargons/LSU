@@ -1,5 +1,5 @@
 
-USE edcuat;
+USE EDUCPROD;
 
 --====================================================================
 --	INSERTING DATA TO THE LOAD TABLE FROM THE VIEW - Case
@@ -8,14 +8,24 @@ USE edcuat;
 
 --DROP TABLE IF EXISTS [dbo].[Case_Interaction_LOAD];
 --GO
-SELECT *
-INTO [edcuat].dbo.Case_Interaction_LOAD
-FROM [edcuat].[dbo].[10_EDA_Interactions] C
+SELECT C.*
+INTO [EDUCPROD].dbo.Case_Interaction_LOAD
+FROM [EDUCPROD].[dbo].[10_EDA_Interactions] C
 ORDER BY ContactId
 
 SELECT Count(*),RecordtypeId FROM Case_Interaction_LOAD
 gROUP bY RecordtypeId
 
+ALTER TABLE [Case_Interaction_LOAD]
+ALTER COLUMN Lead__c NVARCHAR(18) 
+
+/******* Update Lead records *********/
+UPDATE C
+SET C.Lead__c = L.Id
+FROM [EDUCPROD].[dbo].[Case_Interaction_LOAD] C
+INNER JOIN
+[EDUCPROD].[dbo].[Lead] L
+ON C.Source_Contact = l.Legacy_Id__c
 
 /******* Change ID Column to nvarchar(18) *********/
 ALTER TABLE Case_Interaction_LOAD
@@ -25,23 +35,28 @@ ALTER COLUMN ID NVARCHAR(18)
 --INSERTING DATA USING DBAMP - Case
 --====================================================================
 
-SELECT * FROM Case_Interaction_LOAD
+SELECT * FROM Case_Interaction_LOAD_3
 
-EXEC SF_TableLoader 'Insert:BULKAPI','edcuat','Case_Interaction_LOAD_4'
+EXEC SF_TableLoader 'Insert:BULKAPI','EDUCPROD','Case_Interaction_LOAD_5'
 
 --DROP TABLE Case_Interaction_LOAD_4
 SELECT * 
---INTO Case_Interaction_LOAD_4
+INTO Case_Interaction_LOAD_5
 FROM Case_Interaction_LOAD_4_Result where Error <> 'Operation Successful.'
 ORDER BY AccountId,ContactId
 
 UPDATE A
 SET Last_Name__c = LEFT(Last_Name__c,50)
-FROM Case_Interaction_LOAD_4 A
+FROM Case_Interaction_LOAD_5 A
 WHERE Error like '%Last Name%'
 
+update a
+set Status = 'Attempting'
+FROM Case_Interaction_LOAD_3 a
+WHERE a.status is null
 
-select * from Case_Interaction_LOAD_2
+
+select * from Case_Interaction_LOAD_3
 
 SELECT * 
 FROM Case_Interaction_LOAD_Result where Error = 'Operation Successful.'
@@ -75,45 +90,15 @@ EXECUTE	SF_TableLoader
 DROP TABLE IF EXISTS [dbo].[Case_Lookup];
 GO
 
-ALTER TABLE [edcuat].[dbo].[Case_Lookup]
+ALTER TABLE [EDUCPROD].[dbo].[Case_Lookup]
 ALTER COLUMN Legacy_ID__c NVARCHAR(25)
 
-INSERT INTO [edcuat].[dbo].[Case_Lookup]
+INSERT INTO [EDUCPROD].[dbo].[Case_RFI_Lookup]
 SELECT
  ID
 ,legacy_ID__c
---INTO [edcuat].[dbo].[Case_Lookup]
+--INTO [EDUCPROD].[dbo].[Case_RFI_Lookup]
 FROM Case_Interaction_LOAD_5_Result
 WHERE Error = 'Operation Successful.'
-
---select count(B.Legacy_ID__c)
---from [edcuat].[dbo].[Case_Lookup] A
---LEFT JOIN
---[edcuat].[dbo].[12_EDA_Interactions] B
---ON A.legacy_ID__c = B.legacy_ID__c
---where A.legacy_ID__c like '%I-%'
---AND A.ID IS NOT NULL
-
---SELECT B.ID,I.RecordTypeId
-----into Case_Recordtype_Update
---FROM [edcuat].[dbo].[12_EDA_Interactions] I
---INNER JOIN
---[edcuat].[dbo].[Case_Lookup] B
---ON I.legacy_ID__c = B.legacy_ID__c
-
---EXEC SF_TableLoader 'Update:BULKAPI','edcuat','Case_Recordtype_Lookup'
-
---SELECT * FROM Case_Recordtype_Lookup_Result
---WHERE Error <> 'Operation Successful.'
-
-SELECT B.ID,I.lsu_lead_source__c
-into Case_LeadSource_Update
-FROM [edcuat].[dbo].[12_EDA_Interactions] I
-INNER JOIN
-[edcuat].[dbo].[Case_Lookup] B
-ON I.legacy_ID__c = B.legacy_ID__c
-WHERE I.lsu_lead_source__c IS NOT NULL
-
-EXEC SF_TableLoader 'Update:BULKAPI','edcuat','Case_LeadSource_Update'
 
 

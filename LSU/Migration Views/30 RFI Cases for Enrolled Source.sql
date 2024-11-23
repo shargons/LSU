@@ -1,5 +1,5 @@
 
-USE [edcuat];
+USE [EDUCPROD];
 GO
 
 /****** Object:  View [dbo].[13_EDA_ReqDocuments]    Script Date: 5/8/2024 2:20:57 PM ******/
@@ -28,12 +28,12 @@ SELECT
 	,C.AccountId				AS AccountId
 	,I.University_Email__c		AS University_Email__c
 	,CASE WHEN C.preferred_email__c	IS NULL
-	      THEN C.alternateemail__c+'.invalid' 
-		  ELSE C.preferred_email__c+'.invalid'
+	      THEN C.alternateemail__c
+		  ELSE C.preferred_email__c
 	 END						AS ContactEmail
 	 ,CASE WHEN C.preferred_email__c	IS NULL
-	      THEN C.alternateemail__c+'.invalid' 
-		  ELSE C.preferred_email__c+'.invalid'
+	      THEN C.alternateemail__c
+		  ELSE C.preferred_email__c
 	 END						AS Email__c
 	,C.phone					AS ContactPhone
 	,C.phone					AS Phone__c
@@ -129,20 +129,22 @@ SELECT
 	,ROW_NUMBER() OVER(PARTITION BY Op.Id ORDER BY I.CreatedDate ASC )as rownum
 	,I.Original_Created_Date__c
 FROM [edaprod].[dbo].[Interaction__c]	I
-INNER JOIN [edcuat].[dbo].[Contact] C
+LEFT JOIN [EDUCPROD].[dbo].[Contact] C
 ON I.contact__c = C.Legacy_ID__c
-LEFT JOIN [edcuat].[dbo].[User] cr
+LEFT JOIN [EDUCPROD].[dbo].[User] cr
 ON I.CreatedById = cr.EDAUSERID__c
-LEFT JOIN [edcuat].[dbo].[Recordtype] R2
+LEFT JOIN [EDUCPROD].[dbo].[Recordtype] R2
 ON R2.DeveloperName = 'RFI_OE'
-LEFT JOIN [edcuat].[dbo].[Recordtype] R3
+LEFT JOIN [EDUCPROD].[dbo].[Recordtype] R3
 ON R3.DeveloperName = 'RFI_CE'
 LEFT JOIN [edaprod].[dbo].[Opportunity] Op
 ON Op.Id = I.Opportunity__c
-LEFT JOIN [edcuat].[dbo].[User] O
+LEFT JOIN [edaprod].[dbo].[hed__Affiliation__c] AF
+ON Op.Affiliation__c = AF.Id
+LEFT JOIN [EDUCPROD].[dbo].[User] O
 ON Op.OwnerId = O.EDAUSERID__c
-INNER JOIN [edcuat].[dbo].[LearningProgram] LP
-ON LP.Name = OP.Academic_Program__c
+LEFT JOIN [EDUCPROD].[dbo].[LearningProgram] LP
+ON LP.EDAACCOUNTID__c = AF.hed__Account__c
 --INNER JOIN [Case_Enrolled_Opportunity_Lookup] CO
 --ON CO.Legacy_Id__c = Op.Id
 WHERE Op.StageName = 'Enrolled'

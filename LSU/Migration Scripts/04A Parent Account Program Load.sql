@@ -65,8 +65,27 @@ WHERE Error = 'Operation Successful.'
 --UPDATING PARENTID - Learning
 --====================================================================
 --DROP TABLE Learning_Update
-SELECT C.ID,B.ID AS ProviderId,'LearningProgram' as Type
+SELECT DISTINCT C.ID,B.ID AS ProviderId,'LearningProgram' as Type
 INTO Learning_Update
+FROM [EDUCPROD].[dbo].[03_EDA_Learning] A
+LEFT JOIN [EDUCPROD].[dbo].[Account] B
+ON A.Source_ParentID = B.Legacy_ID__c
+LEFT JOIN [EDUCPROD].[dbo].[Learning_Lookup] C
+ON A.EDAACCOUNTID__c = C.Legacy_ID__c
+WHERE A.Source_ParentID IS NOT NULL
+
+select * from Learning_Update
+where id = '0tyHu000000bzl2IAA'
+
+
+EXEC SF_TableLoader 'Update:BULKAPI','EDUCPROD','Learning_Update'
+
+SELECT *  FROM Learning_Update_Result
+WHERE Error <> 'Operation Successful.'
+
+--DROP TABLE Learning_Update
+SELECT C.ID,B.ID AS ProviderId,'LearningProgram' as Type
+--INTO LearningProgram_Update
 FROM [EDUCPROD].[dbo].[03_EDA_Learning] A
 LEFT JOIN [EDUCPROD].[dbo].[Account_ProgramParent_Lookup] B
 ON A.Source_ParentID = B.Legacy_ID__c
@@ -79,5 +98,23 @@ EXEC SF_TableLoader 'Update:BULKAPI','EDUCPROD','Learning_Update'
 
 SELECT *  FROM Learning_Update_Result
 WHERE Error = 'Operation Successful.'
+
+
+drop table Account_ParentId_Update
+SELECT B.ID,P.ID AS ParentId,'012Hu000001n1hbIAA' as RecordtypeId
+--INTO  Account_ParentId_Update
+FROM [dbo].[04A_EDA_ProgramParents]  A
+INNER JOIN
+Account B
+ON A.Legacy_Id__c = B.Legacy_Id__c
+LEFT JOIN 
+[Account] P
+ON A.Source_ParentID = P.Legacy_Id__c
+where b.ParentId is null
+
+select * from Account_ParentId_Update
+WHERE ID = '001Hu00003T9JjUIAV'
+
+EXEC SF_TableLoader 'Update:BULKAPI','EDUCPROD','Account_ParentId_Update'
 
 

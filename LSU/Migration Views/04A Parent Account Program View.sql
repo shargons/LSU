@@ -42,7 +42,7 @@ SELECT DISTINCT
 		,P.inactive__c
 		,P.name
 		,P.notscheduled__c
-		--,parentid				AS Source_ParentID
+		,P.parentid				AS Source_ParentID
 		,P.program_grouping__c
 		,P.program_id__c
 		,P.prospect__c

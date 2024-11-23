@@ -1724,7 +1724,7 @@ ON C.CreatedById = CR.EDAUSERID__c
 LEFT JOIN [EDUCPROD].[dbo].[User] O
 ON C.OwnerId = O.EDAUSERID__c
 LEFT JOIN [edaprod].[dbo].[Opportunity] Op
-ON Op.ContactId = C.Id
+ON Op.Contact__c = C.Id
 --LEFT JOIN [EDUCPROD].[dbo].[AcademicTerm_Lookup] A
 --ON A.Name = C.graduation_term__c
 --LEFT JOIN [EDUCPROD].[dbo].[AcademicTerm_Lookup] B

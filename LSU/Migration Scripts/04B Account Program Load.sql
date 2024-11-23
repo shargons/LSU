@@ -79,3 +79,18 @@ WHERE Error = 'Operation Successful.'
 SELECT * FROM [Account_Program_Lookup]
 
 
+
+SELECT B.ID,P.ID AS ParentId,'012Hu000001n1hbIAA' as RecordtypeId
+--INTO  Account_ParentId_Update
+FROM [dbo].[04_EDA_AccountProgram]  A
+INNER JOIN
+Account B
+ON A.EDAACCOUNTID__c = B.EDAACCOUNTID__c
+LEFT JOIN 
+[Account] P
+ON A.Source_ParentID = P.Legacy_Id__c
+where b.ParentId is null
+
+SELECT * FROM [dbo].[04A_EDA_ProgramParents] 
+WHERE Legacy_Id__c = '0013n000022SXdwAAG'
+

@@ -8,7 +8,7 @@ USE edcuat;
 --DROP TABLE IF EXISTS [dbo].[LearningProgramPlan_ProgPlan_LOAD];
 --GO
 SELECT *
-INTO [edcuat].dbo.LearningProgramPlan_ProgPlan_LOAD
+--INTO [edcuat].dbo.LearningProgramPlan_ProgPlan_LOAD
 FROM [edcuat].[dbo].[17_EDA_ProgramPlan] C
 ORDER BY LearningProgramId
 
@@ -22,6 +22,7 @@ ALTER COLUMN ID NVARCHAR(18)
 --====================================================================
 
 SELECT * FROM LearningProgramPlan_ProgPlan_LOAD
+where LearningProgramiD = '0uFHu000000wxvmMAA'
 
 EXEC SF_TableLoader 'Insert:BULKAPI','edcuat','LearningProgramPlan_ProgPlan_LOAD_2'
 

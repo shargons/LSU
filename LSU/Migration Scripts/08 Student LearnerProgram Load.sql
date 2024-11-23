@@ -49,7 +49,7 @@ ON A.Source_Contact__c = C1.Legacy_ID__c
 
 UPDATE A
 SET LearnerContactId = C.ID 
-FROM [EDUCPROD].dbo.LearnerProgram_LOAD A
+FROM [EDUCPROD].dbo.LearnerProgram_LOAD_4 A
 INNER JOIN
 [EDUCPROD].dbo.[Contact] C
 ON A.Source_Contact__c = C.Legacy_ID__c
@@ -63,13 +63,13 @@ ON A.Source_Contact__c = C.Legacy_ID__c
 ALTER TABLE LearnerProgram_LOAD
 ALTER COLUMN ID NVARCHAR(18)
 
-SELECT * FROM LearnerProgram_LOAD
+SELECT * FROM LearnerProgram_LOAD_4
 
-EXEC SF_TableLoader 'Insert:BULKAPI','EDUCPROD','LearnerProgram_LOAD_3'
+EXEC SF_TableLoader 'Insert:BULKAPI','EDUCPROD','LearnerProgram_LOAD_4'
 
 --DROP TABLE LearnerProgram_LOAD_2
 SELECT * 
---INTO LearnerProgram_LOAD_3
+INTO LearnerProgram_LOAD_4
 FROM LearnerProgram_LOAD_3_Result where Error <> 'Operation Successful.'
 
 select DISTINCT  Error from LearnerProgram_LOAD_2_Result
@@ -101,11 +101,9 @@ GO
 INSERT INTO [EDUCPROD].[dbo].[LearnerProgram_Lookup]
 SELECT
  A.ID
-,A.Source_contact__c
-,A.LSU_Affiliation__c
 ,B.EDACERTENROLLID__c AS Legacy_Id__c
 --INTO [EDUCPROD].[dbo].[LearnerProgram_Lookup]
-FROM LearnerProgram_LOAD_3_Result A
+FROM LearnerProgram_LOAD_4_Result A
 INNER JOIN
 [dbo].[08_EDA_Student] B
 ON A.Source_contact__c = B.Source_contact__c
