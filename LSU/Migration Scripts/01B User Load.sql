@@ -24,7 +24,9 @@ ALTER TABLE User_LOAD
 ALTER COLUMN ID NVARCHAR(18)
 
 
-EXEC SF_TableLoader 'Insert:BULKAPI','EDUCPROD','User_LOAD_4'
+
+EXEC SF_TableLoader 'Insert:BULKAPI','EDUCPROD','User_LOAD_2'
+
 
 --DROP TABLE User_LOAD_2
 SELECT * 
@@ -72,7 +74,8 @@ SELECT
  ID
 ,EDAUSERID__c AS Legacy_ID__c
 --INTO [EDUCPROD].[dbo].[User_Lookup]
-FROM User_LOAD_4_Result
+FROM User_LOAD_2_Result
+
 WHERE Error = 'Operation Successful.'
 
 select * from [User_Lookup]
