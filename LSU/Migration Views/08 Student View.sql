@@ -1,4 +1,4 @@
-USE [edcuat];
+USE [EDUCPROD];
 GO
 
 /****** Object:  View [dbo].[02_EDA_OrgAccount]    Script Date: 5/8/2024 2:20:57 PM ******/
@@ -168,9 +168,9 @@ SELECT
 	 ,S.CreatedDate as EDACREATEDDATE__c
 	 ,S.CreatedDate
 FROM [edaprod].[dbo].[student__c] S
-LEFT JOIN [edcuat].[dbo].[User] cr
+LEFT JOIN [EDUCPROD].[dbo].[User] cr
 ON S.CreatedById = cr.EDAUSERID__c
-LEFT JOIN [edcuat].[dbo].[User] O
+LEFT JOIN [EDUCPROD].[dbo].[User] O
 ON S.OwnerId = O.EDAUSERID__c
 LEFT JOIN [edaprod].[dbo].[hed__Affiliation__c] A
 ON A.Id = S.LSU_Affiliation__c

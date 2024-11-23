@@ -1,5 +1,5 @@
 
-USE edcuat;
+USE EDUCPROD;
 
 --====================================================================
 --	INSERTING DATA TO THE LOAD TABLE FROM THE VIEW - LearnerProgram
@@ -7,8 +7,8 @@ USE edcuat;
 --DROP TABLE IF EXISTS [dbo].[LearnerProgram_LOAD];
 --GO
 SELECT *
-INTO [edcuat].dbo.LearnerProgram_LOAD
-FROM [edcuat].[dbo].[08_EDA_Student] C
+INTO [EDUCPROD].dbo.LearnerProgram_LOAD
+FROM [EDUCPROD].[dbo].[08_EDA_Student] 
 
 
 /******* Change ID Column to nvarchar(18) *********/
@@ -20,36 +20,38 @@ ALTER COLUMN LearnerContactId NVARCHAR(18)
 
 UPDATE A
 SET LearningProgramPlanId = D.ID 
-FROM edcuat.dbo.LearnerProgram_LOAD A
+FROM EDUCPROD.dbo.LearnerProgram_LOAD A
 INNER JOIN
 edaprod.dbo.hed__Affiliation__c B
 ON A.LSU_Affiliation__c = B.ID
-LEFT JOIN edcuat.dbo.LearningProgram C
+LEFT JOIN EDUCPROD.dbo.LearningProgram C
 ON B.hed__Account__c = C.EDAACCOUNTID__c
-LEFT JOIN edcuat.dbo.LearningProgramPlan D
+LEFT JOIN EDUCPROD.dbo.LearningProgramPlan D
 ON C.ID = D.LearningProgramId
+
+select LearningProgramPlanId from EDUCPROD.dbo.LearnerProgram_LOAD
 
 UPDATE A
 SET Name = ISNULL(C.Name,'')+' - '+ISNULL(C1.Name,'')
-FROM [edcuat].dbo.LearnerProgram_LOAD A
+FROM [EDUCPROD].dbo.LearnerProgram_LOAD A
 INNER JOIN
 edaprod.dbo.hed__Affiliation__c B
 ON A.LSU_Affiliation__c = B.ID
-LEFT JOIN [edcuat].dbo.LearningProgram C
+LEFT JOIN [EDUCPROD].dbo.LearningProgram C
 ON B.hed__Account__c = C.EDAACCOUNTID__c
-LEFT JOIN [edcuat].dbo.LearningProgramPlan D
+LEFT JOIN [EDUCPROD].dbo.LearningProgramPlan D
 ON C.ID = D.LearningProgramId
 LEFT JOIN
-[edcuat].dbo.[Contact] C1
+[EDUCPROD].dbo.[Contact] C1
 ON A.Source_Contact__c = C1.Legacy_ID__c
 
 
 
 UPDATE A
 SET LearnerContactId = C.ID 
-FROM [edcuat].dbo.LearnerProgram_LOAD A
+FROM [EDUCPROD].dbo.LearnerProgram_LOAD A
 INNER JOIN
-[edcuat].dbo.[Contact] C
+[EDUCPROD].dbo.[Contact] C
 ON A.Source_Contact__c = C.Legacy_ID__c
 
 --====================================================================
@@ -63,7 +65,7 @@ ALTER COLUMN ID NVARCHAR(18)
 
 SELECT * FROM LearnerProgram_LOAD
 
-EXEC SF_TableLoader 'Insert:BULKAPI','edcuat','LearnerProgram_LOAD_3'
+EXEC SF_TableLoader 'Insert:BULKAPI','EDUCPROD','LearnerProgram_LOAD_3'
 
 --DROP TABLE LearnerProgram_LOAD_2
 SELECT * 
@@ -96,13 +98,13 @@ EXECUTE	SF_TableLoader
 DROP TABLE [dbo].[LearnerProgram_Lookup];
 GO
 
-INSERT INTO [edcuat].[dbo].[LearnerProgram_Lookup]
+INSERT INTO [EDUCPROD].[dbo].[LearnerProgram_Lookup]
 SELECT
  A.ID
 ,A.Source_contact__c
 ,A.LSU_Affiliation__c
 ,B.EDACERTENROLLID__c AS Legacy_Id__c
---INTO [edcuat].[dbo].[LearnerProgram_Lookup]
+--INTO [EDUCPROD].[dbo].[LearnerProgram_Lookup]
 FROM LearnerProgram_LOAD_3_Result A
 INNER JOIN
 [dbo].[08_EDA_Student] B

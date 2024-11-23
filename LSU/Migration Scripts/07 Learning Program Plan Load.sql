@@ -1,5 +1,5 @@
 
-USE edcuat;
+USE EDUCPROD;
 
 --====================================================================
 --	INSERTING DATA TO THE LOAD TABLE FROM THE VIEW - Account
@@ -7,12 +7,12 @@ USE edcuat;
 --DROP TABLE IF EXISTS [dbo].[LearningProgramPlan_LOAD];
 --GO
 SELECT C.*
-INTO [edcuat].dbo.LearningProgramPlan_LOAD
-FROM [edcuat].[dbo].[07_EDA_LearningProgramPlan] C
+INTO [EDUCPROD].dbo.LearningProgramPlan_LOAD
+FROM [EDUCPROD].[dbo].[07_EDA_LearningProgramPlan] C
 
 
 /******* Check Load table *********/
-SELECT * FROM [edcuat].dbo.LearningProgramPlan_LOAD
+SELECT * FROM [EDUCPROD].dbo.LearningProgramPlan_LOAD
 
 --====================================================================
 --INSERTING DATA USING DBAMP - Account
@@ -24,7 +24,7 @@ ALTER TABLE LearningProgramPlan_LOAD
 ALTER COLUMN ID NVARCHAR(18)
 
 
-EXEC SF_TableLoader 'Upsert:BULKAPI','EDCUAT','LearningProgramPlan_LOAD','Legacy_Id__c'
+EXEC SF_TableLoader 'Upsert:BULKAPI','EDUCPROD','LearningProgramPlan_LOAD','Legacy_Id__c'
 
 SELECT * FROM LearningProgramPlan_LOAD_Result where Error <> 'Operation Successful.'
 
@@ -55,9 +55,9 @@ DROP TABLE IF EXISTS [dbo].[LearningProgramPlan_Lookup];
 GO
 SELECT
  ID
-,Name as Legacy_ID__c
+,Legacy_ID__c
 ,LearningProgramId
-INTO [edcuat].[dbo].[LearningProgramPlan_Lookup]
+INTO [EDUCPROD].[dbo].[LearningProgramPlan_Lookup]
 FROM LearningProgramPlan_LOAD_Result
 WHERE Error = 'Operation Successful.'
 

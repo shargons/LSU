@@ -90,7 +90,7 @@ EXEC SF_Replicate 'EDUCPROD','User','pkchunk,batchsize(50000)'
 -- enrollment_concierge__pc Lookup(User))
 --DROP TABLE IF EXISTS [dbo].[Account_EConc_Update];
 SELECT P.ID,UL.ID AS enrollment_concierge__pc
---INTO Account_EConc_Update
+INTO Account_EConc_Update
 FROM [EDUCPROD].dbo.[06_EDA_PersonAccount] A
 LEFT JOIN
 [Account] P
@@ -99,6 +99,8 @@ LEFT JOIN
 [User] UL
 ON UL.EDAUSERID__c = A.Source_enrollment_concierge__pc
 WHERE UL.ID IS NOT NULL
+
+SELECT * FROM Account_EConc_Update
 
 EXEC SF_TableLoader 'Update:BULKAPI','EDUCPROD','Account_EConc_Update'
 
@@ -127,20 +129,20 @@ SELECT P.ID,A.ext_classic_contact_id__pc
 INTO Account_extcontact_Update
 FROM [EDUCPROD].[dbo].[06_EDA_PersonAccount] A
 LEFT JOIN
-[Account_Person_Lookup] P
+[Account] P
 ON A.Legacy_Id__pc = P.Legacy_Id__pc
 
-select * from Account_extcontact_Update
+select * from Account_extcontact_Update_result
 
 EXEC SF_TableLoader 'Update:BULKAPI','EDUCPROD','Account_extcontact_Update'
 
 -- ext_classic_lead_id__pc Text(255)
-drop table Account_extlead_Update
+--drop table Account_extlead_Update
 SELECT P.ID,A.ext_classic_lead_id__pc
 INTO Account_extlead_Update
 FROM [EDUCPROD].[dbo].[06_EDA_PersonAccount] A
 LEFT JOIN
-[Account_Person_Lookup] P
+[Account] P
 ON A.Legacy_Id__pc = P.Legacy_Id__pc
 WHERE A.ext_classic_lead_id__pc IS NOT NULL
 
