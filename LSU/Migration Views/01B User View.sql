@@ -1,4 +1,4 @@
-USE [edcuat];
+USE EDUCPROD;
 GO
 
 /****** Object:  View [dbo].[NMSS_Navigator_Individuals]    Script Date: 5/8/2024 2:20:57 PM ******/
@@ -38,7 +38,7 @@ SELECT
 		,firstname
 		,forecastenabled
 		,A.id									as EDAUSERID__c
-		,isactive
+		,0 as isactive
 		,languagelocalekey
 		,lastname
 		,localesidkey
@@ -57,10 +57,9 @@ SELECT
 		,timezonesidkey
 		,title
 		,SUBSTRING(USERNAME,1,PATINDEX('%@%',USERNAME))+'lsu.ec.edu' as username
-		--,'00EHu000004zh6DMAQ'				  as userroleid
-		,userroleid
+		,'00EHu000004WY1ZMAW'				  as userroleid
 FROM [edaprod].[dbo].[User] A
-LEFT JOIN [edcuat].dbo.Profile	P
+LEFT JOIN EDUCPROD.dbo.[Profile]	P
 ON P.Name = 'Standard Platform User'
 
 

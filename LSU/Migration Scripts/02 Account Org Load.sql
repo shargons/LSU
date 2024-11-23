@@ -1,5 +1,5 @@
 
-USE edcuat;
+USE EDUCPROD;
 
 --====================================================================
 --	INSERTING DATA TO THE LOAD TABLE FROM THE VIEW - Account
@@ -7,12 +7,12 @@ USE edcuat;
 --DROP TABLE IF EXISTS [dbo].[Account_Org_LOAD];
 --GO
 SELECT *
-INTO [edcuat].dbo.Account_Org_LOAD
-FROM [edcuat].[dbo].[02_EDA_OrgAccount] C
+INTO [EDUCPROD].dbo.Account_Org_LOAD
+FROM [EDUCPROD].[dbo].[02_EDA_OrgAccount] C
 
 
 /******* Check Load table *********/
-SELECT * FROM [edcuat].dbo.Account_Org_LOAD
+SELECT * FROM [EDUCPROD].dbo.Account_Org_LOAD
 
 --====================================================================
 --INSERTING DATA USING DBAMP - Account
@@ -24,7 +24,7 @@ ALTER TABLE Account_Org_LOAD
 ALTER COLUMN ID NVARCHAR(18)
 
 
-EXEC SF_TableLoader 'Insert:BULKAPI','EDCUAT','Account_Org_LOAD'
+EXEC SF_TableLoader 'Insert:BULKAPI','EDUCPROD','Account_Org_LOAD'
 
 SELECT * FROM Account_Org_LOAD_Result where Error <> 'Operation Successful.'
 
@@ -56,7 +56,7 @@ EXECUTE	SF_TableLoader
 SELECT
  ID
 ,Legacy_ID__c
-INTO [edcuat].[dbo].[Account_Org_Lookup]
+INTO [EDUCPROD].[dbo].[Account_Org_Lookup]
 FROM Account_Org_LOAD_Result
 WHERE Error = 'Operation Successful.'
 
@@ -67,12 +67,12 @@ WHERE Error = 'Operation Successful.'
 DROP TABLE Account_Update
 SELECT C.ID,B.ID AS ParentId
 INTO Account_Update
-FROM [edcuat].[dbo].[02_EDA_OrgAccount] A
-LEFT JOIN [edcuat].[dbo].[Account_Org_Lookup] B
+FROM [EDUCPROD].[dbo].[02_EDA_OrgAccount] A
+LEFT JOIN [EDUCPROD].[dbo].[Account_Org_Lookup] B
 ON A.Source_ParentID = B.Legacy_ID__c
-LEFT JOIN [edcuat].[dbo].[Account_Org_Lookup] C
+LEFT JOIN [EDUCPROD].[dbo].[Account_Org_Lookup] C
 ON A.Legacy_ID__c = C.Legacy_ID__c
 WHERE A.Source_ParentID IS NOT NULL
 
 
-EXEC SF_TableLoader 'Update:BULKAPI','EDCUAT','Account_Update'
+EXEC SF_TableLoader 'Update:BULKAPI','EDUCPROD','Account_Update'

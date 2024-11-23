@@ -1,4 +1,4 @@
-USE [edcuat];
+USE [EDUCPROD];
 GO
 
 /****** Object:  View [dbo].[02_EDA_OrgAccount]    Script Date: 5/8/2024 2:20:57 PM ******/
@@ -17,7 +17,7 @@ CREATE OR ALTER VIEW [dbo].[02_EDA_OrgAccount] AS
 
 SELECT
 		 null						as id
-		--,CR.ID AS createdbyid
+		,CR.ID AS createdbyid
 		,A.createddate				AS EDACreatedDate__c
 		,A.id						as Legacy_Id__c
         ,A.name
@@ -31,20 +31,20 @@ SELECT
 	     ELSE R1.id 
 		 END						as RecordtypeId
 FROM [edaprod].[dbo].[Account] A
-LEFT JOIN [edcuat].[dbo].[Recordtype] R1
+LEFT JOIN [EDUCPROD].[dbo].[Recordtype] R1
 ON R1.DeveloperName = 'Business_Account'
-LEFT JOIN [edcuat].[dbo].[Recordtype] R2
+LEFT JOIN [EDUCPROD].[dbo].[Recordtype] R2
 ON R2.DeveloperName = 'College'
-LEFT JOIN [edcuat].[dbo].[Recordtype] R3
+LEFT JOIN [EDUCPROD].[dbo].[Recordtype] R3
 ON R3.DeveloperName = 'Campus'
-LEFT JOIN [edcuat].[dbo].[Recordtype] R4
+LEFT JOIN [EDUCPROD].[dbo].[Recordtype] R4
 ON R4.DeveloperName = 'Educational_Institution'
-LEFT JOIN [edcuat].[dbo].[Recordtype] R5
+LEFT JOIN [EDUCPROD].[dbo].[Recordtype] R5
 ON R5.DeveloperName = 'Online_Department'
 LEFT JOIN [edaprod].[dbo].[Recordtype] R_EDA
 ON A.RecordtypeId = R_EDA.ID
-LEFT JOIN [edcuat].[dbo].[User_Lookup] CR
-ON A.CreatedById = CR.Legacy_ID__c
-LEFT JOIN [edcuat].[dbo].[User_Lookup] O
-ON A.OwnerId = O.Legacy_ID__c
+LEFT JOIN [EDUCPROD].[dbo].[User] CR
+ON A.CreatedById = CR.EDAUSERID__C
+LEFT JOIN [EDUCPROD].[dbo].[User] O
+ON A.OwnerId = O.EDAUSERID__C
 WHERE R_EDA.DeveloperName IN ('Campus','LSU_College','Educational_Institution','University_Department')

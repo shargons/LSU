@@ -1,4 +1,4 @@
-USE [edcuat];
+USE [EDUCPROD];
 GO
 
 /****** Object:  View [dbo].[02_EDA_OrgAccount]    Script Date: 5/8/2024 2:20:57 PM ******/
@@ -38,7 +38,7 @@ SELECT DISTINCT
 		,P.enrolled__c
 		,P.fallout__c
 		,P.geauxforfree__c
-		,P.id                   AS EDAACCOUNTID__c
+		,P.id                   AS Legacy_Id__c
 		,P.inactive__c
 		,P.name
 		,P.notscheduled__c
@@ -56,10 +56,10 @@ INNER JOIN [edaprod].[dbo].[Account] P
 ON A.ParentId = P.Id
 LEFT JOIN [edaprod].[dbo].[Recordtype] R_EDA
 ON A.RecordtypeId = R_EDA.ID
-LEFT JOIN [edcuat].[dbo].[Recordtype] RP
+LEFT JOIN [EDUCPROD].[dbo].[Recordtype] RP
 ON RP.DeveloperName = 'College'
-LEFT JOIN [edcuat].[dbo].[User] CR
-ON A.CreatedById = CR.EDAUSERID__c
-LEFT JOIN [edcuat].[dbo].[User] O
-ON A.OwnerId = O.EDAUSERID__c
+LEFT JOIN [EDUCPROD].[dbo].[User] CR
+ON P.CreatedById = CR.EDAUSERID__c
+LEFT JOIN [EDUCPROD].[dbo].[User] O
+ON P.OwnerId = O.EDAUSERID__c
 WHERE R_EDA.DeveloperName IN ('Academic_Program')

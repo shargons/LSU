@@ -1,5 +1,5 @@
 
-USE edcuat;
+USE EDUCPROD;
 
 --====================================================================
 --	INSERTING DATA TO THE LOAD TABLE FROM THE VIEW - Account
@@ -9,8 +9,8 @@ USE edcuat;
 --DROP TABLE IF EXISTS [dbo].[AcademicTerm_Term_LOAD];
 --GO
 SELECT *
-INTO [edcuat].dbo.AcademicTerm_Term_LOAD
-FROM [edcuat].[dbo].[09_EDA_Term] C
+INTO [EDUCPROD].dbo.AcademicTerm_Term_LOAD
+FROM [EDUCPROD].[dbo].[09_EDA_Term] C
 
 SELECT * FROM AcademicTerm_Term_LOAD
 
@@ -28,8 +28,8 @@ ALTER COLUMN Account__c NVARCHAR(18)
 
 UPDATE C
 SET C.Account__c = B.ID
-FROM [edcuat].dbo.AcademicTerm_Term_LOAD C
-LEFT JOIN [edcuat].dbo.Account B
+FROM [EDUCPROD].dbo.AcademicTerm_Term_LOAD C
+LEFT JOIN [EDUCPROD].dbo.Account B
 ON C.Source_Account_ID = B.Legacy_ID__c
 
 
@@ -44,7 +44,7 @@ ALTER COLUMN ID NVARCHAR(18)
 
 SELECT * FROM AcademicTerm_Term_LOAD
 
-EXEC SF_TableLoader 'Insert:BULKAPI','edcuat','AcademicTerm_Term_LOAD'
+EXEC SF_TableLoader 'Insert:BULKAPI','EDUCPROD','AcademicTerm_Term_LOAD'
 
 SELECT * 
 --INTO LearnerProgram_LOAD_2
@@ -72,17 +72,17 @@ EXECUTE	SF_TableLoader
 --POPULATING LOOOKUP TABLES- Term
 --====================================================================
 
--- Contact Lookup
+
 --DROP TABLE IF EXISTS [dbo].[AcademicTerm_Term_Lookup];
 --GO
 
 SELECT * FROM [AcademicTerm_Term_Lookup]
 
---INSERT INTO [edcuat].[dbo].[AcademicTerm_Term_Lookup]
+--INSERT INTO [EDUCPROD].[dbo].[AcademicTerm_Term_Lookup]
 SELECT
  ID
 ,EDATERMID__c
-INTO [edcuat].[dbo].[AcademicTerm_Term_Lookup]
+INTO [EDUCPROD].[dbo].[AcademicTerm_Term_Lookup]
 FROM AcademicTerm_Term_LOAD_Result
 WHERE Error = 'Operation Successful.'
 
@@ -93,15 +93,15 @@ WHERE Error = 'Operation Successful.'
 DROP TABLE AcademicTerm_Parent_Update
 SELECT T.ID,TP.ID AS Parent_Term__c
 INTO AcademicTerm_Parent_Update
-FROM [edcuat].[dbo].[09_EDA_Term] C 
-LEFT JOIN [edcuat].[dbo].AcademicTerm_Term_Lookup T
+FROM [EDUCPROD].[dbo].[09_EDA_Term] C 
+LEFT JOIN [EDUCPROD].[dbo].AcademicTerm_Term_Lookup T
 ON C.EDATERMID__c = T.EDATERMID__c
-LEFT JOIN [edcuat].[dbo].AcademicTerm_Term_Lookup TP
+LEFT JOIN [EDUCPROD].[dbo].AcademicTerm_Term_Lookup TP
 ON C.Source_Parent_Term = TP.EDATERMID__c
 WHERE TP.ID IS NOT NULL
 
-EXEC SF_TableLoader 'Update:BULKAPI','edcuat','AcademicTerm_Parent_Update'
+EXEC SF_TableLoader 'Update:BULKAPI','EDUCPROD','AcademicTerm_Parent_Update'
 
-SELECT * FROM [edcuat].[dbo].[AcademicTerm_Term_Lookup]
+SELECT * FROM [EDUCPROD].[dbo].[AcademicTerm_Term_Lookup]
 WHERE EDATERMID__c = 'a0C3n00000Q0EqsEAF'
 

@@ -1,4 +1,4 @@
-USE [edcuat];
+USE [EDUCPROD];
 GO
 
 /****** Object:  View [dbo].[02_EDA_OrgAccount]    Script Date: 5/8/2024 2:20:57 PM ******/
@@ -11,7 +11,8 @@ GO
 
 CREATE OR ALTER VIEW [dbo].[06_EDA_Lead] AS
 
-SELECT  NULL							 AS ID
+SELECT  DISTINCT
+NULL							 AS ID
 		,answering_machine_call_count__c as answering_machine_call_count__c
 		,bad_phone__c as Bad_Number__c
 		,call_activity_count__c 
@@ -21,7 +22,7 @@ SELECT  NULL							 AS ID
 		,O.ID AS ownerid
 		,C.description
 		,donotcall
-		,LEFT(C.email, 246) +'.test' AS Email
+		,LEFT(C.email, 246)  AS Email
 		,hasoptedoutofemail
 		,C.[Fax]
 		,HasOptedOutOfFax
@@ -45,8 +46,8 @@ SELECT  NULL							 AS ID
 FROM [edaprod].[dbo].[Contact] C
 LEFT JOIN [edaprod].[dbo].[Opportunity] Op
 ON C.Id = Op.ContactId
-LEFT JOIN [edcuat].[dbo].[User] CR
+LEFT JOIN [EDUCPROD].[dbo].[User] CR
 ON C.CreatedById = CR.EDAUSERID__c
-LEFT JOIN [edcuat].[dbo].[User] O
+LEFT JOIN [EDUCPROD].[dbo].[User] O
 ON C.OwnerId = O.EDAUSERID__c
 WHERE Op.StageName IN ('New','Attempting')

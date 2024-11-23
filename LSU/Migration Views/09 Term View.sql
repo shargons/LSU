@@ -1,4 +1,4 @@
-USE [edcuat];
+USE [EDUCPROD];
 GO
 
 /****** Object:  View [dbo].[02_EDA_OrgAccount]    Script Date: 5/8/2024 2:20:57 PM ******/
@@ -16,7 +16,7 @@ SELECT
 	,campus__c
 	,campus_term_code__c
 	,A.Name
-	,createddate                AS EDACREATEDDATE__c
+	,A.createddate                AS EDACREATEDDATE__c
 	,hed__account__c            AS Source_Account_ID
 	,NULL						AS Account__c
 	,hed__parent_term__c        AS Source_Parent_Term
@@ -42,5 +42,5 @@ SELECT
 	,census_date__c
 	,CR.ID AS createdbyid
 FROM [edaprod].[dbo].[hed__term__c]	A
-LEFT JOIN [edcuat].[dbo].[User_Lookup] cr
-ON A.CreatedById = cr.Legacy_ID__c
+LEFT JOIN [EDUCPROD].[dbo].[User] cr
+ON A.CreatedById = cr.edauserid__c

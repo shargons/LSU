@@ -1,5 +1,5 @@
 
-USE EDCUAT;
+USE EDUCPROD;
 
 --====================================================================
 --	INSERTING DATA TO THE LOAD TABLE FROM THE VIEW - User
@@ -7,12 +7,12 @@ USE EDCUAT;
 --DROP TABLE IF EXISTS [dbo].[User_LOAD];
 --GO
 SELECT *
-INTO [EDCUAT].dbo.User_LOAD
-FROM [edcuat].[dbo].[01_EDA_User] C
+INTO [EDUCPROD].dbo.User_LOAD
+FROM [EDUCPROD].[dbo].[01_EDA_User] C
 
 
 /******* Check Load table *********/
-SELECT * FROM [EDCUAT].dbo.User_LOAD
+SELECT * FROM [EDUCPROD].dbo.User_LOAD
 
 --====================================================================
 --INSERTING DATA USING DBAMP - User
@@ -24,18 +24,21 @@ ALTER TABLE User_LOAD
 ALTER COLUMN ID NVARCHAR(18)
 
 
-EXEC SF_TableLoader 'Insert:BULKAPI','EDCUAT','User_LOAD_2'
+EXEC SF_TableLoader 'Insert:BULKAPI','EDUCPROD','User_LOAD_4'
 
-DROP TABLE User_LOAD_2
+--DROP TABLE User_LOAD_2
 SELECT * 
---INTO User_LOAD_2
-FROM User_LOAD_2_Result where Error <> 'Operation Successful.'
+--INTO User_LOAD_4
+FROM User_LOAD_3_Result where Error <> 'Operation Successful.'
 
-UPDATE User_LOAD_2
-SET forecastenabled = 0
+UPDATE User_LOAD_4
+SET username = 'AcqueonIntegration.User@lsu.ec.edu' 
+WHERE username = 'Acqueon Integration.User@lsu.ec.edu'
 
-UPDATE User_LOAD_2
-SET state = 'Louisiana'
+
+UPDATE User_LOAD_4
+SET communitynickname = communitynickname+'1'
+WHERE error like 'DUPLICATE_COMM_NICKNAME%'
 
 select DISTINCT  Error from User_LOAD_Result
 
@@ -64,13 +67,15 @@ SELECT * FROM USER_DELETE_RESULT WHERE Error <> 'Operation Successful.'
 -- User Lookup
 DROP TABLE IF EXISTS [dbo].[User_Lookup];
 GO
-INSERT INTO [EDCUAT].[dbo].[User_Lookup]
+INSERT INTO [EDUCPROD].[dbo].[User_Lookup]
 SELECT
  ID
 ,EDAUSERID__c AS Legacy_ID__c
---INTO [EDCUAT].[dbo].[User_Lookup]
-FROM User_LOAD_2_Result
+--INTO [EDUCPROD].[dbo].[User_Lookup]
+FROM User_LOAD_4_Result
 WHERE Error = 'Operation Successful.'
+
+select * from [User_Lookup]
 
 --====================================================================
 --UPDATE DATA - User
@@ -81,5 +86,5 @@ FROM User_LOAD A
 INNER JOIN User_LOAD_Result B
 ON A.Username = b.Username
 
-EXEC SF_TableLoader 'Update:BULKAPI','EDCUAT','User_Update'
+EXEC SF_TableLoader 'Update:BULKAPI','EDUCPROD','User_Update'
 

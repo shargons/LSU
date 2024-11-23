@@ -1,4 +1,4 @@
-USE [edcuat];
+USE [EDUCPROD];
 GO
 
 /****** Object:  View [dbo].[02_EDA_OrgAccount]    Script Date: 5/8/2024 2:20:57 PM ******/
@@ -15,7 +15,7 @@ CREATE OR ALTER VIEW [dbo].[04_EDA_AccountProgram] AS
 
 
 
-SELECT
+SELECT DISTINCT
 		NULL					AS ID
 		,accepted__c
 		,admitted__c
@@ -46,13 +46,13 @@ SELECT
 		,prospect__c
 		,registered__c
 		,scheduled__c
-		--,CR.ID AS createdbyid
-		--,O.ID AS ownerid
+		,CR.ID AS createdbyid
+		,O.ID AS ownerid
 		FROM [edaprod].[dbo].[Account] A
 LEFT JOIN [edaprod].[dbo].[Recordtype] R_EDA
 ON A.RecordtypeId = R_EDA.ID
-LEFT JOIN [edcuat].[dbo].[User] CR
+LEFT JOIN [EDUCPROD].[dbo].[User] CR
 ON A.CreatedById = CR.EDAUSERID__c
-LEFT JOIN [edcuat].[dbo].[User] O
+LEFT JOIN [EDUCPROD].[dbo].[User] O
 ON A.OwnerId = O.EDAUSERID__c
 WHERE R_EDA.DeveloperName IN ('Academic_Program')

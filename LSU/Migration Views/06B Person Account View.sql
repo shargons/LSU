@@ -1,4 +1,4 @@
-USE [edcuat];
+USE [EDUCPROD];
 GO
 
 /****** Object:  View [dbo].[02_EDA_OrgAccount]    Script Date: 5/8/2024 2:20:57 PM ******/
@@ -55,7 +55,7 @@ SELECT  DISTINCT NULL AS ID
 		,C.description
 		,donotcall AS PersonDoNotCall
 		,donotuse__c as donotuse__pc
-		,LEFT(C.email, 246) +'.test' as Personemail
+		,LEFT(C.email, 246)  as Personemail
 		,emailsaftermerge__c as emailsaftermerge__pc
 		,employee_position__c as employee_position__pc
 		,C.employer__c as employer__pc
@@ -1717,18 +1717,18 @@ SELECT  DISTINCT NULL AS ID
 		,R.ID AS RecordTypeId
 		--,Op.StageName
 FROM [edaprod].[dbo].[Contact] C
-LEFT JOIN [edcuat].dbo.Recordtype R
+LEFT JOIN [EDUCPROD].dbo.Recordtype R
 ON R.DeveloperName = 'PersonAccount'
-LEFT JOIN [edcuat].[dbo].[User] CR
+LEFT JOIN [EDUCPROD].[dbo].[User] CR
 ON C.CreatedById = CR.EDAUSERID__c
-LEFT JOIN [edcuat].[dbo].[User] O
+LEFT JOIN [EDUCPROD].[dbo].[User] O
 ON C.OwnerId = O.EDAUSERID__c
 LEFT JOIN [edaprod].[dbo].[Opportunity] Op
 ON Op.ContactId = C.Id
---LEFT JOIN [edcuat].[dbo].[AcademicTerm_Lookup] A
+--LEFT JOIN [EDUCPROD].[dbo].[AcademicTerm_Lookup] A
 --ON A.Name = C.graduation_term__c
---LEFT JOIN [edcuat].[dbo].[AcademicTerm_Lookup] B
+--LEFT JOIN [EDUCPROD].[dbo].[AcademicTerm_Lookup] B
 --ON B.Name = C.Term_of_Interest__c
-LEFT JOIN [edcuat].[dbo].[Account_Program_Lookup] P
+LEFT JOIN [EDUCPROD].[dbo].[Account_Program_Lookup] P
 ON C.Primary_Academic_Program__c = P.Legacy_ID__c
 WHERE Op.Stagename NOT IN ('New','Attempting')

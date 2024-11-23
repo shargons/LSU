@@ -1,5 +1,5 @@
 
-USE edcuat;
+USE EDUCPROD;
 
 --====================================================================
 --	INSERTING DATA TO THE LOAD TABLE FROM THE VIEW - Academic Year
@@ -7,12 +7,12 @@ USE edcuat;
 --DROP TABLE IF EXISTS [dbo].[AcademicYear_LOAD];
 --GO
 SELECT *
-INTO [edcuat].dbo.AcademicYear_LOAD
-FROM [edcuat].[dbo].[05A_EDA_AcademicYear] C
+INTO [EDUCPROD].dbo.AcademicYear_LOAD
+FROM [EDUCPROD].[dbo].[05A_EDA_AcademicYear] C
 
 
 /******* Check Load table *********/
-SELECT * FROM [edcuat].dbo.AcademicYear_LOAD
+SELECT * FROM [EDUCPROD].dbo.AcademicYear_LOAD
 
 --====================================================================
 --INSERTING DATA USING DBAMP - Account
@@ -24,7 +24,7 @@ ALTER TABLE AcademicYear_LOAD
 ALTER COLUMN ID NVARCHAR(18)
 
 
-EXEC SF_TableLoader 'Insert:BULKAPI','EDCUAT','AcademicYear_LOAD'
+EXEC SF_TableLoader 'Insert:BULKAPI','EDUCPROD','AcademicYear_LOAD'
 
 SELECT * FROM AcademicYear_LOAD_Result where Error <> 'Operation Successful.'
 
@@ -56,6 +56,6 @@ GO
 SELECT
  ID
 ,Name
-INTO [edcuat].[dbo].[AcademicYear_Lookup]
+INTO [EDUCPROD].[dbo].[AcademicYear_Lookup]
 FROM AcademicYear_LOAD_Result
 WHERE Error = 'Operation Successful.'

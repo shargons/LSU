@@ -1,4 +1,4 @@
-USE [edcuat];
+USE [EDUCPROD];
 GO
 
 /****** Object:  View [dbo].[02_EDA_OrgAccount]    Script Date: 5/8/2024 2:20:57 PM ******/
@@ -23,10 +23,10 @@ SELECT
 		FROM [edaprod].[dbo].[Account] A
 LEFT JOIN [edaprod].[dbo].[Recordtype] R_EDA
 ON A.RecordtypeId = R_EDA.ID
-LEFT JOIN [edcuat].[dbo].[Account_Program_Lookup] P
+LEFT JOIN [EDUCPROD].[dbo].[Account_Program_Lookup] P
 ON A.ID = P.Legacy_ID__c
-LEFT JOIN [edcuat].[dbo].[User_Lookup] cr
-ON A.CreatedById = cr.Legacy_ID__c
-LEFT JOIN [edcuat].[dbo].[User_Lookup] O
-ON A.OwnerId = O.Legacy_ID__c
+LEFT JOIN [EDUCPROD].[dbo].[User] cr
+ON A.CreatedById = cr.EDAUSERID__c
+LEFT JOIN [EDUCPROD].[dbo].[User] O
+ON A.OwnerId = O.EDAUSERID__c
 WHERE R_EDA.DeveloperName IN ('Academic_Program')

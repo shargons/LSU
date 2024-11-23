@@ -1,5 +1,5 @@
 
-USE edcuat;
+USE EDUCPROD;
 
 --====================================================================
 --	INSERTING DATA TO THE LOAD TABLE FROM THE VIEW - Account
@@ -7,13 +7,13 @@ USE edcuat;
 --DROP TABLE IF EXISTS [dbo].[Lead_LOAD];
 --GO
 SELECT *
-INTO [edcuat].dbo.Lead_LOAD
-FROM [edcuat].[dbo].[06_EDA_Lead] C
+INTO [EDUCPROD].dbo.Lead_LOAD
+FROM [EDUCPROD].[dbo].[06_EDA_Lead] C
 
 
 
 /******* Check Load table *********/
-SELECT * FROM [edcuat].dbo.Lead_LOAD
+SELECT * FROM [EDUCPROD].dbo.Lead_LOAD
 
 --====================================================================
 --INSERTING DATA USING DBAMP - Account
@@ -25,7 +25,7 @@ ALTER TABLE Lead_LOAD
 ALTER COLUMN ID NVARCHAR(18)
 
 
-EXEC SF_TableLoader 'Insert:BULKAPI','EDCUAT','Lead_LOAD'
+EXEC SF_TableLoader 'Insert:BULKAPI','EDUCPROD','Lead_LOAD'
 
 --DROP TABLE Lead_LOAD_2
 SELECT * 
@@ -61,12 +61,12 @@ EXECUTE	SF_TableLoader
 --DROP TABLE IF EXISTS [dbo].[Lead_Lookup];
 --GO
 
-INSERT INTO [edcuat].[dbo].[Lead_Lookup]
+--INSERT INTO [EDUCPROD].[dbo].[Lead_Lookup]
 SELECT
  ID
-,Legacy_Id__pc
---INTO [edcuat].[dbo].[Lead_Lookup]
-FROM Lead_LOAD_5_Result
+,Legacy_Id__c
+INTO [EDUCPROD].[dbo].[Lead_Lookup]
+FROM Lead_LOAD_Result
 WHERE Error = 'Operation Successful.'
 
 

@@ -65,6 +65,12 @@ EXEC SF_Replicate 'EDAPROD','Task','pkchunk,batchsize(50000)'
 
 EXEC SF_Replicate 'EDAPROD','EmailMessageRelation','pkchunk,batchsize(50000)'
 
+EXEC SF_Replicate 'EDAPROD','hed__Course__c','pkchunk,batchsize(50000)'
+
+EXEC SF_Replicate 'EDAPROD','hed__course_offering__c','pkchunk,batchsize(50000)'
+
+EXEC SF_Replicate 'EDAPROD','hed__course_enrollment__c','pkchunk,batchsize(50000)'
+
 --DROP TABLE edaprod.dbo.hed__Course__c
 SELECT * 
 INTO edaprod.dbo.hed__Course__c    --- SF_REPLICATE doesnt work with hed__course__c
