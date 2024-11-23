@@ -34,8 +34,8 @@ EXEC SF_TableLoader 'Insert:BULKAPI','EDUCPROD','Opportunity_LOAD_2'
 
 --DROP TABLE Opportunity_LOAD_2
 SELECT * 
-INTO Opportunity_LOAD_2
-FROM Opportunity_LOAD_Result where Error <> 'Operation Successful.'
+--INTO Opportunity_LOAD_2
+FROM Opportunity_LOAD_2_Result where Error <> 'Operation Successful.'
 ORDER BY AccountId
 
 select DISTINCT  Error from Opportunity_LOAD_Result

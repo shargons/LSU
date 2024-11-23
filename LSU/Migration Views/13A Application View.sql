@@ -136,8 +136,11 @@ LEFT JOIN
 [EDUCPROD].[dbo].[Contact] C
 ON A.Contact__c = C.Legacy_Id__c
 LEFT JOIN
-[edaprod].[dbo].[Opportunity] O
-ON A.Opportunity__c = O.Id
+[edaprod].[dbo].[Opportunity] Op
+ON A.Opportunity__c = Op.Id
+LEFT JOIN
+[educprod].[dbo].[Opportunity_Lookup] O
+ON Op.Id = O.Legacy_Id__c
 LEFT JOIN [EDUCPROD].[dbo].[User] cr
 ON A.CreatedById = cr.EDAUSERID__c
 LEFT JOIN [EDUCPROD].[dbo].[User] OC
