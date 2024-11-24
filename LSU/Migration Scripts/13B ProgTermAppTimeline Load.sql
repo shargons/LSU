@@ -62,14 +62,21 @@ EXECUTE	SF_TableLoader
 --DROP TABLE IF EXISTS [dbo].[ProgramTermApplnTimeline_Lookup];
 --GO
 
-INSERT INTO [EDUCPROD].[dbo].[ProgramTermApplnTimeline_Lookup]
-SELECT
- ID
-,UpsertKey__c AS legacy_ID__c
+--INSERT INTO [EDUCPROD].[dbo].[ProgramTermApplnTimeline_Lookup]
+--SELECT
+-- ID
+--,UpsertKey__c AS legacy_ID__c
 --INTO [EDUCPROD].[dbo].[ProgramTermApplnTimeline_Lookup]
-FROM ProgramTermApplnTimeline_LOAD_3_Result
-WHERE Error = 'Operation Successful.'
+--FROM ProgramTermApplnTimeline_LOAD_3_Result
+--WHERE Error = 'Operation Successful.'
 
+SELECT
+ MAX(pr.ID) AS Id
+,pa.UpsertKey__c AS legacy_ID__c
+INTO [EDUCPROD].[dbo].[ProgramTermApplnTimeline_Lookup]
+FROM ProgramTermApplnTimeline_LOAD_3_Result pr
+JOIN [dbo].[13B_EDA_PTAT] pa ON pa.LearningProgramId = pr.LearningProgramId AND pa.AcademicTermId = pr.AcademicTermId
+GROUP BY pa.UpsertKey__c
 
 --====================================================================
 -- UPDATE LOOKUPS 

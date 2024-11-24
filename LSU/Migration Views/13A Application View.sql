@@ -36,7 +36,7 @@ SELECT DISTINCT
 	,application_state_code__c						AS application_state_code__c
 	,application_status_description__c
 	,application_student_type__c
-	,Applied_Date__c 								AS AppliedDate
+	,IIF(TRY_CONVERT(datetime, Applied_Date__c) IS NULL, TRY_CONVERT(datetime,SUBSTRING(Applied_Date__c,1,10)), TRY_CONVERT(datetime, Applied_Date__c)) 								AS AppliedDate
 	,calculated_4_0_transcript_gpa__c
 	,A.campus__c
 	,class_level__c

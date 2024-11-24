@@ -30,15 +30,15 @@ ALTER COLUMN ID NVARCHAR(18)
 
 SELECT * FROM EDUCPROD.[dbo].[Opportunity_LOAD]
 
-EXEC SF_TableLoader 'Insert:BULKAPI','EDUCPROD','Opportunity_LOAD_3'
+EXEC SF_TableLoader 'Insert:BULKAPI,serial','EDUCPROD','Opportunity_LOAD_18'
 
 --DROP TABLE Opportunity_LOAD_2
 SELECT * 
-INTO Opportunity_LOAD_3
-FROM Opportunity_LOAD_2_Result where Error <> 'Operation Successful.'
+INTO Opportunity_LOAD_18
+FROM Opportunity_LOAD_17_Result where Error <> 'Operation Successful.'
 ORDER BY AccountId
 
-select DISTINCT  Error from Opportunity_LOAD_Result
+select DISTINCT  Error from Opportunity_LOAD_18_Result ORDER BY Error
 
 
 
