@@ -21,6 +21,7 @@ ALTER COLUMN ID NVARCHAR(18)
 
 
 SELECT * FROM CourseOfferingParticipant_Enr_LOAD
+where Legacy_Id__C = 'a2f3n000000Ft2xAAC'
 
 
 
@@ -28,13 +29,13 @@ SELECT * FROM CourseOfferingParticipant_Enr_LOAD
 --INSERTING DATA USING DBAMP -   Enrollment
 --====================================================================
 
-EXEC SF_TableLoader 'Insert:BULKAPI','EDUCPROD','CourseOfferingParticipant_Enr_LOAD_2'
+EXEC SF_TableLoader 'Insert:BULKAPI','EDUCPROD','CourseOfferingParticipant_Enr_LOAD_12'
 
 DROP TABLE CourseOfferingParticipant_Enr_LOAD_2
 SELECT *
-INTO CourseOfferingParticipant_Enr_LOAD_2
-FROM CourseOfferingParticipant_Enr_LOAD_Result where Error <> 'Operation Successful.'
-
+--INTO CourseOfferingParticipant_Enr_LOAD_12
+FROM CourseOfferingParticipant_Enr_LOAD_12_Result where Error <> 'Operation Successful.'
+AND Error not like '%DUPLICATE%'
 
 ORDER BY Opportunity,ParticipantContactId
 
@@ -70,7 +71,7 @@ SELECT
  ID
 ,Legacy_ID__C 
 --INTO CourseOfferingParticipant_Lookup
-FROM CourseOfferingParticipant_Enr_LOAD_2_Result
+FROM CourseOfferingParticipant_Enr_LOAD_12_Result
 WHERE Error = 'Operation Successful.'
 
 SELECT * FROM CourseOfferingParticipant_Lookup

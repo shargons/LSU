@@ -26,6 +26,11 @@ select *
 --into Case_Ret_Opp_Ret_Case_LOAD_2
 from Case_Ret_Opp_Ret_Case_LOAD_2_Result
 where Error <> 'Operation Successful.'
+AND Error LIKE '%DUPLICATE%'
+
+UPDATE Case_Ret_Opp_Ret_Case_LOAD_2
+SET OwnerID = '005Hu00000RfrK4IAJ'
+WHERE Error like '%ownerid%'
 
 --====================================================================
 --	CREATE LOOKUP TABLE - Case

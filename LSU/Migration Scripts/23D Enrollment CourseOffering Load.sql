@@ -27,13 +27,12 @@ SELECT * FROM CourseOffering_Enr_LOAD
 --INSERTING DATA USING DBAMP -   Enrollment
 --====================================================================
 
-EXEC SF_TableLoader 'Insert:BULKAPI','EDUCPROD','CourseOffering_Enr_LOAD'
+EXEC SF_TableLoader 'Insert:BULKAPI','EDUCPROD','CourseOffering_Enr_LOAD_3'
 
 SELECT *
---INTO CourseOfferingParticipant_Enr_LOAD_2
-FROM CourseOffering_Enr_LOAD_Result where Error <> 'Operation Successful.'
-
-
+--INTO CourseOffering_Enr_LOAD_3
+FROM CourseOffering_Enr_LOAD_3_Result where Error <> 'Operation Successful.'
+AND Error LIKE '%duplicate%'
 
 select DISTINCT  Error from CourseOffering_Enr_LOAD_Result
 
@@ -51,24 +50,29 @@ DECLARE @_table_server	nvarchar(255) = DB_NAME()
 EXECUTE	SF_TableLoader
 		@operation		=	'Delete'
 ,		@table_server	=	@_table_server
-,		@table_name		=	'CourseOffering_DELETE'
+,		@table_name		=	'CourseOffering_DELETE_2'
 
-select * from CourseOffering_DELETE_Result
+drop table CourseOffering_DELETE_2
+select * 
+--INTO CourseOffering_DELETE_2
+from CourseOffering_DELETE_Result
+where error <> 'Operation Successful.'
 
 --====================================================================
 --POPULATING LOOKUP TABLES-   Enrollment
 --====================================================================
 
 --  Lookup
---DROP TABLE IF EXISTS [dbo].[CourseOffering_Lookup];
+--DROP TABLE IF EXISTS [dbo].[CourseOffering_Enr_Lookup];
 --GO
 
---INSERT INTO CourseOffering_Lookup
+INSERT INTO CourseOffering_Enr_Lookup
 SELECT
  ID
 ,EDACROFRNGID__c as Legacy_ID__C 
-INTO CourseOffering_Lookup
-FROM CourseOffering_Enr_LOAD_Result
+--INTO CourseOffering_Enr_Lookup
+FROM CourseOffering_Enr_LOAD_3_Result
 WHERE Error = 'Operation Successful.'
 
+SELECT * FROM CourseOffering_Enr_Lookup
 

@@ -93,5 +93,6 @@ ON R.lsu_affiliation__c = CL.Legacy_ID__c
 LEFT JOIN [EDUCPROD].[dbo].[Opportunity] OL
 ON R.opportunity__c = OL.Legacy_ID__c
 LEFT JOIN [EDUCPROD].[dbo].[CourseOffering] CO
-ON R.Id = CO.EDACROFRNGID__c
+ON R.Id = EDACROFRNGID__c
 WHERE CO.Id IS NOT NULL
+

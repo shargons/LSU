@@ -29,5 +29,4 @@ LEFT JOIN [EDUCPROD].[dbo].[User] O
 ON A.OwnerId = O.EDAUSERID__c
 LEFT JOIN [EDUCPROD].dbo.Account AC
 ON A.Campus__c = AC.Name
-AND AC.CreatedById = '005D1000004gVpBIAU'
 WHERE A.Online_Term__c IS NOT NULL

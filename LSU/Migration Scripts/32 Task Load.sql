@@ -24,7 +24,7 @@ ALTER COLUMN ID NVARCHAR(18)
 
 SELECT * FROM [Task_LOAD]
 
-Exec SF_TableLoader 'Insert:SOAP','EDUCPROD','Task_LOAD_2'
+Exec SF_TableLoader 'Insert:bulkapi','EDUCPROD','Task_LOAD'
 
 DROP TABLE Task_LOAD_2
 SELECT * 

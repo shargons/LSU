@@ -10,7 +10,7 @@ USE EDUCPROD;
 
 SELECT *
 INTO [EDUCPROD].dbo.Case_Ret_Opp_Recr_Case_LOAD
-FROM [EDUCPROD].[dbo].[34B_EDA_Ret_Opportunity] C
+FROM [EDUCPROD].[dbo].[34A_Ret_Opp_Recruitment] C
 ORDER BY ContactId
 
 
@@ -23,9 +23,15 @@ SELECT * FROM [EDUCPROD].dbo.Case_Ret_Opp_Recr_Case_LOAD
 EXEC SF_TableLoader 'Insert:BULKAPI','EDUCPROD','Case_Ret_Opp_Recr_Case_LOAD'
 
 select * 
---into [EDUCPROD].dbo.Case_Ret_Opp_Recr_Case_LOAD_2
-from [EDUCPROD].dbo.Case_Ret_Opp_Recr_Case_LOAD_Result
+--into [EDUCPROD].dbo.Case_Ret_Opp_Recr_Case_LOAD_5
+from [EDUCPROD].dbo.Case_Ret_Opp_Recr_Case_LOAD_5_Result
 where Error <> 'Operation Successful.'
+AND Error NOT LIKE '%DUPLICATE%'
+
+
+UPDATE Case_Ret_Opp_Recr_Case_LOAD_4
+SET Comments__C = left(Comments__c,130999)
+WHERE Error like '%comment%'
 
 --====================================================================
 --	CREATE LOOKUP TABLE - Case

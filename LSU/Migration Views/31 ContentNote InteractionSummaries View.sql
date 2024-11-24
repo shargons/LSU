@@ -19,7 +19,7 @@ SELECT DISTINCT
       ,C.[CreatedDate]				AS EDACREATEDDATE__c
 	  ,C.CreatedDate
       ,C.ID+'-'+DL.LinkedEntityId							AS Legacy_ID__c
-      ,O.ID						AS [OwnerId]
+      ,Y.ID						AS [OwnerId]
       ,C.[TextPreview]				AS MeetingNotes
       ,C.[Title]					AS Subject__c
 	  ,C.[Title]					AS Name
@@ -46,8 +46,8 @@ SELECT DISTINCT
   ON DL.LinkedEntityId = L.Legacy_Id__c
   LEFT JOIN [EDUCPROD].[dbo].[User] cr
   ON C.CreatedById = cr.EDAUSERID__c
-  LEFT JOIN [EDUCPROD].[dbo].[User] O
-  ON C.OwnerId = O.EDAUSERID__c
+  LEFT JOIN [EDUCPROD].[dbo].[User] Y
+  ON C.OwnerId = Y.EDAUSERID__c
   WHERE 
   FileType = 'Snote'
   AND 

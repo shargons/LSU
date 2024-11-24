@@ -51,7 +51,7 @@ SELECT
       ,[OwnerRole__c]
       ,T.[Power_of_One__c]
       ,[Priority]
-	  ,[Status]
+	  ,T.[Status]
       ,T.[Type]
       ,[WhoId]								AS Source_WhoId
 	  ,IIF(C.Id	IS NULL,L.Id,C.Id)								AS WhoId

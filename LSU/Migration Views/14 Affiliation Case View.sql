@@ -195,7 +195,7 @@ SELECT DISTINCT
 	,A.term_enrolled__c
 	,A.term_of_interest__c
 	,A.term_of_return__c
-	,A.university_email__c+'.invalid'			AS university_email__c 
+	,A.university_email__c			AS university_email__c 
 	,A.up_coming_term_enrollments__c
 	,A.upsert_key__c
 	,A.welcome_call_attempts__c

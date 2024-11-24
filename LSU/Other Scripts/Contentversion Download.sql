@@ -5,6 +5,11 @@ CREATE TABLE ContentVersion_All
 	ID NVARCHAR (18)
 )
 
+--SET IDENTITY_INSERT ContentVersion_All ON;
+INSERT INTO ContentVersion_All(ID)
+SELECT ID
+FROM ContentVersion
+
 
 CREATE TABLE ContentVersion_1_100000
 (
@@ -187,14 +192,42 @@ CREATE TABLE ContentVersion_2300001_2400000
 (
 	ID NVARCHAR (18)
 )
+
+INSERT INTO ContentVersion_2300001_2400000
+SELECT ID
+FROM ContentVersion_All
+WHERE id_num >=2300001 and id_num <=2400000
+
+EXEC SF_DownloadBlobs 'EDAPROD','ContentVersion_2300001_2400000'
+
+
 CREATE TABLE ContentVersion_2400001_2500000
 (
 	ID NVARCHAR (18)
 )
-CREATE TABLE ContentVersion_2500001_2600000
+
+INSERT INTO ContentVersion_2400001_2500000
+SELECT ID
+FROM ContentVersion_All
+WHERE id_num >=2400001 and id_num <=2500000
+
+EXEC SF_DownloadBlobs 'EDAPROD','ContentVersion_2400001_2500000'
+
+
+CREATE TABLE ContentVersion_2500001_2700000
 (
 	ID NVARCHAR (18)
 )
+
+select * from ContentVersion_All
+
+INSERT INTO ContentVersion_2500001_2700000
+SELECT ID
+FROM ContentVersion_All
+WHERE id_num >=2500001 and id_num <=2700000
+
+EXEC SF_DownloadBlobs 'EDAPROD','ContentVersion_2500001_2700000'
+
 
 
 INSERT INTO ContentVersion_All

@@ -17,7 +17,7 @@ SELECT DISTINCT
 		,'Professional Education'			AS AcademicLevel
 		,A.id								AS EDAACCOUNTID__c
 		,1									AS IsActive
-		,A.Offering_Code__c					AS Name
+		,A.Offering_Code__c				AS Name
 		--,'Course' as Type
 		,A.Campus__c 						AS Source_ProviderID
 		,B.ID								AS ProviderId
@@ -26,7 +26,7 @@ SELECT DISTINCT
 FROM  [edaprod].[dbo].[enrollment__c] A
 LEFT JOIN [EDUCPROD].dbo.Account B
 ON A.Campus__c = B.Name
-AND B.CreatedById = '005KT000000poMtYAI'
+--AND B.CreatedById = '005KT000000poMtYAI'
 and B.Legacy_Id__c is not null
 WHERE A.Offering_Code__c IS NOT NULL
 

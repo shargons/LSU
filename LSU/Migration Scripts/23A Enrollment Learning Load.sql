@@ -6,6 +6,7 @@ USE EDUCPROD;
 --====================================================================
 --DROP TABLE IF EXISTS [dbo].[Learning_Enrollment_LOAD];
 --GO
+
 SELECT *
 INTO [EDUCPROD].dbo.Learning_Enrollment_LOAD
 FROM [EDUCPROD].[dbo].[23A_Enr_Learning] C
@@ -52,13 +53,13 @@ EXECUTE	SF_TableLoader
 --====================================================================
 
 -- Learning Lookup
-DROP TABLE IF EXISTS [dbo].[Learning_Lookup];
+DROP TABLE IF EXISTS [dbo].[Learning_Enr_Lookup];
 GO
 
-INSERT INTO [EDUCPROD].[dbo].[Learning_Lookup]
 SELECT
  ID
-,EDAACCOUNTID__c as Legacy_ID__c
+,edaaccountid__c AS Legacy_Id__c
+INTO [EDUCPROD].[dbo].[Learning_Enr_Lookup]
 FROM Learning_Enrollment_LOAD_Result
 WHERE Error = 'Operation Successful.'
 

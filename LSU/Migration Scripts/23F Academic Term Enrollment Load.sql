@@ -23,7 +23,9 @@ B.ID IS NULL
 
 
 /******* Check Load table *********/
-SELECT * FROM [EDUCPROD].dbo.AcademicTermEnrollment_LOAD
+SELECT DISTINCT Term__c,Stand_Term_Code 
+FROM [EDUCPROD].dbo.AcademicTermEnrollment_LOAD
+WHERE AcademicTermId IS NULL
 
 --====================================================================
 --INSERTING DATA USING DBAMP - AcademicTermEnrollment
@@ -38,11 +40,18 @@ ALTER COLUMN ID NVARCHAR(18)
 EXEC SF_TableLoader 'Insert:BULKAPI','EDUCPROD','AcademicTermEnrollment_LOAD_13'
 
 --DROP TABLE AcademicTermEnrollment_Load_14
-SELECT * 
-INTO AcademicTermEnrollment_Load_14
+SELECT DISTINCT Term__c
+--INTO AcademicTermEnrollment_Load_13
 FROM AcademicTermEnrollment_Load_13_Result
 WHERE Error <> 'Operation Successful.'
-AND Error not like '%DUPLICATE%'
+and eRROR LIKE '%rEQUIRED%'
+
+UPDATE A
+SET A.AcademicTermId = B.AcademicTermId
+FROM AcademicTermEnrollment_Load_12 A
+INNER JOIN
+[EDUCPROD].[dbo].[23F_AcademicTermEnrollments] B
+ON A.UpsertKey__c = B.UpsertKey__c
 
 
 --====================================================================

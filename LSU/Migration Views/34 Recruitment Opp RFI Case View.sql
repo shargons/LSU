@@ -9,7 +9,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 
-CREATE OR ALTER VIEW [dbo].[34A_Ret_Opp_Recruitment] AS
+CREATE OR ALTER VIEW [dbo].[35_Case_Opp_RFI] AS
 
 SELECT DISTINCT
 	 NULL												AS ID
@@ -146,7 +146,7 @@ SELECT DISTINCT
 	,R.not_qualified__c
 	,not_scheduled_entry_date__c
 	,R.opportunity_key__c
-	,R.original_created_date__c
+	,R.original_created_date__c				AS EDACREATEDDATE__c
 	,O.Id									AS ownerid
 	,R.p_o_created__c
 	,R.paidforcurrentterm__c					AS Paid_for_current_Term__c
@@ -226,12 +226,12 @@ SELECT DISTINCT
 	,C.FirstName				AS First_Name__c
 	,C.LastName					AS Last_Name__c
 	,CASE WHEN C.preferred_email__c	IS NULL
-	      THEN C.alternateemail__c+'.invalid' 
-		  ELSE C.preferred_email__c+'.invalid'
+	      THEN C.alternateemail__c 
+		  ELSE C.preferred_email__c
 	 END						AS ContactEmail
 	 ,CASE WHEN C.preferred_email__c	IS NULL
-	      THEN C.alternateemail__c+'.invalid' 
-		  ELSE C.preferred_email__c+'.invalid'
+	      THEN C.alternateemail__c 
+		  ELSE C.preferred_email__c
 	 END						AS Email__c
 	,C.phone					AS ContactPhone
 	,LP.Id						AS Learning_Program_of_Interest__c
@@ -244,13 +244,14 @@ SELECT DISTINCT
 		WHEN stagename = 'Application' AND Sub_Stage__c in ('Missing Documents','Awaiting Department')  		THEN  'Application In Progress'
 		WHEN stagename = 'Application' AND Sub_Stage__c = 'Withdrawn'  		THEN  'Learner Decision'
 		WHEN stagename = 'Fallout'		AND R.Campus__c = 'CE'		THEN  'Enrollment Decision'
-		WHEN stagename = 'Enrolled' 	AND R.Campus__c = 'CE'		THEN  'Enrollment Decision'
+		WHEN stagename = 'Enrolled'		AND R.Campus__c = 'CE'		THEN  'Enrollment Decision'
 		WHEN stagename = 'Denied'				THEN  'Application Denied'
 		WHEN stagename = 'Admitted'				THEN  'Application Admitted'
 		WHEN stagename = 'Declined'			THEN  'Learner Decision'
 		WHEN stagename = 'Accepted'			THEN  'Learner Decision'
 		WHEN stagename = 'Closed Lost'		THEN  'Enrollment Decision'
 		WHEN stagename = 'Fallout'			THEN  stagename
+		WHEN stagename = 'Enrolled'			THEN  'Learner Decision'
 		END AS [Status]
 	,CASE 
 		WHEN stagename = 'Fallout' 		AND R.Campus__c = 'CE'		THEN  stagename
@@ -259,6 +260,7 @@ SELECT DISTINCT
 		WHEN stagename = 'Admitted'		THEN  NULL
 		WHEN stagename = 'Declined'		THEN  stagename
 		WHEN stagename = 'Accepted'		THEN  stagename
+		WHEN stagename = 'Enrolled'			THEN  'Accepted'
 		ELSE sub_stage__c
 	END AS Sub_Status__c
 	,CASE 
@@ -272,7 +274,8 @@ SELECT DISTINCT
 	,CASE WHEN stagename = 'Fallout'		THEN  'Closed Lost'
 			ELSE stagename
 	 END										AS Stagename__c	
-	,R.StageName
+	 ,R.StageName
+	 --,R.Campus__c
 	FROM [edaprod].[dbo].[Opportunity] R
 LEFT JOIN [EDUCPROD].[dbo].[Contact] C
 ON R.contact__c = C.Legacy_Id__c
@@ -290,14 +293,16 @@ LEFT JOIN [EDUCPROD].[dbo].[Recordtype] R2
 ON R2.DeveloperName = 'Recruitment_OE'
 LEFT JOIN [EDUCPROD].[dbo].[Recordtype] R3
 ON R3.DeveloperName = 'Recruitment_CE'
-LEFT JOIN [EDUCPROD].[dbo].[User] cr
-ON R.CreatedById = cr.EDAUSERID__c
-LEFT JOIN [EDUCPROD].[dbo].[User] O
-ON R.OwnerId = O.EDAUSERID__c
-LEFT JOIN [EDUCPROD].[dbo].[User] OC
-ON R.coordinator__c = OC.EDAUSERID__c
+LEFT JOIN [EDUCPROD].[dbo].[User_Lookup] cr
+ON R.CreatedById = cr.Legacy_ID__c
+LEFT JOIN [EDUCPROD].[dbo].[User_Lookup] O
+ON R.OwnerId = O.Legacy_ID__c
+LEFT JOIN [EDUCPROD].[dbo].[User_Lookup] OC
+ON R.coordinator__c = OC.Legacy_ID__c
 LEFT JOIN [EDUCPROD].[dbo].[LearningProgram] LP
 ON LP.Name =R.Academic_Program__c
-LEFT JOIN [edaprod].[dbo].[Recordtype] OPR
-ON OPR.ID = R.RecordTypeId
-WHERE OPR.DeveloperName = 'Retention_Opportunity'
+WHERE R.StageName IN  ('Fallout','Attempting')
+AND NOT(R.Application_ID__c IS NULL
+AND R.Student_ID__c IS NULL
+AND R.Application_Slate_ID__c IS NULL
+AND R.StageName = 'Fallout')

@@ -8,7 +8,7 @@ INNER JOIN
 edaprod.dbo.hed__Course_Enrollment__c B
 ON A.Legacy_Id__c = B.Id
 LEFT JOIN 
-[EDUCPROD].[dbo].[Case_Aff_Lookup] C
+[EDUCPROD].[dbo].[Case] C
 ON B.CourseAffiliation__c = C.Legacy_ID__c
 WHERE A.Case__c is null AND B.CourseAffiliation__c IS NOT NULL
 --AND C.Id IS NULL
@@ -21,9 +21,9 @@ WHERE Error <> 'Operation Successful.'
 
 
 --DROP TABLE CourseOfferingParticipant_Case_Update_2
-SELECT A.Id,B.Id,B.LSU_Affiliation__c,A.Case__c as Source_Case,C.Id AS Case__c
---SELECT A.Id,C.Id as Case__c
---INTO CourseOfferingParticipant_Case_Update_2
+--SELECT A.Id,B.Id,B.LSU_Affiliation__c,A.Case__c as Source_Case,C.Id AS Case__c
+SELECT A.Id,C.Id as Case__c
+INTO CourseOfferingParticipant_Case_Update_2
 FROM CourseOfferingParticipant A
 INNER JOIN
 edaprod.dbo.Enrollment__c B

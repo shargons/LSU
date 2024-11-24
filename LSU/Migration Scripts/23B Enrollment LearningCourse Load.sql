@@ -16,7 +16,8 @@ FROM [EDUCPROD].[dbo].[23B_Enr_Course] C
 ORDER BY ProviderId,LearningId
 
 
-SELECT * FROM [EDUCPROD].dbo.LearningCourse_Enr_LOAD
+SELECT * FROM [EDUCPROD].[dbo].[23B_Enr_Course]
+where edacourseid__c = 'a2f2E000005mwhcQAA'
 
 /******* Change ID Column to nvarchar(18) *********/
 ALTER TABLE LearningCourse_Enr_LOAD
@@ -52,13 +53,13 @@ EXECUTE	SF_TableLoader
 --====================================================================
 
 -- Contact Lookup
---DROP TABLE IF EXISTS [dbo].[LearningProgramPlan_ProgPlan_Lookup];
+--DROP TABLE IF EXISTS [dbo].[LearningCourse_Lookup];
 --GO
-INSERT INTO LearningCourse_Lookup
+--INSERT INTO LearningCourse_Lookup
 SELECT
  ID
 ,EDACOURSEID__c AS Legacy_ID__c
---INTO LearningCourse_Lookup
+INTO LearningCourse_Enr_Lookup
 FROM LearningCourse_Enr_LOAD_Result
 WHERE Error = 'Operation Successful.'
 

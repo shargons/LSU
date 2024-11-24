@@ -15,7 +15,7 @@ CREATE OR ALTER VIEW [dbo].[23F_AcademicTermEnrollments] AS
 
 SELECT DISTINCT * FROM
 (
-SELECT
+SELECT 
 	 CP.Id								AS UpsertKey__c
 	,NULL								AS ID
 	,LP.Id								AS Learner_Program__c
@@ -24,7 +24,7 @@ SELECT
 	,CP.ParticipantAccountId			AS LearnerAccountId
 	,T.Id								AS AcademicTermId
 	,cp.Term__c
-	,TC.Campus_Term_Code_incoming_file_term_formats
+	,TC.Campus_Term_code
 	,TC.Stand_Term_Code
 	,IIF(LP.[Status] = 'Inactive','Dropped',LP.[Status])						AS EnrollmentStatus
 	--,O.Learning_Program_of_Interest__c  AS 	Learning_Program__c
@@ -36,12 +36,14 @@ AND CP.Campus__c = LP.Campus__c
 LEFT JOIN [EDUCPROD].[dbo].[Opportunity] O
 ON O.Id = CP.Opportunity__c
 LEFT JOIN [edaprod].[dbo].[SF_EDA_All_Campus_Term_Codes] TC
-ON CP.Term__c = TC.Campus_Term_Code_incoming_file_term_formats
+ON CP.Term__c = TC.Campus_Term_code
 LEFT JOIN [EDUCPROD].[dbo].[AcademicTerm] T
-ON TC.Campus_Term_Code_incoming_file_term_formats = T.Term_ID__c
+ON TC.Stand_Term_code = T.Term_ID__c
 --WHERE cp.id = '0x6KT0000002NTNYA2'
 )X
-WHERE X.rownum = 1 and x.Term__c IS NOT NULL
+WHERE X.rownum = 1 
+and x.Term__c IS NOT NULL
+
 --AND X.LearnerAccountId = '001KT0000042TzyYAE'
 
 
