@@ -11,7 +11,7 @@ GO
 
 CREATE OR ALTER VIEW [dbo].[13B_EDA_PTAT] AS
 
-SELECT DISTINCT X.*,T2.Id as AcademicTermId
+SELECT DISTINCT X.*,IIF(T3.Id IS NULL, T2.Id, T3.Id) as AcademicTermId
 FROM (
 SELECT
 	 NULL					as ID
@@ -32,12 +32,14 @@ LEFT JOIN [edaprod].[dbo].[SF_EDA_All_Campus_Term_Codes] TC
 ON X.SourceAcademicTerm = TC.Campus_Term_Code_incoming_file_term_formats
 LEFT JOIN [EDUCPROD].[dbo].[AcademicTerm] T2
 ON T2.Term_Id__c = TC.Stand_Term_Code
+LEFT JOIN [EDUCPROD].[dbo].[AcademicTerm] T3
+ON T3.Term_Id__c = X.SourceAcademicTerm
 WHERE X.SourceAcademicTerm IS NOT NULL AND X.Source_LearningProgram IS NOT NULL
-AND T2.ID IS NOT NULL
+AND (T2.ID IS NOT NULL OR T3.ID IS NOT NULL)
 
 CREATE OR ALTER VIEW [dbo].[13B_EDA_PTAT_NEW] AS
 
-SELECT DISTINCT X.ID,X.LearningProgramId,T2.Id as AcademicTermId
+SELECT DISTINCT X.ID,X.LearningProgramId,IIF(T3.Id IS NULL, T2.Id, T3.Id) as AcademicTermId
 FROM (
 SELECT
 	 NULL					as ID
@@ -58,5 +60,7 @@ LEFT JOIN [edaprod].[dbo].[SF_EDA_All_Campus_Term_Codes] TC
 ON X.SourceAcademicTerm = TC.Campus_Term_Code_incoming_file_term_formats
 LEFT JOIN [EDUCPROD].[dbo].[AcademicTerm] T2
 ON T2.Term_Id__c = TC.Stand_Term_Code
+LEFT JOIN [EDUCPROD].[dbo].[AcademicTerm] T3
+ON T3.Term_Id__c = X.SourceAcademicTerm
 WHERE X.SourceAcademicTerm IS NOT NULL AND X.Source_LearningProgram IS NOT NULL
-AND T2.ID IS NOT NULL
+AND (T2.ID IS NOT NULL OR T3.ID IS NOT NULL)

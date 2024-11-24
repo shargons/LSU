@@ -4,7 +4,7 @@ USE EDUCPROD;
 
 
 /***** Replicate AcademicTerm before running the view **********/
-EXEC SF_Replicate 'EDUCPROD','AcademicTerm','pkchunk,batchsize(50000)'
+EXEC SF_Replicate 'EDUCPROD','ProgramTermApplnTimeline','pkchunk,batchsize(50000)'
 
 
 --====================================================================
@@ -14,14 +14,16 @@ EXEC SF_Replicate 'EDUCPROD','AcademicTerm','pkchunk,batchsize(50000)'
 
 --DROP TABLE IF EXISTS [dbo].[ProgramTermApplnTimeline_LOAD];
 --GO
-SELECT *
-INTO [EDUCPROD].dbo.ProgramTermApplnTimeline_LOAD
-FROM [EDUCPROD].[dbo].[13B_EDA_PTAT] C
-ORDER BY LearningProgramId
+SELECT C.*
+INTO [EDUCPROD].dbo.ProgramTermApplnTimeline_LOAD2
+FROM [EDUCPROD].[dbo].[13B_EDA_PTAT_NEW] C
+LEFT JOIN ProgramTermApplnTimeline ptat ON ptat.LearningProgramId = C.LearningProgramId AND ptat.AcademicTermId = C.AcademicTermId
+WHERE ptat.ID IS NULL
+ORDER BY C.LearningProgramId
 
 
 /******* Change ID Column to nvarchar(18) *********/
-ALTER TABLE ProgramTermApplnTimeline_LOAD
+ALTER TABLE ProgramTermApplnTimeline_LOAD2
 ALTER COLUMN ID NVARCHAR(18)
 
 --====================================================================
@@ -30,7 +32,7 @@ ALTER COLUMN ID NVARCHAR(18)
 
 SELECT * FROM ProgramTermApplnTimeline_LOAD
 
-EXEC SF_TableLoader 'Insert:BULKAPI','EDUCPROD','ProgramTermApplnTimeline_LOAD_3'
+EXEC SF_TableLoader 'Insert:BULKAPI','EDUCPROD','ProgramTermApplnTimeline_LOAD2'
 
 SELECT * 
 INTO ProgramTermApplnTimeline_LOAD_3
@@ -70,11 +72,13 @@ EXECUTE	SF_TableLoader
 --FROM ProgramTermApplnTimeline_LOAD_3_Result
 --WHERE Error = 'Operation Successful.'
 
+--DROP TABLE [EDUCPROD].[dbo].[ProgramTermApplnTimeline_Lookup]
+
 SELECT
  MAX(pr.ID) AS Id
 ,pa.UpsertKey__c AS legacy_ID__c
 INTO [EDUCPROD].[dbo].[ProgramTermApplnTimeline_Lookup]
-FROM ProgramTermApplnTimeline_LOAD_3_Result pr
+FROM ProgramTermApplnTimeline pr
 JOIN [dbo].[13B_EDA_PTAT] pa ON pa.LearningProgramId = pr.LearningProgramId AND pa.AcademicTermId = pr.AcademicTermId
 GROUP BY pa.UpsertKey__c
 
@@ -97,6 +101,4 @@ EXEC SF_TableLoader 'Update:BULKAPI','EDUCPROD','IndividualApplication_PTAT_Upda
 SELECT *
 FROM IndividualApplication_PTAT_Update_Result 
 WHERE Error <> 'Operation Successful.'
-
-
 
