@@ -24,19 +24,19 @@ ALTER COLUMN ID NVARCHAR(18)
 
 SELECT * FROM [Task_LOAD]
 
-Exec SF_TableLoader 'Insert:bulkapi','EDUCPROD','Task_LOAD'
+Exec SF_TableLoader 'Insert:SOAP,batchsize(1)','EDUCPROD','Task_LOAD_6'
 
 DROP TABLE Task_LOAD_2
 SELECT * 
-INTO Task_LOAD_2
-FROM Task_LOAD_Result where Error <> 'Operation Successful.'
+INTO Task_LOAD_6
+FROM Task_LOAD_5_RESULT where Error <> 'Operation Successful.'
 
 UPDATE Task_LOAD
 SET FirstPublishLocationId = NULL
 
 
 SELECT * 
---INTO Task_LOAD_2
+INTO Task_LOAD_2
 FROM Task_LOAD_Result where Error = 'Operation Successful.'
 
 

@@ -236,33 +236,33 @@ SELECT DISTINCT
 	,C.phone					AS ContactPhone
 	,LP.Id						AS Learning_Program_of_Interest__c
 	,CASE 
-		WHEN stagename = 'Prospect' AND Sub_Stage__c not in ('Awaiting Payment','Awaiting Submission')	THEN  'Prospect'
-		WHEN stagename = 'Prospect' AND Sub_Stage__c in ('Awaiting Payment','Awaiting Submission')	THEN  'Application in Progress '
-		WHEN stagename = 'Attempting' AND Sub_Stage__c in ('Awaiting Payment','Awaiting Submission')	THEN  'Application in Progress '
-		WHEN stagename = 'Application' AND Sub_Stage__c not in ('Awaiting Payment','Awaiting Submission','Missing Documents','Awaiting Department','Withdrawn')  		THEN  'Applied'
-		WHEN stagename = 'Application' AND Sub_Stage__c in ('Awaiting Payment','Awaiting Submission')  		THEN  'Application In Progress'
-		WHEN stagename = 'Application' AND Sub_Stage__c in ('Missing Documents','Awaiting Department')  		THEN  'Application In Progress'
-		WHEN stagename = 'Application' AND Sub_Stage__c = 'Withdrawn'  		THEN  'Learner Decision'
-		WHEN stagename = 'Fallout'		AND R.Campus__c = 'CE'		THEN  'Enrollment Decision'
-		WHEN stagename = 'Enrolled'		AND R.Campus__c = 'CE'		THEN  'Enrollment Decision'
-		WHEN stagename = 'Denied'				THEN  'Application Denied'
-		WHEN stagename = 'Admitted'				THEN  'Application Admitted'
-		WHEN stagename = 'Declined'			THEN  'Learner Decision'
-		WHEN stagename = 'Accepted'			THEN  'Learner Decision'
-		WHEN stagename = 'Closed Lost'		THEN  'Enrollment Decision'
-		WHEN stagename = 'Fallout'			THEN  stagename
-		WHEN stagename = 'Enrolled'			THEN  'Learner Decision'
-		END AS [Status]
-	,CASE 
-		WHEN stagename = 'Fallout' 		AND R.Campus__c = 'CE'		THEN  stagename
-		WHEN stagename = 'Enrolled' 	AND R.Campus__c = 'CE'		THEN  stagename
-		WHEN stagename = 'Denied'		THEN  'Closed Lost'
-		WHEN stagename = 'Admitted'		THEN  NULL
-		WHEN stagename = 'Declined'		THEN  stagename
-		WHEN stagename = 'Accepted'		THEN  stagename
-		WHEN stagename = 'Enrolled'			THEN  'Accepted'
-		ELSE sub_stage__c
-	END AS Sub_Status__c
+		WHEN R.StageName NOT IN ('New','Prospect','Attempting','Qualified','Nurture','Disqualified','Duplicate','Scheduled','Not Scheduled') THEN 'Closed'
+		WHEN R.StageName IN ('New','Prospect','Attempting','Qualified','Nurture','Disqualified','Duplicate','Scheduled','Not Scheduled') AND R.RecordtypeId = '0122E000000lVgkQAE' THEN 'Closed'
+		WHEN R.StageName IN ('New','Prospect','Attempting','Qualified','Nurture','Disqualified','Duplicate','Scheduled','Not Scheduled') AND R.RecordtypeId = '0122E000000lVgjQAE' THEN R.StageName
+		ELSE R.StageName
+		END							AS Status
+	,CASE  
+			WHEN R.Sub_Stage__c = 'Not Interested'  THEN 'Not Interested'
+			WHEN R.Sub_Stage__c = 'Not Scheduled'   THEN 'Not Scheduled'
+			WHEN R.Sub_Stage__c = 'Recruitment A'   THEN 'Recruitment A'
+			WHEN R.Sub_Stage__c = 'Recruitment B'   THEN 'Recruitment B'
+			WHEN R.Sub_Stage__c = 'Future Interest' THEN 'Future Interest'
+			WHEN R.Sub_Stage__c = 'Consulting'		 THEN 'Consulting'
+			WHEN R.Sub_Stage__c = 'Scheduled'		 THEN 'Scheduled'
+			WHEN R.Sub_Stage__c = 'No Show'		 THEN 'No Show'
+			WHEN R.Sub_Stage__c = 'Complete'		 THEN 'Complete'
+			WHEN R.Sub_Stage__c = 'Awaiting Application - Submission'		THEN 'Awaiting Application - Submission'
+			WHEN R.Sub_Stage__c = 'Awaiting Application - Payment'		    THEN 'Awaiting Application - Payment'
+			WHEN R.Sub_Stage__c = 'Awaiting Registration'					THEN 'Awaiting Registration'
+			WHEN R.Sub_Stage__c = 'Enrolled'								THEN 'Enrolled'
+			WHEN R.Sub_Stage__c = 'Fallout MIA'							THEN 'Fallout MIA'
+			WHEN R.Sub_Stage__c = 'Fallout'								THEN 'Fallout'
+			WHEN R.Sub_Stage__c = 'Missing Documents'						THEN 'Missing Documents'
+			WHEN R.Sub_Stage__c = 'Awaiting Department'					THEN 'Awaiting Department'
+			WHEN R.Sub_Stage__c = 'Accepted'								THEN 'Accepted'
+			WHEN R.Sub_Stage__c = 'Declined'								THEN 'Declined'
+			WHEN R.Sub_Stage__c = 'Withdrawn'								THEN 'Withdrawn'			
+			END							AS Sub_Status__c
 	,CASE 
 		WHEN stagename = 'Fallout' 		AND R.Campus__c = 'CE'		THEN  stagename
 		WHEN stagename = 'Denied'		THEN  'Closed Lost'
@@ -290,9 +290,9 @@ ON R.termappliedlookup__c = T2.EDATERMID__c
 LEFT JOIN [EDUCPROD].[dbo].[AcademicTerm] F
 ON R.future_interest_term__c = F.EDATERMID__c
 LEFT JOIN [EDUCPROD].[dbo].[Recordtype] R2
-ON R2.DeveloperName = 'Recruitment_OE'
+ON R2.DeveloperName = 'RFI_OE'
 LEFT JOIN [EDUCPROD].[dbo].[Recordtype] R3
-ON R3.DeveloperName = 'Recruitment_CE'
+ON R3.DeveloperName = 'RFI_CE'
 LEFT JOIN [EDUCPROD].[dbo].[User_Lookup] cr
 ON R.CreatedById = cr.Legacy_ID__c
 LEFT JOIN [EDUCPROD].[dbo].[User_Lookup] O

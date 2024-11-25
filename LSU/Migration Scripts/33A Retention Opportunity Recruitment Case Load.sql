@@ -57,7 +57,7 @@ select * from Case_Rec_RFI_Link_Update
 -- Related Retention Case Update
 SELECT A.Id,C.Id as Related_Retention_Case__c
 INTO Case_RFI_Ret_Link_Update
-FROM Case_RFI_Enrollment_Lookup A
+FROM [Case] A
 INNER JOIN
 [edaprod].[dbo].[Interaction__c] I
 ON A.Legacy_Id__c = 'I-'+I.Id

@@ -18,7 +18,7 @@ SELECT
 	,R.id												AS ExternalKey__c
 	,R.name						
 	,O.ID												AS ownerid
-	,r.CreatedById										AS CreatedById
+	--,r.CreatedById										AS CreatedById
 FROM [edaprod].[dbo].[hed__program_plan__c] R
 LEFT JOIN EDUCPROD.dbo.[User] cr
 ON R.CreatedById = cr.EDAUSERID__c

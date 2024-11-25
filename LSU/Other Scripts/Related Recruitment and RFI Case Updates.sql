@@ -6,9 +6,11 @@ INNER JOIN
 [Case] CRET 
 ON CREC.AccountId = CRET.AccountId
 AND CREC.Learning_Program_of_Interest__c = CRET.Learning_Program_of_Interest__c
-WHERE CREC.RecordTypeId IN ('012KT000000TRjyYAG','012KT000000TRjzYAG')
-AND CRET.RecordTypeId IN ('012KT000000TRk0YAG','012KT000000TRk1YAG')
+WHERE CREC.RecordTypeId IN ('012Hu000001c6vEIAQ','012Hu000001c6vFIAQ')
+AND CRET.RecordTypeId IN ('012Hu000001c6vGIAQ','012Hu000001c6vHIAQ')
 --AND CRET.AccountId = '001KT0000041ViyYAE'
+
+SELECT * FROM Recordtype WHERE SobjectType = 'Case'
 
 EXEC SF_TableLoader 'Update:BULKAPI','EDUCPROD','Case_Rec_Ret_Link_Update'
 

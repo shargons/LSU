@@ -17,7 +17,7 @@ SELECT
 	,C.ID						AS ParentRecordId
 	,R.campus__c
 	,classic_contact_id__c 
-	,R.classic_created_date__c	AS EDACREATEDDATE__c
+	,IIF(R.classic_created_date__c IS NULL,R.CreatedDate,R.classic_created_date__c)	AS EDACREATEDDATE__c
 	,CASE WHEN complete__c	= 1 THEN 'Accepted'
 			ELSE 'New' 
 	 END							AS Status
@@ -44,9 +44,9 @@ SELECT
 	,review_status_code__c
 	,review_status_desc__c
 FROM [edaprod].[dbo].[required_document__c] R
-LEFT JOIN [EDUCPROD].[dbo].[User_Lookup] cr
-ON R.CreatedById = cr.Legacy_ID__c
-LEFT JOIN [EDUCPROD].[dbo].[User_Lookup] O
-ON R.OwnerId = O.Legacy_ID__c
+LEFT JOIN [EDUCPROD].[dbo].[User] cr
+ON R.CreatedById = cr.EDAUSERID__c
+LEFT JOIN [EDUCPROD].[dbo].[User] O
+ON R.OwnerId = O.EDAUSERID__c
 LEFT JOIN [EDUCPROD].[dbo].[Contact] C
 ON R.contact__c = C.Legacy_ID__c

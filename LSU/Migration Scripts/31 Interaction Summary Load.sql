@@ -27,7 +27,8 @@ ALTER COLUMN ID NVARCHAR(18)
 
 SELECT * FROM [InteractionSummary_LOAD]
 
-Exec SF_TableLoader 'Insert:bulkapi','EDUCPROD','InteractionSummary_LOAD'
+Exec SF_TableLoader 'Insert:bulkapi','EDUCPROD','InteractionSummary_LOAD_2'
+
 
 SELECT * 
 --INTO InteractionSummary_LOAD_2
