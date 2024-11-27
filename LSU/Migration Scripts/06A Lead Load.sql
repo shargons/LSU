@@ -61,7 +61,7 @@ EXECUTE	SF_TableLoader
 --DROP TABLE IF EXISTS [dbo].[Lead_Lookup];
 --GO
 
---INSERT INTO [EDUCPROD].[dbo].[Lead_Lookup]
+INSERT INTO [EDUCPROD].[dbo].[Lead_Lookup]
 SELECT
  ID
 ,Legacy_Id__c

@@ -22,7 +22,7 @@ SELECT
 	,Ext_Classic_ParentId__c
 	,FirstOpenedDate
 	--,ValidatedFromAddress
-	,FromAddress+'.invalid'				as FromAddress
+	,FromAddress				as FromAddress
 	,FromName
 	,HasAttachment
 	,Headers
@@ -43,7 +43,7 @@ SELECT
 	,5 as [Status]
 	,E.Subject
 	,TextBody
-	,ToAddress+'.invalid'				as ToAddress
+	,ToAddress				as ToAddress
 	,CR.ID										AS createdbyid
 	,E.CreatedDate									 AS EDACREATEDDATE__c
 FROM [edaprod].[dbo].[EmailMessage] E

@@ -25,10 +25,10 @@ ALTER COLUMN ID NVARCHAR(18)
 
 SELECT * FROM [ContactProfile_LOAD]
 
-Exec SF_TableLoader 'Insert:BULKAPI','EDUCPROD','ContactProfile_LOAD'
+Exec SF_TableLoader 'Insert:BULKAPI','EDUCPROD','ContactProfile_LOAD_2'
 
 SELECT * 
---INTO ContactProfile_LOAD
+--INTO ContactProfile_LOAD_2
 FROM ContactProfile_LOAD_Result where Error <> 'Operation Successful.'
 
 

@@ -28,9 +28,13 @@ SELECT * FROM [Chat_Transcript__c_LOAD]
 EXEC SF_TableLoader 'Insert:BULKAPI','EDUCPROD','Chat_Transcript__c_LOAD_2'
 
 SELECT * 
-INTO Chat_Transcript__c_LOAD_2
-FROM Chat_Transcript__c_LOAD_Result where Error <> 'Operation Successful.'
+--INTO Chat_Transcript__c_LOAD_2
+FROM Chat_Transcript__c_LOAD_2_Result where Error <> 'Operation Successful.'
 ORDER BY ContactId
+
+UPDATE Chat_Transcript__c_LOAD_2
+SET OwnerId = '005Hu00000RfrK4IAJ'
+WHERE Error LIKE '%OWNER%'
 
 
 select DISTINCT  Error from Chat_Transcript__c_LOAD_Result

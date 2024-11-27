@@ -22,6 +22,7 @@ NULL									AS ID
 ,c.contactid								AS Source_Contact
 ,Co.Id									AS ContactId
 ,Co.AccountId							AS AccountId
+,L.ID									AS LeadId
 ,C.createddate
 ,C.description
 ,C.id									AS Legacy_Id__c
@@ -29,7 +30,7 @@ NULL									AS ID
 ,phone__c
 ,primary_affiliation__c
 ,priority
-,status
+,C.status
 ,student_type__c
 ,ISNULL(area_of_interest__c,'')+'-'+ISNULL(student_type__c,'')+'-'+ISNULL(Co.Name,'')	AS subject
 ,O.ID											AS ownerid
@@ -51,6 +52,8 @@ LEFT JOIN [EDUCPROD].[dbo].[User] O
 ON C.OwnerId = O.EDAUSERID__c
 LEFT JOIN [EDUCPROD].[dbo].[Contact] Co
 ON Co.Legacy_Id__c = C.contactid
+LEFT JOIN [EDUCPROD].[dbo].[Lead] L
+ON L.Legacy_Id__c = C.contactid
 LEFT JOIN [edaprod].[dbo].[Account] A
 ON C.Academic_Interest__c = A.Id
 LEFT JOIN [EDUCPROD].[dbo].[Recordtype] R2

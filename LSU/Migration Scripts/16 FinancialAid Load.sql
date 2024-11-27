@@ -25,10 +25,15 @@ SELECT * FROM Financial_Aid__c_LOAD
 
 EXEC SF_TableLoader 'Insert:BULKAPI','EDUCPROD','Financial_Aid__c_LOAD'
 
+EXEC SF_TableLoader 'Upsert:BULKAPI','EDUCPROD','Financial_Aid__c_LOAD_3','ext_key__c'
+
 SELECT *
---INTO Financial_Aid__c_LOAD_2
-FROM Financial_Aid__c_LOAD_Result where Error <> 'Operation Successful.'
+--INTO Financial_Aid__c_LOAD_3
+FROM Financial_Aid__c_LOAD_3_Result where Error <> 'Operation Successful.'
 ORDER BY Contact__c
+
+ALTER TABLE Financial_Aid__c_LOAD_3
+DROP COLUMN OwnerID
 
 select DISTINCT  Error from Financial_Aid__c_LOAD_Result
 
@@ -55,9 +60,10 @@ EXECUTE	SF_TableLoader
 -- Contact Lookup
 --DROP TABLE IF EXISTS [dbo].[Financial_Aid_Lookup];
 --GO
+INSERT INTO Financial_Aid_Lookup
 SELECT
  ID
 ,Legacy_ID__c
-INTO [EDUCPROD].[dbo].[Financial_Aid_Lookup]
-FROM Financial_Aid__c_LOAD_Result
+--INTO [EDUCPROD].[dbo].[Financial_Aid_Lookup]
+FROM Financial_Aid__c_LOAD_3_Result
 WHERE Error = 'Operation Successful.'

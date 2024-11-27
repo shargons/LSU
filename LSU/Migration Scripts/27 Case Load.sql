@@ -25,15 +25,15 @@ ALTER COLUMN ID NVARCHAR(18)
 
 SELECT * FROM Case_LOAD
 
-EXEC SF_TableLoader 'Insert:BULKAPI','EDUCPROD','Case_LOAD_3'
+EXEC SF_TableLoader 'Insert:BULKAPI','EDUCPROD','Case_LOAD_4'
 
 --DROP TABLE Case_LOAD_3
 SELECT * 
-INTO Case_LOAD_3
-FROM Case_LOAD_2_Result where Error <> 'Operation Successful.'
+--INTO Case_LOAD_4
+FROM Case_LOAD_3_Result where Error <> 'Operation Successful.'
 ORDER BY ContactId
 
-update Case_LOAD_3
+update Case_LOAD_4
 set Last_Name__c = null
 
 select DISTINCT  Error from Case_LOAD_Result
@@ -66,7 +66,7 @@ SELECT
  ID
 ,legacy_ID__c
 --INTO Case_Case_Lookup
-FROM Case_LOAD_3_Result
+FROM Case_LOAD_4_Result
 WHERE Error = 'Operation Successful.'
 
 

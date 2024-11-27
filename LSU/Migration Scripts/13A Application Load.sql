@@ -77,7 +77,7 @@ WHERE Error = 'Operation Successful.'
 --DROP TABLE Opportunity_Application_Lookup
 DROP TABLE Opportunity_Application_Lookup
 SELECT A.ID,C.ID AS application_id__c
-into Opportunity_Application_Lookup
+--into Opportunity_Application_Lookup
 FROM [EDUCPROD].[dbo].[Opportunity_Lookup] A
 LEFT JOIN
 [EDUCPROD].[dbo].[12_EDA_Opportunity] B
@@ -93,7 +93,7 @@ EXEC SF_TableLoader 'Update:BULKAPI','EDUCPROD','Opportunity_Application_Lookup'
 -- Contact Lookups
 DROP TABLE IndividualApplication_Update
 SELECT A.ID,B.Source_Contact__c,C.ID AS Contact__c,C.AccountId,C.ID AS SubmittedByContactId
-INTO IndividualApplication_Update
+--INTO IndividualApplication_Update
 FROM [EDUCPROD].[dbo].[IndividualApplication_Lookup] A
 LEFT JOIN
 [EDUCPROD].[dbo].[13a_EDA_Application] B
@@ -109,11 +109,11 @@ EXEC SF_TableLoader 'Update:BULKAPI','EDUCPROD','IndividualApplication_Update'
 -- Case Program Lookup
 DROP TABLE IndividualApplication_Case_Update
 SELECT IL.ID,CL.ID AS ApplicationCaseId
-INTO IndividualApplication_Case_Update
+--INTO IndividualApplication_Case_Update
 FROM [dbo].[13A_EDA_Application] A
-LEFT JOIN [edaprod].[dbo].[Interaction__c] I
-ON I.LSU_Application_ID__c = A.Legacy_Id__c
-LEFT JOIN [EDUCPROD].[dbo].[IndividualApplication_Lookup] IL
+LEFT JOIN [edaprod].[dbo].[Opportunity] O
+ON O.Application_ID__c = A.Legacy_Id__c
+LEFT JOIN [EDUCPROD].[dbo].[IndividualApplication] IL
 ON A.Legacy_Id__c = IL.legacy_ID__c
 LEFT JOIN [Case] CL
 ON CL.legacy_ID__c = 'I-'+I.Id
@@ -124,6 +124,22 @@ EXEC SF_TableLoader 'Update:BULKAPI','EDUCPROD','IndividualApplication_Case_Upda
 
 select * from IndividualApplication_Case_Update_Result
 where Error <> 'Operation Successful.'
+
+
+
+SELECT IL.ID,CL.ID AS ApplicationCaseId
+--INTO IndividualApplication_Case_Update
+FROM [dbo].[13A_EDA_Application] A
+LEFT JOIN [edaprod].[dbo].[Opportunity] I
+ON I.oppo = A.Legacy_Id__c
+LEFT JOIN [EDUCPROD].[dbo].[IndividualApplication_Lookup] IL
+ON A.Legacy_Id__c = IL.legacy_ID__c
+LEFT JOIN [Case] CL
+ON CL.legacy_ID__c = 'I-'+I.Id
+where I.LSU_Application_ID__c is not null
+
+
+
 
 
 

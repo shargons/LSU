@@ -50,4 +50,6 @@ LEFT JOIN [EDUCPROD].[dbo].[User] CR
 ON C.CreatedById = CR.EDAUSERID__c
 LEFT JOIN [EDUCPROD].[dbo].[User] O
 ON C.OwnerId = O.EDAUSERID__c
-WHERE Op.StageName IN ('New','Attempting')
+WHERE 
+--Op.StageName IN ('New','Attempting')
+Op.StageName IN ('Attempting','New','Fallout') AND Op.Application_ID__c IS NULL AND Op.Student_id__c IS NULL

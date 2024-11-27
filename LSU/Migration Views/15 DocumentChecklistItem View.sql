@@ -17,7 +17,7 @@ SELECT
 	,C.ID						AS ParentRecordId
 	,R.campus__c
 	,classic_contact_id__c 
-	,IIF(R.classic_created_date__c IS NULL,R.CreatedDate,R.classic_created_date__c)	AS EDACREATEDDATE__c
+	,CAST(IIF(R.classic_created_date__c IS NULL,R.CreatedDate,R.classic_created_date__c) AS datetime)	AS EDACREATEDDATE__c
 	,CASE WHEN complete__c	= 1 THEN 'Accepted'
 			ELSE 'New' 
 	 END							AS Status

@@ -21,20 +21,23 @@ ALTER COLUMN ID NVARCHAR(18)
 
 SELECT * FROM EmailMessage_Load
 
+SELECT * FROM EmailMessage_Load
+
 
 
 --====================================================================
 --INSERTING DATA USING DBAMP -   EmailMessage
 --====================================================================
 
-EXEC SF_TableLoader 'Insert:BULKAPI','EDUCPROD','EmailMessage_Load'
+EXEC SF_TableLoader 'Insert:SOAP,batchsize(1)','EDUCPROD','EmailMessage_Load_7'
 
 --DROP TABLE EmailMessage_Load_2
 SELECT *
---INTO EmailMessage_Load_2
-FROM EmailMessage_Load_Result where Error <> 'Operation Successful.'
+--INTO EmailMessage_Load_7
+FROM EmailMessage_Load_7_Result where Error <> 'Operation Successful.'
 ORDER BY RelatedtoId
 
+select * from EmailMessage_Load_2
 
 select DISTINCT  Error from EmailMessage_Load_Result
 

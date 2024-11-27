@@ -24,20 +24,28 @@ ALTER COLUMN ID NVARCHAR(18)
 
 SELECT * FROM [Task_LOAD]
 
-Exec SF_TableLoader 'Insert:SOAP,batchsize(1)','EDUCPROD','Task_LOAD_6'
+Exec SF_TableLoader 'Upsert:SOAP,batchsize(1)','EDUCPROD','Task_Recur_Load','Legacy_Id__c'
 
-DROP TABLE Task_LOAD_2
+--DROP TABLE Task_LOAD_2
 SELECT * 
-INTO Task_LOAD_6
-FROM Task_LOAD_5_RESULT where Error <> 'Operation Successful.'
+--INTO Task_LOAD_6
+FROM Task_LOAD_6_RESULT where Error <> 'Operation Successful.'
 
 UPDATE Task_LOAD
 SET FirstPublishLocationId = NULL
 
 
 SELECT * 
-INTO Task_LOAD_2
-FROM Task_LOAD_Result where Error = 'Operation Successful.'
+--INTO Task_LOAD_2
+FROM Task_Recur_Load_Result where Error <> 'Operation Successful.'
+
+SELECT T.*,T2.RecurrenceDayOfMonth,T2.RecurrenceDayOfWeekMask,T2.RecurrenceEndDateOnly,T2.RecurrenceInstance
+,T2.RecurrenceInterval,T2.RecurrenceMonthOfYear,T2.RecurrenceRegeneratedType,T2.RecurrenceStartDateOnly,T2.RecurrenceTimeZoneSidKey,T2.RecurrenceType
+INTO Task_Recur_Load
+FROM Task_LOAD_6 T
+INNER JOIN
+[edaprod].[dbo].[Task] T2
+ON T.Legacy_Id__c = T2.ID
 
 
 --====================================================================

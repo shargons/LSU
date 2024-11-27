@@ -9,7 +9,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 
-CREATE OR ALTER VIEW [dbo].[29_EDA_ContentVersion] AS
+--CREATE OR ALTER VIEW [dbo].[29_EDA_ContentVersion] AS
 
 
 SELECT
@@ -50,5 +50,5 @@ LEFT JOIN
 [EDUCPROD].[dbo].[EmailMessage] Em
 ON C.FirstPublishLocationId = Em.EDAEMAILMSGID__c
 INNER JOIN
-[edaprod].[dbo].[ContentVersion_1600001_2556037] B
+[edaprod].[dbo].[ContentVersion_2500001_2700000] B
 ON C.Id = B.Id

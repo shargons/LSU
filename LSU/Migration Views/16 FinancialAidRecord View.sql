@@ -41,9 +41,9 @@ SELECT
 	,term__c					AS Term__c
 	,verified__c				AS Verified__c
 FROM [edaprod].[dbo].[financial_aid_record__c] R
-LEFT JOIN [EDUCPROD].[dbo].[User_Lookup] cr
-ON R.CreatedById = cr.Legacy_ID__c
-LEFT JOIN [EDUCPROD].[dbo].[User_Lookup] O
-ON R.OwnerId = O.Legacy_ID__c
+LEFT JOIN [EDUCPROD].[dbo].[User] cr
+ON R.CreatedById = cr.EDAUSERID__c
+LEFT JOIN [EDUCPROD].[dbo].[User] O
+ON R.OwnerId = O.EDAUSERID__c
 LEFT JOIN [EDUCPROD].[dbo].[Contact] C
 ON R.contact__c = C.Legacy_ID__c

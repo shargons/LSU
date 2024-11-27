@@ -9,7 +9,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 
-CREATE OR ALTER VIEW [dbo].[32_EDA_Tasks] AS
+--CREATE OR ALTER VIEW [dbo].[32_EDA_Tasks] AS
 
 
 SELECT 
@@ -41,7 +41,7 @@ SELECT
       ,[Five9__Five9WrapTime__c]		AS Five9WrapTime__c
       ,T.[Id]								AS Legacy_Id__c
       ,[IsArchived]
-      ,[IsClosed]
+      ,T.[IsClosed]
       ,T.[IsDeleted]
       ,[IsHighPriority]
       ,[IsRecurrence]
@@ -50,13 +50,21 @@ SELECT
       ,O.Id								AS [OwnerId]
       ,[OwnerRole__c]
       ,T.[Power_of_One__c]
-      ,[Priority]
+      ,T.[Priority]
 	  ,T.[Status]
       ,T.[Type]
       ,[WhoId]								AS Source_WhoId
 	  ,IIF(C.Id	IS NULL,L.Id,C.Id)								AS WhoId
+	  ,T.WhatId				AS Source_WhatId
+	  ,IIF(Op.ID IS NOT NULL,Op.ID,
+		IIF(A.ID IS NOT NULL,A.ID,
+			IIF(CO.ID IS NOT NULL,CO.ID,
+				IIF(Ca.Id IS NOT NULL,Ca.ID,
+					IIF(I.Id IS NOT NULL,I.Id,NULL)))))					
+	   AS WhatID
 	  ,T.Subject
 	  ,T.TaskSubtype
+	  ,T.CreatedDate
   FROM [edaprod].[dbo].[Task] T
   LEFT JOIN
   [EDUCPROD].[dbo].[Contact] C
@@ -64,10 +72,20 @@ SELECT
   LEFT JOIN
   [EDUCPROD].[dbo].[Lead] L
   ON T.WhoId = L.Legacy_Id__c
-   LEFT JOIN [EDUCPROD].[dbo].[User] cr
-	ON T.CreatedById = cr.EDAUSERID__c
-	LEFT JOIN [EDUCPROD].[dbo].[User] O
-	ON T.OwnerId = O.EDAUSERID__c
-
+  LEFT JOIN [EDUCPROD].[dbo].[User] cr
+  ON T.CreatedById = cr.EDAUSERID__c
+  LEFT JOIN [EDUCPROD].[dbo].[User] O
+  ON T.OwnerId = O.EDAUSERID__c
+  LEFT JOIN [EDUCPROD].[dbo].[Opportunity] Op
+  ON T.WhatId = Op.Legacy_ID__c
+  LEFT JOIN [EDUCPROD].[dbo].[Account] A
+  ON T.WhatId = A.Legacy_ID__c
+  LEFT JOIN [EDUCPROD].[dbo].[Contact] CO
+  ON T.WhatId = CO.Legacy_ID__c
+  LEFT JOIN [EDUCPROD].[dbo].[Case] Ca
+  ON T.WhatId = Ca.Legacy_ID__c
+  LEFT JOIN [EDUCPROD].[dbo].[Case] I
+  ON 'I-'+T.WhatId = Ca.Legacy_ID__c
+  WHERE T.WhatId IS NOT NULL
 
 

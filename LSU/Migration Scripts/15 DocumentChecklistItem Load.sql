@@ -23,7 +23,7 @@ ALTER COLUMN ID NVARCHAR(18)
 
 SELECT * FROM DocumentChecklistItem_LOAD
 
-EXEC SF_TableLoader 'Insert:BULKAPI','EDUCPROD','DocumentChecklistItem_LOAD'
+EXEC SF_TableLoader 'Insert:SOAP,batchsize(1)','EDUCPROD','DocumentChecklistItem_LOAD'
 
 EXEC SF_TableLoader 'Upsert:BULKAPI','EDUCPROD','DocumentChecklistItem_LOAD','EDAREQDOCID__c'
 

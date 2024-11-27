@@ -77,18 +77,5 @@ EXEC SF_TableLoader 'Update:BULKAPI','EDUCPROD','Case_RFI_Ret_Link_Update'
 
 EXEC SF_TableLoader 'Update:BULKAPI','EDUCPROD','Case_Ret_Opp_Link_Update'
 
--- Retention Case Related Recruitment Case Load
-
-SELECT A.Id,Rec.Id as Related_Recruitment_Case__c
---INTO Case_Ret_RecCase_Link_Update
-FROM [Case] A
-INNER JOIN
-[dbo].[14_EDA_Affiliations] I
-ON A.Legacy_Id__c = I.Legacy_Id__c
-LEFT JOIN [edaprod].[dbo].[Opportunity] O
-ON O.Affiliation__c = I.legacy_ID__c
-LEFT JOIN [Case] Rec
-on O.Id = Rec.Legacy_ID__c
-WHERE A.Related_Recruitment_Case__c IS NULL
 
 
