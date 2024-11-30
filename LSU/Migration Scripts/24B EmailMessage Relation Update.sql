@@ -21,12 +21,12 @@ AND A.RelationAddress = B.RelationAddress
 --INSERTING DATA USING DBAMP -   EmailMessageRelation
 --====================================================================
 
-EXEC SF_TableLoader 'Update:BULKAPI','EDUCPROD','EmailMessageRelation_Update'
+EXEC SF_TableLoader 'Update:soap','EDUCPROD','EmailMessageRelation_Update_2'
 
 --DROP TABLE EmailMessageRelation_Load_2
 SELECT *
---INTO EmailMessageRelation_Load_2
-FROM EmailMessageRelation_Load_Result where Error <> 'Operation Successful.'
+--INTO EmailMessageRelation_Update_2
+FROM EmailMessageRelation_Update_Result where Error <> 'Operation Successful.'
 ORDER BY RelatedtoId
 
 

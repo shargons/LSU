@@ -156,18 +156,50 @@ CREATE TABLE ContentVersion_1400001_1500000
 (
 	ID NVARCHAR (18)
 )
+
+INSERT INTO ContentVersion_1400001_1500000
+SELECT ID
+FROM ContentVersion_All
+WHERE id_num >=1400001 and id_num <=1500000
+
+EXEC SF_DownloadBlobs 'EDAPROD','ContentVersion_1400001_1500000'
+
 CREATE TABLE ContentVersion_1500001_1600000
 (
 	ID NVARCHAR (18)
 )
+
+INSERT INTO ContentVersion_1500001_1600000
+SELECT ID
+FROM ContentVersion_All
+WHERE id_num >=1500001 and id_num <=1600000
+
+EXEC SF_DownloadBlobs 'EDAPROD','ContentVersion_1500001_1600000'
+
 CREATE TABLE ContentVersion_1600001_1700000
 (
 	ID NVARCHAR (18)
 )
+
+INSERT INTO ContentVersion_1600001_1700000
+SELECT ID
+FROM ContentVersion_All
+WHERE id_num >=1600001 and id_num <=1700000
+
+EXEC SF_DownloadBlobs 'EDAPROD','ContentVersion_1600001_1700000'
+
 CREATE TABLE ContentVersion_1700001_1800000
 (
 	ID NVARCHAR (18)
 )
+
+INSERT INTO ContentVersion_1700001_1800000
+SELECT ID
+FROM ContentVersion_All
+WHERE id_num >=1700001 and id_num <=1800000
+
+EXEC SF_DownloadBlobs 'EDAPROD','ContentVersion_1700001_1800000'
+
 CREATE TABLE ContentVersion_1800001_1900000
 (
 	ID NVARCHAR (18)

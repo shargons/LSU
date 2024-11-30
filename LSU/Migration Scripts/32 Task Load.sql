@@ -5,31 +5,31 @@ USE EDUCPROD;
 --====================================================================
 
 
---DROP TABLE IF EXISTS [dbo].[Task_LOAD];
+--DROP TABLE IF EXISTS [dbo].[Task_RELOAD];
 --GO
 SELECT *
-INTO [EDUCPROD].[dbo].[Task_LOAD]
+INTO [EDUCPROD].[dbo].[Task_RELOAD]
 FROM [EDUCPROD].[dbo].[32_EDA_Tasks] C
 
 
-SELECT * FROM [Task_LOAD]
+SELECT * FROM [Task_RELOAD]
 
 /******* Change ID Column to nvarchar(18) *********/
-ALTER TABLE [Task_LOAD]
+ALTER TABLE [Task_RELOAD]
 ALTER COLUMN ID NVARCHAR(18)
 
 --====================================================================
 --INSERTING DATA USING DBAMP - Task
 --====================================================================
 
-SELECT * FROM [Task_LOAD]
+SELECT * FROM [Task_RELOAD]
 
-Exec SF_TableLoader 'Upsert:SOAP,batchsize(1)','EDUCPROD','Task_Recur_Load','Legacy_Id__c'
+Exec SF_TableLoader 'Insert:bulkapi','EDUCPROD','Task_RELOAD_11'
 
 --DROP TABLE Task_LOAD_2
 SELECT * 
---INTO Task_LOAD_6
-FROM Task_LOAD_6_RESULT where Error <> 'Operation Successful.'
+INTO Task_RELOAD_11
+FROM Task_RELOAD_10_RESULT where Error <> 'Operation Successful.'
 
 UPDATE Task_LOAD
 SET FirstPublishLocationId = NULL

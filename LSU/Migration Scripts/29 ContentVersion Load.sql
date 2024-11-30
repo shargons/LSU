@@ -13,6 +13,13 @@ SELECT *
 INTO [EDUCPROD].[dbo].[ContentVersion_LOAD]
 FROM [EDUCPROD].[dbo].[29_EDA_ContentVersion] C
 
+SELECT A.* 
+INTO ContentVersion_LOAD_2
+FROM [ContentVersion_LOAD] A
+LEFT JOIN
+ContentVersion B
+ON A.Legacy_Id__c = B.Legacy_Id__C
+WHERE B.ID IS NULL
 
 SELECT * FROM [ContentVersion_LOAD]
 
@@ -26,14 +33,22 @@ ALTER COLUMN ID NVARCHAR(18)
 
 SELECT * FROM [ContentVersion_LOAD]
 
-Exec SF_TableLoader 'Insert:soap','EDUCPROD','ContentVersion_LOAD'
+Exec SF_TableLoader 'Insert:soap,batchsize(1)','EDUCPROD','ContentVersion_LOAD_3'
 
 SELECT * 
---INTO ContentVersion_LOAD_2
+INTO ContentVersion_LOAD_3
 FROM ContentVersion_LOAD_2_Result where Error <> 'Operation Successful.'
+AND Error like '%INVALID%'
 
 UPDATE ContentVersion_LOAD
 SET FirstPublishLocationId = NULL
+
+SELECT DISTINCT FirstPublishLocationId AS ID,1 AS UserPermissionsSFContentUser
+INTO User_Content_Update
+FROM ContentVersion_LOAD_2_Result where Error <> 'Operation Successful.'
+AND Error like '%INVALID%'
+
+Exec SF_TableLoader 'Update:bulkapi','EDUCPROD','User_Content_Update'
 
 
 SELECT * 

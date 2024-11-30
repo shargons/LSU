@@ -9,9 +9,10 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 
---CREATE OR ALTER VIEW [dbo].[32_EDA_Tasks] AS
+CREATE OR ALTER VIEW [dbo].[32_EDA_Tasks] AS
 
-
+SELECT * FROM
+(
 SELECT 
 		NULL					AS Id
 	  ,T.[AccountId]				AS SourceAccount					
@@ -56,12 +57,14 @@ SELECT
       ,[WhoId]								AS Source_WhoId
 	  ,IIF(C.Id	IS NULL,L.Id,C.Id)								AS WhoId
 	  ,T.WhatId				AS Source_WhatId
-	  ,IIF(Op.ID IS NOT NULL,Op.ID,
-		IIF(A.ID IS NOT NULL,A.ID,
-			IIF(CO.ID IS NOT NULL,CO.ID,
-				IIF(Ca.Id IS NOT NULL,Ca.ID,
-					IIF(I.Id IS NOT NULL,I.Id,NULL)))))					
-	   AS WhatID
+	 -- ,IIF(Op.ID IS NOT NULL,Op.ID,
+		--IIF(A.ID IS NOT NULL,A.ID,
+		--	IIF(CO.ID IS NOT NULL,CO.ID,
+		--		IIF(Ca.Id IS NOT NULL,Ca.ID,
+		--			IIF(I.Id IS NOT NULL,I.Id,
+		--				IIF(E.Id IS NOT NULL,E.Id,
+		--					IIF(LP.ID IS NOT NULL,LP.ID,C.AccountID)))))))					
+	  ,NULL AS WhatID
 	  ,T.Subject
 	  ,T.TaskSubtype
 	  ,T.CreatedDate
@@ -76,16 +79,20 @@ SELECT
   ON T.CreatedById = cr.EDAUSERID__c
   LEFT JOIN [EDUCPROD].[dbo].[User] O
   ON T.OwnerId = O.EDAUSERID__c
-  LEFT JOIN [EDUCPROD].[dbo].[Opportunity] Op
-  ON T.WhatId = Op.Legacy_ID__c
-  LEFT JOIN [EDUCPROD].[dbo].[Account] A
-  ON T.WhatId = A.Legacy_ID__c
-  LEFT JOIN [EDUCPROD].[dbo].[Contact] CO
-  ON T.WhatId = CO.Legacy_ID__c
-  LEFT JOIN [EDUCPROD].[dbo].[Case] Ca
-  ON T.WhatId = Ca.Legacy_ID__c
-  LEFT JOIN [EDUCPROD].[dbo].[Case] I
-  ON 'I-'+T.WhatId = Ca.Legacy_ID__c
-  WHERE T.WhatId IS NOT NULL
-
+  --LEFT JOIN [EDUCPROD].[dbo].[Opportunity] Op
+  --ON T.WhatId = Op.Legacy_ID__c
+  --LEFT JOIN [EDUCPROD].[dbo].[Account] A
+  --ON T.WhatId = A.Legacy_ID__c
+  --LEFT JOIN [EDUCPROD].[dbo].[Contact] CO
+  --ON T.WhatId = CO.Legacy_ID__c
+  --LEFT JOIN [EDUCPROD].[dbo].[Case] Ca
+  --ON T.WhatId = Ca.Legacy_ID__c
+  --LEFT JOIN [EDUCPROD].[dbo].[Case] I
+  --ON 'I-'+T.WhatId = Ca.Legacy_ID__c
+  --LEFT JOIN [EDUCPROD].[dbo].[EmailMessage] E
+  ----ON T.WhatId = E.EDAEMAILMSGID__c
+  --LEFT JOIN [EDUCPROD].[dbo].[LearningProgram] LP
+  --ON T.WhatId = LP.EDAACCOUNTID__c
+  --WHERE T.WhatId IS NOT NULL
+  )X
 

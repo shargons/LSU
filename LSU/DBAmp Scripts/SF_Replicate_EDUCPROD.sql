@@ -62,3 +62,7 @@ EXEC SF_Replicate 'EDUCPROD','Task','pkchunk,batchsize(50000)'
 EXEC SF_Replicate 'EDUCPROD','EmailMessageRelation','pkchunk,batchsize(50000)'
 
 EXEC SF_Replicate 'EDUCPROD','AcademicTermEnrollment','pkchunk,batchsize(50000)'
+
+EXEC SF_Replicate 'EDUCPROD','InteractionSummary','pkchunk,batchsize(50000)'
+
+EXEC SF_Replicate 'EDUCPROD','ContentVersion','pkchunk,batchsize(50000)'
